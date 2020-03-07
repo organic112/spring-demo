@@ -1,0 +1,31 @@
+version: '2'
+services:
+  trade-db:
+    container_name: "demo-db"
+    image: mysql
+    environment:
+      - "MYSQL_DATABASE=demo-db"
+      - "MYSQL_USER=root"
+      - "MYSQL_ROOT_PASSWORD=root"
+    expose:
+      - "33060"
+    ports:
+      - "33060:3306"
+    networks:
+      - trade_network
+
+#  broker:
+#    container_name: "demo-crud"
+#    build: ./demo-crud
+#    depends_on:
+#      - demo-db
+#    tty: true
+#    volumes:
+#      - ../../../xxx:/opt/xxx
+#    command: ["bash","-c","java -jar opt/xxx/demo/target/demo-2.0-SNAPSHOT.jar docker live"]
+#    networks:
+#      - trade_network
+
+networks:
+  trade_network:
+    driver: bridge

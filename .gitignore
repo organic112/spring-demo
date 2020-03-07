@@ -1,0 +1,14 @@
+target/
+*/log/
+*.log
+!.mvn/wrapper/maven-wrapper.jar
+
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+#*.properties
+
+#/src/main/resources/application.properties
