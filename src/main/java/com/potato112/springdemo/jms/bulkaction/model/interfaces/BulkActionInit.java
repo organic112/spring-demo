@@ -19,6 +19,6 @@ public interface BulkActionInit extends Serializable {
     String getLoggedUser();
 
     // affected objects ids
-    Set<String> getAffectedDocumentIds();
+    Set<String> getDocumentIds();
 
 }

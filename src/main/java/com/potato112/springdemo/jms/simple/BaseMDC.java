@@ -28,12 +28,15 @@ public abstract class BaseMDC implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
+        System.out.println("received  message in BaseMDC...");
+
         ObjectMessage objectMessage = validateJMSMessage(message);
         final String userName = getUserName(objectMessage);
         processMessage(objectMessage, userName);
     }
 
     private ObjectMessage validateJMSMessage(final Message message) {
+
         if (null == message) {
             throw new IllegalArgumentException("Received message is null!");
         }

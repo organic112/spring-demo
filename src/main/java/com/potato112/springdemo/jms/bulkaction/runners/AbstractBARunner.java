@@ -49,7 +49,7 @@ public abstract class AbstractBARunner {
             throw new IllegalArgumentException("BulkActionInit cannot be null");
         }
 
-        Set<String> documentIdSet = bulkActionInit.getAffectedDocumentIds();
+        Set<String> documentIdSet = bulkActionInit.getDocumentIds();
         if (null != documentIdSet && documentIdSet.isEmpty()) {
             throw new IllegalArgumentException("BulkActionInit Document Id list can't be null or empty");
         }

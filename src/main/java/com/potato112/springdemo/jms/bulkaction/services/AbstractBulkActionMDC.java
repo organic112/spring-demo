@@ -1,27 +1,57 @@
 package com.potato112.springdemo.jms.bulkaction.services;
 
-import com.potato112.springdemo.jms.simple.BaseMDC;
+import com.potato112.springdemo.jms.bulkaction.model.enums.BulkActionType;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionInit;
+import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionResultManager;
+import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
+import com.potato112.springdemo.jms.simple.BaseMDC;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
 import javax.jms.ObjectMessage;
 
 @Component
-public class AbstractBulkActionMDC extends BaseMDC {
+public abstract class AbstractBulkActionMDC<INIT extends BulkActionInit> extends BaseMDC {
 
     private static String JMS_RESULT_ID = "RESULT_ID";
 
+    protected abstract BulkActionsRunResult runBulkAction(INIT bulkActionInit);
+
+    private BulkActionResultManager bulkActionResultManager;
 
     @Override
     public void processMessage(ObjectMessage message, String userName) {
 
         // get bulk action id
-        String id = getResultId(message);
+        final String id = getResultId(message);
 
         // get init object
-        BulkActionInit bulkActionInit = getBulkAction(message, id);
+        final BulkActionInit bulkActionInit = getBulkAction(message, id);
+
+        bulkActionResultManager.markInProgress(id);
+
+        final BulkActionsRunResult result = runBulkActionWrapper(bulkActionInit);
+        bulkActionResultManager.completeBulkAction(id, result);
+
+        final BulkActionType type = bulkActionInit.getType();
+        // send notification about BA complete
     }
+
+    BulkActionsRunResult runBulkActionWrapper(final BulkActionInit bulkActionInit) {
+
+        try {
+
+            INIT init = (INIT) bulkActionInit;
+            return runBulkAction(init);
+
+        } catch (Exception e) {
+
+            System.out.println("Failed to run BulkAction in MDC" + e.getMessage());
+
+            return new BulkActionsRunResult(false, e.getLocalizedMessage());
+        }
+    }
+
 
     private String getResultId(ObjectMessage objectMessage) {
 
