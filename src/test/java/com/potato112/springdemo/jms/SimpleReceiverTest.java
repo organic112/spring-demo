@@ -36,8 +36,13 @@ public class SimpleReceiverTest {
     private RentalCarDAO rentalCarDAO;
 
 
+    /**
+     * Simple Receiver test.
+     * Sent message is serialized to string by converter.
+     * Message is provided and sent by JMSTemplate.
+     */
     @Test
-    public void shouldReciveMessage() throws SQLException  {
+    public void shouldReceiveMessage() throws SQLException  {
 
         DBQueryMapUtil.readQueries();
         DataSource dataSource = DataSourceBuilder.buildDataSource();
@@ -47,7 +52,6 @@ public class SimpleReceiverTest {
         List<RentalCarVO> cars = rentalCarDAO.getRentalCarList(connection, carIds);
 
         RentalCarVO rentalCarVO = cars.get(0);
-
 
         // Send a message with a POJO - the template reuse the message converter
         System.out.println("Sending an CarVO message.");

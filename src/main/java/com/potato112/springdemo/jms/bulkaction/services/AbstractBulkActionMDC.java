@@ -5,22 +5,35 @@ import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionInit;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionResultManager;
 import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
 import com.potato112.springdemo.jms.simple.BaseMDC;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
+import javax.jms.Message;
 import javax.jms.ObjectMessage;
 
 @Component
 public abstract class AbstractBulkActionMDC<INIT extends BulkActionInit> extends BaseMDC {
 
-    private static String JMS_RESULT_ID = "RESULT_ID";
+    private static final String JMS_RESULT_ID = "RESULT_ID";
+
+    @Autowired
+    private BulkActionResultManager bulkActionResultManager;
 
     protected abstract BulkActionsRunResult runBulkAction(INIT bulkActionInit);
 
-    private BulkActionResultManager bulkActionResultManager;
+
+    @Override
+    public void onMessage(Message message) {
+        System.out.println("received message in abstract..");
+        super.onMessage(message);
+    }
 
     @Override
     public void processMessage(ObjectMessage message, String userName) {
+
+        System.out.println("received message in abstract..");
 
         // get bulk action id
         final String id = getResultId(message);

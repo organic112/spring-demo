@@ -5,6 +5,7 @@ import com.potato112.springdemo.jms.bulkaction.model.enums.BulkActionStatus;
 import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionResult;
 import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,10 @@ public class BulkActionManager implements BulkActionInitiator, BulkActionResultM
     private static final String DESTINATION_NAME = "investmentChangeStatusBulkAction";
 
     @Autowired
-    private JmsTemplate jmsTemplate;
+    private ApplicationContext applicationContext;
+
+/*    @Autowired
+    private JmsTemplate jmsTemplate;*/
 
     @Override
     public void initiateBulkAction(BulkActionInit bulkActionInit) {
@@ -57,7 +61,9 @@ public class BulkActionManager implements BulkActionInitiator, BulkActionResultM
         jmsMessageVO.setId(id);
         jmsMessageVO.setBulkActionInit(bulkActionInit);
 
-        jmsTemplate.convertAndSend(customDestination, jmsMessageVO);
+        //jmsTemplate.convertAndSend("carNotificationProcessorQueue", jmsMessageVO);
+
+        JmsTemplate jmsTemplate = applicationContext.getBean(JmsTemplate.class);
 
         try {
             jmsTemplate.send(customDestination, session -> {
@@ -66,6 +72,7 @@ public class BulkActionManager implements BulkActionInitiator, BulkActionResultM
                 objectMessage.setStringProperty("BULK_ACTION_TYPE", type);
                 objectMessage.setStringProperty("userName", initUser);
                 objectMessage.setObject(bulkActionInit);
+
 
                 System.out.println("object id:" + objectMessage.getStringProperty("RESULT_ID"));
                 return objectMessage;

@@ -16,7 +16,6 @@ import javax.jms.ObjectMessage;
 @Component
 public class InvestmentChangeStatusMDC extends AbstractBulkActionMDC<InvestmentChangeStatusBAInit> {
 
-
     private static final String DESTINATION_NAME = "investmentChangeStatusBulkAction";
     private static final String FACTORY_BEAN_NAME = "customFactory";
 
@@ -48,8 +47,6 @@ public class InvestmentChangeStatusMDC extends AbstractBulkActionMDC<InvestmentC
     @Override
     protected BulkActionsRunResult runBulkAction(InvestmentChangeStatusBAInit bulkActionInit) {
 
-
         return investmentAmortizationBARunner.run(bulkActionInit);
-
     }
 }

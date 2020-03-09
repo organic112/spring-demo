@@ -1,6 +1,7 @@
 package com.potato112.springdemo.jms;
 
 import com.potato112.springdemo.conf.AppConfig;
+import com.potato112.springdemo.jms.bulkaction.BulkActionExecutor;
 import com.potato112.springdemo.crud.jdbc.RentalCarDAO;
 import com.potato112.springdemo.crud.jdbc.datasource.DataSourceBuilder;
 import com.potato112.springdemo.crud.jdbc.model.RentalCarVO;
@@ -32,14 +33,10 @@ public class CarNotificationMDBTest {
 
 
     @Autowired
-    JmsTemplate jmsTemplate;
-
-    //@Autowired
-
+    private JmsTemplate jmsTemplate;
 
     @Autowired
     private RentalCarDAO rentalCarDAO;
-
 
     @Test
     public void shouldReceiveMessage() throws SQLException {
@@ -56,7 +53,7 @@ public class CarNotificationMDBTest {
         // Send a message with a POJO - the template reuse the message converter
         System.out.println("Sending an RentalCarVO to CarNotificationMDB  message.");
 
-
+        //carNotificationProcessorQueue
         jmsTemplate.send("carNotificationProcessorQueue", session -> {
             ObjectMessage objectMessage = session.createObjectMessage();
             objectMessage.setObject(rentalCarVO);
@@ -65,6 +62,15 @@ public class CarNotificationMDBTest {
         });
 
         // Dedicated Receiver will print message with content
+    }
+
+    @Autowired
+    private BulkActionExecutor bulkActionExecutor;
+
+    @Test
+    public void shouldRunInvestmentChangeStatusBulkAction() {
+
+        bulkActionExecutor.executeBulkAction();
     }
 
 }

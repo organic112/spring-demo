@@ -8,7 +8,9 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
 
-
+/**
+ * example of simple MDC based on object message
+ */
 @Component
 public class CarNotificationMDC extends BaseMDC {
 

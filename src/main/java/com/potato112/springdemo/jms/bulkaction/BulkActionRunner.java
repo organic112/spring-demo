@@ -1,39 +1,22 @@
-package com.potato112.springdemo.crud.jdbc;
+package com.potato112.springdemo.jms.bulkaction;
 
 import com.potato112.springdemo.jms.bulkaction.model.enums.InvestmentStatus;
 import com.potato112.springdemo.jms.bulkaction.model.init.InvestmentChangeStatusBAInit;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionInit;
-import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionInitiator;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionManager;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.SysStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-/**
- * this class represents, e.g. UI component that
- * - collects checked items on grid
- * - prepares params
- * - execute bulk action
- */
 @Component
-public class BulkActionExecutor {
-
+@Scope("prototype")
+public class BulkActionRunner implements Runnable {
     @Autowired
     private BulkActionManager bulkActionInitiator;
-
-    public void executeBulkAction(){
-
-        final ExecutorService executorService = Executors.newSingleThreadExecutor();
-        BulkActionRunner runner =  new BulkActionRunner();
-        executorService.execute(runner);
-    }
-
-    private class BulkActionRunner implements Runnable {
 
         @Override
         public void run() {
@@ -48,5 +31,4 @@ public class BulkActionExecutor {
 
             bulkActionInitiator.initiateBulkAction(bulkActionInit);
         }
-    }
 }

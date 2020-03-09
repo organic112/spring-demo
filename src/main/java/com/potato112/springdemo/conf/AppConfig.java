@@ -1,8 +1,11 @@
 package com.potato112.springdemo.conf;
 
+import com.potato112.springdemo.jms.bulkaction.BulkActionExecutor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.PostConstruct;
@@ -13,10 +16,14 @@ import java.util.List;
 
 @Configuration
 @EnableAsync
+@EnableJms
 @ComponentScan({"com.potato112.springdemo"})
 public class AppConfig implements CommandLineRunner {
 
     private GlobalProperties globalProperties;
+
+    @Autowired
+    private BulkActionExecutor bulkActionExecutor;
 
     public AppConfig(GlobalProperties globalProperties) {
         this.globalProperties = globalProperties;
@@ -59,10 +66,11 @@ public class AppConfig implements CommandLineRunner {
             }
 
         } else {
-
             // no args for unit tests just start Spring context
             System.out.println("no args passed to application");
             System.out.println("RUNNING SPRING INTEGRATION TESTS MODE...");
+
+            // bulkActionExecutor.executeBulkAction();
         }
     }
 }

@@ -5,8 +5,9 @@ import com.potato112.springdemo.crud.jdbc.model.RentalCarVO;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
-
-
+/**
+ * Example of simple MDC (message driven component - receiver)
+ */
 @Component
 public class SimpleReceiver {
 
