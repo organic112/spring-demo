@@ -12,11 +12,16 @@ import com.potato112.springdemo.jms.bulkaction.services.InvestmentStatusManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Handles sophisticated status change:
+ *  - business logic with exceptions and messages
+ *  - db operations  / transaction management, conditional rollbacks etc.
+ */
 @Component
 public class InvestmentAmortizationBARunner extends ChangeStatusBARunner {
 
     @Autowired
-    private InvestmentStatusManager investmentStatusManager;
+    private InvestmentStatusManager investmentStatusManager; // fixme
 
     @Autowired
     private AsyncInvestmentAmortizationStatusChanger asyncInvestmentAmortizationStatusChanger;
@@ -27,9 +32,9 @@ public class InvestmentAmortizationBARunner extends ChangeStatusBARunner {
 
     public void investmentDocumentAmortizationProcess(String id, InvestmentStatus newInvestmentStatus, String loggedUser) {
 
-        IntInvestmentItem investmentItem = investmentDao.getInvestmentById(id);
+        IntInvestmentItem investmentItem = investmentDao.getInvestmentById(id);   // !!
         ///investmentItem.setLoggedUser(loggedUser);
-        investmentStatusManager.changeAmortizationProcessingStatus(investmentItem, newInvestmentStatus);
+        investmentStatusManager.changeAmortizationProcessingStatus(investmentItem, newInvestmentStatus); // fails here null pointer
     }
 
     @Override

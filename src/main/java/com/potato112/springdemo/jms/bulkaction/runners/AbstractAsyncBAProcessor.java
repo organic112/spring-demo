@@ -1,11 +1,14 @@
 package com.potato112.springdemo.jms.bulkaction.runners;
 
+import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionManager;
 import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionFutureResult;
 import com.potato112.springdemo.jms.bulkaction.model.exception.AlreadyLockedException;
 import com.potato112.springdemo.jms.bulkaction.model.exception.CustomExplicitBussiesException;
 import com.potato112.springdemo.jms.bulkaction.model.exception.StatusManagerException;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionInit;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.SysDocument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.transaction.annotation.Propagation;
@@ -27,12 +30,14 @@ import java.util.concurrent.Future;
  */
 public abstract class AbstractAsyncBAProcessor<OBJTYPE extends SysDocument, INIT extends BulkActionInit, RUNNER extends AbstractBARunner> {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAsyncBAProcessor.class);
+
     protected abstract OBJTYPE getDocumentById(String id, RUNNER runner);
 
     protected abstract void processSingleDocument(OBJTYPE document, INIT init, RUNNER runner);
 
 
-    @Async
+    @Async   // note dedicated TaskExecutor bean is defined in config for this annotation, TODO check if it is proper solution
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Future<BulkActionFutureResult> processSingleItemAsync(final String id, final INIT bulkActionInit, final RUNNER parentRunner) {
 
@@ -61,22 +66,26 @@ public abstract class AbstractAsyncBAProcessor<OBJTYPE extends SysDocument, INIT
         } catch (AlreadyLockedException e) {
 
             String message = "Failed process single document async. AlreadyLockedException";
-            System.out.println();
+            LOGGER.debug(message);
             return parentRunner.failure(code, message, e);
 
         } catch (StatusManagerException e) {
+
+            // default exception to pass 'business cause failure' message
+            // StringBuilder: append message parts here
+
             String message = "Failed process single document async. StatusManagerException";
-            System.out.println(message);
+            LOGGER.debug(message);
             return parentRunner.failure(code, message, e);
 
         } catch (CustomExplicitBussiesException e) {
             String message = "Failed process single document async. CustomExplicitBussiesException";
-            System.out.println(message);
+            LOGGER.debug(message);
             return parentRunner.failure(code, message, e);
 
         } catch (Exception e) {
             String message = "Failed process single document async. Exception";
-            System.out.println(message);
+            LOGGER.debug(message);
             return handleException(e, parentRunner, code);
         }
 
@@ -114,7 +123,8 @@ public abstract class AbstractAsyncBAProcessor<OBJTYPE extends SysDocument, INIT
             return parentRunner.failure(code, message, exception);
         }
 
-        String unexpectedErrorMessage = "Failed Future Bulk Action result. Unexpected internal error in bulk action processor";
+        String unexpectedErrorMessage = "Unexpected Error: Failed Future Bulk Action result. Unexpected internal error in bulk action processor" + e.getMessage();
+        LOGGER.debug(unexpectedErrorMessage);
         return parentRunner.failure(code, unexpectedErrorMessage, e);
     }
 }

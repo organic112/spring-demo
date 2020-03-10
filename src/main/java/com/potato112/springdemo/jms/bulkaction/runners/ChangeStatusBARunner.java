@@ -8,6 +8,8 @@ import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionInit;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.StatusManager;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.SysDocument;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.SysStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +17,8 @@ import java.util.Set;
 import java.util.concurrent.Future;
 
 public abstract class ChangeStatusBARunner<OBJTYPE extends SysDocument, STATUS extends SysStatus> extends AbstractBARunner {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChangeStatusBARunner.class);
 
     public abstract OBJTYPE getDocumentById(String id);
 
@@ -27,6 +31,8 @@ public abstract class ChangeStatusBARunner<OBJTYPE extends SysDocument, STATUS e
         @SuppressWarnings("unchecked")
         ChangeStatusBAInit<OBJTYPE, STATUS> init = (ChangeStatusBAInit<OBJTYPE, STATUS>) bulkActionInit;
 
+        LOGGER.info("Start running...");
+
         boolean totalSuccess = true;
         Future<BulkActionFutureResult> bulkActionResult;
         final Map<String, Future<BulkActionFutureResult>> bulkActionResults;
@@ -34,11 +40,14 @@ public abstract class ChangeStatusBARunner<OBJTYPE extends SysDocument, STATUS e
 
         final BulkActionsRunResult result = new BulkActionsRunResult();
 
+
         validateInit(bulkActionInit);
 
         final Set<String> ids = init.getDocumentIds();
 
         //starts threads
+        LOGGER.info("Starting threads for selected document ids... Ids size:" + ids.size());
+
         for (final String id : ids) {
             bulkActionResult = changeStatus(id, bulkActionInit);
             bulkActionResults.put(id, bulkActionResult);
@@ -47,6 +56,8 @@ public abstract class ChangeStatusBARunner<OBJTYPE extends SysDocument, STATUS e
         // check results
         String details = generateDetailsMessage(init);
 
+        LOGGER.info("Checking results from threads, details: " + details);
+
         for (String id : bulkActionResults.keySet()) {
 
             Future<BulkActionFutureResult> future = bulkActionResults.get(id);
@@ -54,6 +65,8 @@ public abstract class ChangeStatusBARunner<OBJTYPE extends SysDocument, STATUS e
             totalSuccess = totalSuccess && singleProcessingResult.isSuccess();
             result.getResultList().add(singleProcessingResult);
         }
+
+        LOGGER.info("Setting Threads future results... Total success:" + totalSuccess);
 
         result.setSuccess(totalSuccess);
         result.setDetails(details);
@@ -68,8 +81,6 @@ public abstract class ChangeStatusBARunner<OBJTYPE extends SysDocument, STATUS e
         AsyncStatusChanger<OBJTYPE, STATUS> statusChanger = getStatusChanger();
         return statusChanger.processSingleItemAsync(id, castInit(bulkActionInit), this);
     }
-
-
 
     protected void changeStatusOfSingleDocument(final OBJTYPE document, final ChangeStatusBAInit<OBJTYPE, STATUS> bulkActionInit) {
 
@@ -101,7 +112,9 @@ public abstract class ChangeStatusBARunner<OBJTYPE extends SysDocument, STATUS e
 
     @Override
     protected void validateInit(BulkActionInit bulkActionInit) {
+
         super.validateInit(bulkActionInit);
+
         if (!(bulkActionInit instanceof ChangeStatusBAInit<?, ?>)) {
             throw new IllegalArgumentException("Bulk action init should be of type ChangeStatusBulkAction");
         }
@@ -112,13 +125,11 @@ public abstract class ChangeStatusBARunner<OBJTYPE extends SysDocument, STATUS e
 
         ChangeStatusBAInit<OBJTYPE, STATUS> init = castInit(bulkActionInit);
         STATUS targetStatus = init.getTargetStatus();
-        String message = "Status change to: ";
+        String message = "Status change to:";
         return message.concat(targetStatus.toString());
     }
     @SuppressWarnings("unchecked")
     private ChangeStatusBAInit<OBJTYPE, STATUS> castInit(final BulkActionInit bulkActionInit) {
         return (ChangeStatusBAInit<OBJTYPE, STATUS>) bulkActionInit;
     }
-
-
 }

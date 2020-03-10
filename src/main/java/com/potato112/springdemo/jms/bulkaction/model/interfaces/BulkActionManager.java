@@ -4,6 +4,8 @@ import com.potato112.springdemo.jms.bulkaction.model.JMSMessageVO;
 import com.potato112.springdemo.jms.bulkaction.model.enums.BulkActionStatus;
 import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionResult;
 import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
@@ -15,6 +17,9 @@ import java.time.LocalDateTime;
 
 @Component
 public class BulkActionManager implements BulkActionInitiator, BulkActionResultManager {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BulkActionManager.class);
+    private static final String RESULT_PROPERTY = "RESULT_ID";
 
     // @Autowire
     // BulkActionDAO
@@ -51,8 +56,7 @@ public class BulkActionManager implements BulkActionInitiator, BulkActionResultM
 
     private void sendBulkActionToJMS(BulkActionInit bulkActionInit, String id, String customDestination) throws JMSException {
 
-
-        System.out.println("Sending BA message to JMS...");
+        LOGGER.info("Sending BA message to JMS...");
 
         String type = bulkActionInit.getType().name();
         String initUser = bulkActionInit.getLoggedUser();
@@ -73,8 +77,8 @@ public class BulkActionManager implements BulkActionInitiator, BulkActionResultM
                 objectMessage.setStringProperty("userName", initUser);
                 objectMessage.setObject(bulkActionInit);
 
+                LOGGER.info("Sending JMS Message Object with Id: " + objectMessage.getStringProperty(RESULT_PROPERTY));
 
-                System.out.println("object id:" + objectMessage.getStringProperty("RESULT_ID"));
                 return objectMessage;
             });
         } catch (Exception e) {
@@ -126,6 +130,18 @@ public class BulkActionManager implements BulkActionInitiator, BulkActionResultM
         // setStatus(bulkActionStatus)
         // setEndProcessingDate(new Date())
         // setDetails(bulkActionMessage)
+
+
+        bulkActionsRunResult.getResultList().forEach(result -> {
+            String cause = "";
+            if (null != result.getException()) {
+                cause = result.getException().getMessage();
+            }
+
+            String message = "FINAL Single action - is success: " + result.isSuccess() + " | cause: " + cause + " | details: "
+                    + result.getResultDetails() + " | single document code: " + result.getProcessedObjectCode();
+            LOGGER.info(message);
+        });
     }
 
     @Override
@@ -136,5 +152,10 @@ public class BulkActionManager implements BulkActionInitiator, BulkActionResultM
         bulkActionResult.setBulkActionStatus(bulkActionStatus);
         bulkActionResult.setEndProcessingDateTime(LocalDateTime.now());
         bulkActionResult.setProcessingDetails(bulkActionMessage);
+
+
+        String message = "FINAL action:" + "result Id" + bulkActionResultId + " - " + bulkActionStatus.name() + " - " + LocalDateTime.now() + " end time:"
+                + " - " + bulkActionMessage;
+        LOGGER.info(message);
     }
 }

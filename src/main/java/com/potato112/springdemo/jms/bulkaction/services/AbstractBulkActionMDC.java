@@ -5,18 +5,19 @@ import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionInit;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionResultManager;
 import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
 import com.potato112.springdemo.jms.simple.BaseMDC;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
-import javax.jms.Message;
 import javax.jms.ObjectMessage;
 
 @Component
 public abstract class AbstractBulkActionMDC<INIT extends BulkActionInit> extends BaseMDC {
 
-    private static final String JMS_RESULT_ID = "RESULT_ID";
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractBulkActionMDC.class);
+    protected static final String JMS_RESULT_ID = "RESULT_ID";
 
     @Autowired
     private BulkActionResultManager bulkActionResultManager;
@@ -24,16 +25,15 @@ public abstract class AbstractBulkActionMDC<INIT extends BulkActionInit> extends
     protected abstract BulkActionsRunResult runBulkAction(INIT bulkActionInit);
 
 
-    @Override
+/*    @Override
     public void onMessage(Message message) {
-        System.out.println("received message in abstract..");
         super.onMessage(message);
-    }
+    }*/
 
     @Override
     public void processMessage(ObjectMessage message, String userName) {
 
-        System.out.println("received message in abstract..");
+        LOGGER.info("JMS message processing start");
 
         // get bulk action id
         final String id = getResultId(message);
@@ -43,28 +43,25 @@ public abstract class AbstractBulkActionMDC<INIT extends BulkActionInit> extends
 
         bulkActionResultManager.markInProgress(id);
 
-        final BulkActionsRunResult result = runBulkActionWrapper(bulkActionInit);
+        final BulkActionsRunResult result = runBulkActionWrapper(bulkActionInit); // fails here
         bulkActionResultManager.completeBulkAction(id, result);
 
         final BulkActionType type = bulkActionInit.getType();
         // send notification about BA complete
     }
 
-    BulkActionsRunResult runBulkActionWrapper(final BulkActionInit bulkActionInit) {
+    private BulkActionsRunResult runBulkActionWrapper(final BulkActionInit bulkActionInit) {
 
         try {
-
             INIT init = (INIT) bulkActionInit;
             return runBulkAction(init);
 
         } catch (Exception e) {
 
-            System.out.println("Failed to run BulkAction in MDC" + e.getMessage());
-
+            LOGGER.debug("Failed to run BulkAction in MDC" + e.getMessage());
             return new BulkActionsRunResult(false, e.getLocalizedMessage());
         }
     }
-
 
     private String getResultId(ObjectMessage objectMessage) {
 

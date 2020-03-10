@@ -21,8 +21,4 @@ public class InvestmentChangeStatusBAInit extends ChangeStatusBAInit<InvestmentD
         return BulkActionType.INVEST_PROCESSING;
     }
 
-    @Override
-    public Set<String> getDocumentIds() {
-        return null;
-    }
 }

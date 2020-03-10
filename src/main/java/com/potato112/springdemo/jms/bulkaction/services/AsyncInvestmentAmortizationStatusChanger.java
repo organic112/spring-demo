@@ -32,13 +32,24 @@ public class AsyncInvestmentAmortizationStatusChanger extends AsyncStatusChanger
 
         InvestmentStatus newStatus = (InvestmentStatus) init.getTargetStatus();
         String loggedUser = init.getLoggedUser();
-        InvestmentDocument sysDocument = (InvestmentDocument) document;
+        IntInvestmentItem sysDocument = (IntInvestmentItem) document;
         String documentId = sysDocument.getDocumentId();
 
         amortizationBARunner.investmentDocumentAmortizationProcess(documentId, newStatus, loggedUser);
     }
 
+    /**
+     * Overrides base processor transaction propagation form REQUIRES_NEW to: NOT_SUPPORTED
+     * At this level processing is async, but should not be in transaction yet
+     * Dedicated Investment amortization processing transaction management is implemented in
+     * embed services called when external process is processed
+     *
+     * if async collisions  you can synchronize here with 'synchronized':
+     *
+     * public synchronized Future<BulkActionFutureResult> processSingleItemAsync()
+     */
     @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Future<BulkActionFutureResult> processSingleItemAsync(String id, BulkActionInit bulkActionInit, AbstractBARunner parentRunner) {
         return super.processSingleItemAsync(id, bulkActionInit, parentRunner);
     }

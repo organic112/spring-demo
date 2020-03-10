@@ -1,5 +1,8 @@
 package com.potato112.springdemo.jms.simple;
 
+import com.potato112.springdemo.jms.bulkaction.services.AbstractBulkActionMDC;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
@@ -16,7 +19,9 @@ import javax.jms.ObjectMessage;
 @Component
 public abstract class BaseMDC implements MessageListener {
 
-    private static final String USER_NAME_PROPERTY = "userName";
+    private static final Logger LOGGER = LoggerFactory.getLogger(BaseMDC.class);
+
+    protected static final String USER_NAME_PROPERTY = "userName";
 
     /**
      * process current received message
@@ -28,8 +33,7 @@ public abstract class BaseMDC implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
-        System.out.println("received  message in BaseMDC...");
-
+        LOGGER.info("Received JMS message.");
         ObjectMessage objectMessage = validateJMSMessage(message);
         final String userName = getUserName(objectMessage);
         processMessage(objectMessage, userName);
@@ -53,8 +57,9 @@ public abstract class BaseMDC implements MessageListener {
     protected String getStringPropertyFromMessage(final Message message, final String propertyName) {
         try {
             return message.getStringProperty(propertyName);
+
         } catch (JMSException e) {
-            System.out.println("Failed to get user name from message " + e.getMessage());
+            LOGGER.debug("Failed to get user name from message " + e.getMessage());
         }
         throw new IllegalStateException("Internal JMS error");
     }

@@ -38,7 +38,7 @@ public class InvestmentDao {
         createInvestementItem(item3, 3);
 
         repositoryInvestmentItemMap.put("1", item1);
-        repositoryInvestmentItemMap.put("2", item3);
+        repositoryInvestmentItemMap.put("2", item2);
         repositoryInvestmentItemMap.put("3", item3);
     }
 
@@ -57,6 +57,4 @@ public class InvestmentDao {
 
         intInvestmentItem.setInvestmentDocument(investmentDocument);
     }
-
-
 }

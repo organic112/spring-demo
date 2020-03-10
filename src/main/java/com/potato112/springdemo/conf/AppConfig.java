@@ -70,7 +70,7 @@ public class AppConfig implements CommandLineRunner {
             System.out.println("no args passed to application");
             System.out.println("RUNNING SPRING INTEGRATION TESTS MODE...");
 
-            // bulkActionExecutor.executeBulkAction();
+             bulkActionExecutor.executeBulkAction();
         }
     }
 }

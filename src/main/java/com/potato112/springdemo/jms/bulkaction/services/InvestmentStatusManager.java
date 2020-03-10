@@ -8,6 +8,8 @@ import com.potato112.springdemo.jms.bulkaction.model.interfaces.StatusManager;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.SysStatus;
 import com.potato112.springdemo.jms.bulkaction.model.investment.IntInvestmentItem;
 import com.potato112.springdemo.jms.bulkaction.runners.InvestmentAmortizationProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +18,10 @@ import java.util.Set;
 @Component
 public class InvestmentStatusManager implements StatusManager<IntInvestmentItem, InvestmentStatus> {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(InvestmentStatusManager.class);
+
     @Autowired
     private InvestmentAmortizationProcessor investmentAmortizationProcessor;
-
 
     @Override
     public boolean canChangeStatus(IntInvestmentItem document, InvestmentStatus newStatus) {
@@ -31,9 +34,14 @@ public class InvestmentStatusManager implements StatusManager<IntInvestmentItem,
         return isLegalStatusChange(document, newStatus);
     }
 
+    /**
+     * Handles simple status change, alternative to 'sophisticated investment amortization' status change (different runner)
+     * e.g. operations with no thread resource collisions
+     */
     @Override
     public void changeStatus(ChangeStatusParams<IntInvestmentItem, InvestmentStatus> params) throws AlreadyLockedException {
 
+        LOGGER.info("Change status start...");
 
         IntInvestmentItem investmentItem = params.getDocument();
 
@@ -50,16 +58,17 @@ public class InvestmentStatusManager implements StatusManager<IntInvestmentItem,
         // TODO
         // lock item
         // set new status
-        //intInvestmentItem.setInvestmentStatus(InvestmentStatus.PROCESSED);
+
+        // to have failure, change this status to different than target status
+        intInvestmentItem.setInvestmentStatus(InvestmentStatus.PROCESSED);
         // update item in dB
         // remove item lock
 
-        validateProcessingResult("FIXME processing message", intInvestmentItem);
+        validateProcessingResult("FIXME processing message from status manager ", intInvestmentItem);
         System.out.println("STATUS MANAGER: DOCUMENT PROCESSED - STATUS CHANGED: old: " + intInvestmentItem.getInvestmentStatus()
                 + " new:" + newStatus);
 
     }
-
 
     private boolean isLegalStatusChange(IntInvestmentItem intInvestmentItem, InvestmentStatus newStatus) {
         InvestmentStatus actualStatus = intInvestmentItem.getInvestmentStatus();
@@ -75,7 +84,10 @@ public class InvestmentStatusManager implements StatusManager<IntInvestmentItem,
         return false;
     }
 
-
+    /**
+     * Handles sophisticated status change, alternative to 'simple investment amortization' status change (different runner)
+     * e.g. operations with possible thread resource collisions
+     */
     public void changeAmortizationProcessingStatus(IntInvestmentItem intInvestmentItem, InvestmentStatus newStatus) {
 
         String processingMessage = investmentAmortizationProcessor.processInvestmentsAndCreateAmortizationRecords(intInvestmentItem, newStatus);

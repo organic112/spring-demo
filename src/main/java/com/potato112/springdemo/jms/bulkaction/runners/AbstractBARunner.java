@@ -1,14 +1,18 @@
 package com.potato112.springdemo.jms.bulkaction.runners;
 
+import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionInit;
 import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionFutureResult;
 import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
-import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionInit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.AsyncResult;
 
 import java.util.Set;
 import java.util.concurrent.Future;
 
 public abstract class AbstractBARunner {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractBARunner.class);
 
     /**
      * returns Bulk Action result
@@ -37,7 +41,8 @@ public abstract class AbstractBARunner {
 
         } catch (Exception e) {
 
-            System.out.println(e.getMessage());
+            LOGGER.debug("Failed to get BA future result." + e.getMessage());
+
             BulkActionFutureResult failResult = BulkActionFutureResult.makeFailure(objectId, e.getLocalizedMessage(), e);
             return failResult;
         }
@@ -45,15 +50,18 @@ public abstract class AbstractBARunner {
 
     protected void validateInit(BulkActionInit bulkActionInit) {
 
+        LOGGER.info("Validate bulk action init start...");
+
         if (null == bulkActionInit) {
+
             throw new IllegalArgumentException("BulkActionInit cannot be null");
         }
 
         Set<String> documentIdSet = bulkActionInit.getDocumentIds();
+
         if (null != documentIdSet && documentIdSet.isEmpty()) {
+
             throw new IllegalArgumentException("BulkActionInit Document Id list can't be null or empty");
         }
     }
-
-
 }
