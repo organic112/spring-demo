@@ -20,13 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class InvestmentAmortizationProcessor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InvestmentAmortizationProcessor.class);
+    private final InvestmentDao investmentDao;
+    private final ProductProcessor productProcessor;
 
-    @Autowired
-    private InvestmentDao investmentDao;
-
-    @Autowired
-    private ProductProcessor productProcessor;
-
+    public InvestmentAmortizationProcessor(InvestmentDao investmentDao, ProductProcessor productProcessor) {
+        this.investmentDao = investmentDao;
+        this.productProcessor = productProcessor;
+    }
     // TODO IMPLEMENT ESSENTIAL PROCESSING LOGIC HERE
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)

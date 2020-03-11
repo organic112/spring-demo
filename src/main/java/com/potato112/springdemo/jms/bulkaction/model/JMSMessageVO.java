@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class JMSMessageVO implements Serializable {
 
     private String id;
+
     private BulkActionInit bulkActionInit;
 
     public String getId() {

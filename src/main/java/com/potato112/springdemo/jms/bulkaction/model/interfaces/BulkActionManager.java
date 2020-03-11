@@ -1,12 +1,10 @@
 package com.potato112.springdemo.jms.bulkaction.model.interfaces;
 
-import com.potato112.springdemo.jms.bulkaction.model.JMSMessageVO;
 import com.potato112.springdemo.jms.bulkaction.model.enums.BulkActionStatus;
 import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionResult;
 import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
@@ -26,17 +24,18 @@ public class BulkActionManager implements BulkActionInitiator, BulkActionResultM
     // UserManager
     private static final String DESTINATION_NAME = "investmentChangeStatusBulkAction";
 
-    @Autowired
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
+    private final JmsTemplate jmsTemplate;
 
-/*    @Autowired
-    private JmsTemplate jmsTemplate;*/
+    public BulkActionManager(ApplicationContext applicationContext, JmsTemplate jmsTemplate) {
+        this.applicationContext = applicationContext;
+        this.jmsTemplate = jmsTemplate;
+    }
 
     @Override
     public void initiateBulkAction(BulkActionInit bulkActionInit) {
         initiateBulkAction(bulkActionInit, DESTINATION_NAME);
     }
-
 
     @Override
     public void initiateBulkAction(BulkActionInit bulkActionInit, String customDestination) {
@@ -60,14 +59,6 @@ public class BulkActionManager implements BulkActionInitiator, BulkActionResultM
 
         String type = bulkActionInit.getType().name();
         String initUser = bulkActionInit.getLoggedUser();
-
-        JMSMessageVO jmsMessageVO = new JMSMessageVO();
-        jmsMessageVO.setId(id);
-        jmsMessageVO.setBulkActionInit(bulkActionInit);
-
-        //jmsTemplate.convertAndSend("carNotificationProcessorQueue", jmsMessageVO);
-
-        JmsTemplate jmsTemplate = applicationContext.getBean(JmsTemplate.class);
 
         try {
             jmsTemplate.send(customDestination, session -> {

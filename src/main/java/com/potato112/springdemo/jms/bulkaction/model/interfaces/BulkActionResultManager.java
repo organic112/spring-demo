@@ -27,11 +27,4 @@ public interface BulkActionResultManager {
 
     void completeBulkAction(String bulkActionResultId, BulkActionStatus bulkActionStatus, String bulkActionMessage);
 
-
-
-
-
-
-
-
 }

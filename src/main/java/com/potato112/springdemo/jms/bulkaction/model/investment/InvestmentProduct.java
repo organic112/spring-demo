@@ -17,7 +17,6 @@ public class InvestmentProduct implements Serializable {
     private String productNumber;
 
 
-
     public String getId() {
         return id;
     }

@@ -19,8 +19,11 @@ public abstract class AbstractBulkActionMDC<INIT extends BulkActionInit> extends
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractBulkActionMDC.class);
     protected static final String JMS_RESULT_ID = "RESULT_ID";
 
-    @Autowired
-    private BulkActionResultManager bulkActionResultManager;
+    private final BulkActionResultManager bulkActionResultManager;
+
+    public AbstractBulkActionMDC(BulkActionResultManager bulkActionResultManager) {
+        this.bulkActionResultManager = bulkActionResultManager;
+    }
 
     protected abstract BulkActionsRunResult runBulkAction(INIT bulkActionInit);
 

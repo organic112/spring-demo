@@ -2,6 +2,7 @@ package com.potato112.springdemo.jms.bulkaction.services;
 
 
 import com.potato112.springdemo.jms.bulkaction.model.init.InvestmentChangeStatusBAInit;
+import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionResultManager;
 import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
 import com.potato112.springdemo.jms.bulkaction.runners.InvestmentAmortizationBARunner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,12 @@ public class InvestmentChangeStatusMDC extends AbstractBulkActionMDC<InvestmentC
     private static final String DESTINATION_NAME = "investmentChangeStatusBulkAction";
     private static final String FACTORY_BEAN_NAME = "customFactory";
 
-    @Autowired
-    private InvestmentAmortizationBARunner investmentAmortizationBARunner;
+    private final InvestmentAmortizationBARunner investmentAmortizationBARunner;
+
+    public InvestmentChangeStatusMDC(BulkActionResultManager bulkActionResultManager, InvestmentAmortizationBARunner investmentAmortizationBARunner) {
+        super(bulkActionResultManager);
+        this.investmentAmortizationBARunner = investmentAmortizationBARunner;
+    }
 
     //@Autowired FIXME add alternative runner
     //private InvestmentChangeStatusRunner investmentChangeStatusRunner;

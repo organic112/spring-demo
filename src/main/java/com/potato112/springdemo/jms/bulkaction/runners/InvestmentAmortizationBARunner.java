@@ -20,15 +20,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class InvestmentAmortizationBARunner extends ChangeStatusBARunner {
 
-    @Autowired
-    private InvestmentStatusManager investmentStatusManager; // fixme
+    private final InvestmentStatusManager investmentStatusManager; // fixme
+    private final AsyncInvestmentAmortizationStatusChanger asyncInvestmentAmortizationStatusChanger;
+    private final InvestmentDao investmentDao;
 
-    @Autowired
-    private AsyncInvestmentAmortizationStatusChanger asyncInvestmentAmortizationStatusChanger;
-
-    @Autowired
-    private InvestmentDao investmentDao;
-
+    public InvestmentAmortizationBARunner(InvestmentStatusManager investmentStatusManager, AsyncInvestmentAmortizationStatusChanger asyncInvestmentAmortizationStatusChanger, InvestmentDao investmentDao) {
+        this.investmentStatusManager = investmentStatusManager;
+        this.asyncInvestmentAmortizationStatusChanger = asyncInvestmentAmortizationStatusChanger;
+        this.investmentDao = investmentDao;
+    }
 
     public void investmentDocumentAmortizationProcess(String id, InvestmentStatus newInvestmentStatus, String loggedUser) {
 
@@ -39,7 +39,6 @@ public class InvestmentAmortizationBARunner extends ChangeStatusBARunner {
 
     @Override
     public SysDocument getDocumentById(String id) {
-
         return investmentDao.getInvestmentById(id);
     }
 
@@ -52,5 +51,4 @@ public class InvestmentAmortizationBARunner extends ChangeStatusBARunner {
     protected AsyncStatusChanger getStatusChanger() {
         return asyncInvestmentAmortizationStatusChanger;
     }
-
 }
