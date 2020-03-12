@@ -1,7 +1,10 @@
 package com.potato112.springdemo.jms.bulkaction.runners;
 
 import com.potato112.springdemo.jms.bulkaction.dao.InvestmentDao;
+import com.potato112.springdemo.jms.bulkaction.model.enums.InvestmentProductStatus;
 import com.potato112.springdemo.jms.bulkaction.model.enums.InvestmentStatus;
+import com.potato112.springdemo.jms.bulkaction.model.exception.StatusManagerException;
+import com.potato112.springdemo.jms.bulkaction.model.exception.checked.CustomExplicitBussiesException;
 import com.potato112.springdemo.jms.bulkaction.model.investment.IntInvestmentItem;
 import com.potato112.springdemo.jms.bulkaction.model.investment.InvestmentDocument;
 import com.potato112.springdemo.jms.bulkaction.model.investment.InvestmentProduct;
@@ -34,21 +37,32 @@ public class InvestmentAmortizationProcessor {
 
         LOGGER.info("Starting amortization processing...");
 
-        InvestmentDocument document = intInvestmentItem.getInvestmentDocument();
-        String investmentId = document.getId();
+        try {
 
-        // Fetch investment document from DB to get persistence context
-        InvestmentDocument investmentDocument = investmentDao.getInvestmentDocumentById(investmentId);
+            InvestmentDocument document = intInvestmentItem.getInvestmentDocument();
+            String investmentId = document.getId();
 
-        // some business logic, create objects etc.
-        InvestmentProduct investmentProduct = new InvestmentProduct();
+            // Fetch investment document from DB to get persistence context
+            InvestmentDocument investmentDocument = investmentDao.getInvestmentDocumentById(investmentId);
 
-        productProcessor.processProduct(investmentProduct, newStatus);
+            // some business logic, create objects etc.
+            InvestmentProduct investmentProduct = new InvestmentProduct();
 
-        // NOTE to have failure logic should set status to <> PROCESSED
-        intInvestmentItem.setInvestmentStatus(InvestmentStatus.PROCESSED);
+            productProcessor.processProduct(investmentProduct, newStatus);
+            investmentProduct.setInvestmentProductStatus(InvestmentProductStatus.PROCESSED);
+            // NOTE to have failure logic should set status to <> PROCESSED
+            intInvestmentItem.setInvestmentStatus(InvestmentStatus.PROCESSED);
+            LOGGER.info("Amortization processing ended");
 
-        LOGGER.info("Amortization processing ended");
+        } catch (CustomExplicitBussiesException e) {
+
+            String message = "Failed to process product. Business rule violated";
+
+            LOGGER.debug(message + e.getMessage());
+        } catch (StatusManagerException e) {
+
+            LOGGER.debug(e.getMessage());
+        }
 
         return "FIXME processing message from Investment Amortization Processor";
     }

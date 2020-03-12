@@ -1,8 +1,9 @@
 package com.potato112.springdemo.jms.bulkaction.runners;
 
 
-import com.potato112.springdemo.jms.bulkaction.model.enums.InvestmentProductStatus;
 import com.potato112.springdemo.jms.bulkaction.model.enums.InvestmentStatus;
+import com.potato112.springdemo.jms.bulkaction.model.exception.StatusManagerException;
+import com.potato112.springdemo.jms.bulkaction.model.exception.checked.CustomExplicitBussiesException;
 import com.potato112.springdemo.jms.bulkaction.model.investment.InvestmentProduct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
  * - returns processing messages
  * - handles status change of Product
  */
-
 @Component
 public class ProductProcessor {
 
@@ -24,8 +24,14 @@ public class ProductProcessor {
 
     // TODO IMPLEMENT EMBEDED PROCESSING LOGIC HERE
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void processProduct(InvestmentProduct investmentProduct, InvestmentStatus newStatus) {
+    /**
+     * Handles processing Products (processing embed in Amortization Processing).
+     *  - database operations
+     *  - transaction handling for single investment Product
+     *  - sets status and returns result message
+     */
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {StatusManagerException.class, CustomExplicitBussiesException.class})
+    public void processProduct(InvestmentProduct investmentProduct, InvestmentStatus newStatus) throws CustomExplicitBussiesException {
 
         LOGGER.info("Start of embed processing in new transaction... Target status:" + newStatus.name());
 
@@ -36,6 +42,13 @@ public class ProductProcessor {
 
         // exceptions handling
         // in exceptions handling settning product status
-        investmentProduct.setInvestmentProductStatus(InvestmentProductStatus.PROCESSED);
+
+        // FIXME (condition)
+
+        if (false) {
+            throw new CustomExplicitBussiesException("Custom Business rule violated");
+        }
+
     }
+
 }

@@ -1,9 +1,8 @@
 package com.potato112.springdemo.jms.bulkaction.runners;
 
-import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionManager;
 import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionFutureResult;
 import com.potato112.springdemo.jms.bulkaction.model.exception.AlreadyLockedException;
-import com.potato112.springdemo.jms.bulkaction.model.exception.CustomExplicitBussiesException;
+import com.potato112.springdemo.jms.bulkaction.model.exception.checked.CustomExplicitBussiesException;
 import com.potato112.springdemo.jms.bulkaction.model.exception.StatusManagerException;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionInit;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.SysDocument;
@@ -34,7 +33,7 @@ public abstract class AbstractAsyncBAProcessor<OBJTYPE extends SysDocument, INIT
 
     protected abstract OBJTYPE getDocumentById(String id, RUNNER runner);
 
-    protected abstract void processSingleDocument(OBJTYPE document, INIT init, RUNNER runner);
+    protected abstract void processSingleDocument(OBJTYPE document, INIT init, RUNNER runner) throws CustomExplicitBussiesException;
 
 
     @Async   // note dedicated TaskExecutor bean is defined in config for this annotation, TODO check if it is proper solution
