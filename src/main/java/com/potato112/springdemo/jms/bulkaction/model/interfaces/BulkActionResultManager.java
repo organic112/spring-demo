@@ -1,7 +1,7 @@
 package com.potato112.springdemo.jms.bulkaction.model.interfaces;
 
-import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionResult;
-import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
+import com.potato112.springdemo.jms.bulkaction.model.entity.BulkActionResult;
+import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResultVo;
 import com.potato112.springdemo.jms.bulkaction.model.enums.BulkActionStatus;
 
 /**
@@ -23,7 +23,7 @@ public interface BulkActionResultManager {
      * sets proper message based on result
      */
 
-    void completeBulkAction(String bulkActionResultId, BulkActionsRunResult bulkActionsRunResult );
+    void completeBulkAction(String bulkActionResultId, BulkActionsRunResultVo bulkActionsRunResultVo);
 
     void completeBulkAction(String bulkActionResultId, BulkActionStatus bulkActionStatus, String bulkActionMessage);
 

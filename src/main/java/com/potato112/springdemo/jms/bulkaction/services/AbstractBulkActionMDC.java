@@ -3,11 +3,10 @@ package com.potato112.springdemo.jms.bulkaction.services;
 import com.potato112.springdemo.jms.bulkaction.model.enums.BulkActionType;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionInit;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionResultManager;
-import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
+import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResultVo;
 import com.potato112.springdemo.jms.simple.BaseMDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
@@ -25,7 +24,7 @@ public abstract class AbstractBulkActionMDC<INIT extends BulkActionInit> extends
         this.bulkActionResultManager = bulkActionResultManager;
     }
 
-    protected abstract BulkActionsRunResult runBulkAction(INIT bulkActionInit);
+    protected abstract BulkActionsRunResultVo runBulkAction(INIT bulkActionInit);
 
 
 /*    @Override
@@ -46,14 +45,14 @@ public abstract class AbstractBulkActionMDC<INIT extends BulkActionInit> extends
 
         bulkActionResultManager.markInProgress(id);
 
-        final BulkActionsRunResult result = runBulkActionWrapper(bulkActionInit); // fails here
+        final BulkActionsRunResultVo result = runBulkActionWrapper(bulkActionInit); // fails here
         bulkActionResultManager.completeBulkAction(id, result);
 
         final BulkActionType type = bulkActionInit.getType();
         // send notification about BA complete
     }
 
-    private BulkActionsRunResult runBulkActionWrapper(final BulkActionInit bulkActionInit) {
+    private BulkActionsRunResultVo runBulkActionWrapper(final BulkActionInit bulkActionInit) {
 
         try {
             INIT init = (INIT) bulkActionInit;
@@ -62,7 +61,7 @@ public abstract class AbstractBulkActionMDC<INIT extends BulkActionInit> extends
         } catch (Exception e) {
 
             LOGGER.debug("Failed to run BulkAction in MDC" + e.getMessage());
-            return new BulkActionsRunResult(false, e.getLocalizedMessage());
+            return new BulkActionsRunResultVo(false, e.getLocalizedMessage());
         }
     }
 

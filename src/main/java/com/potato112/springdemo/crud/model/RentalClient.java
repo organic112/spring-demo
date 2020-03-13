@@ -23,6 +23,7 @@ import java.util.List;
 })
 
 @Entity
+@Table(schema = "demo-db", name = "rental_client")
 public class RentalClient implements Serializable {
 
     @Id

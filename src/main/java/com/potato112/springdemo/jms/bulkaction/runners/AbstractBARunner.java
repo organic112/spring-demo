@@ -1,8 +1,8 @@
 package com.potato112.springdemo.jms.bulkaction.runners;
 
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionInit;
-import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionFutureResult;
-import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
+import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionFutureResultVo;
+import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResultVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -17,33 +17,33 @@ public abstract class AbstractBARunner {
     /**
      * returns Bulk Action result
      */
-    public abstract BulkActionsRunResult run(final BulkActionInit bulkActionInit);
+    public abstract BulkActionsRunResultVo run(final BulkActionInit bulkActionInit);
 
     protected abstract String generateDetailsMessage(BulkActionInit bulkActionInit);
 
     /**
      * returns Bulk Action failure
      */
-    protected Future<BulkActionFutureResult> failure(final String code, final String message, final Exception e) {
+    protected Future<BulkActionFutureResultVo> failure(final String code, final String message, final Exception e) {
 
-        BulkActionFutureResult result = BulkActionFutureResult.makeFailure(code, message, e);
+        BulkActionFutureResultVo result = BulkActionFutureResultVo.makeFailure(code, message, e);
         return new AsyncResult<>(result);
     }
 
     /**
      * Processing result of single action
      */
-    protected BulkActionFutureResult getSingleProcessingResult(String objectId, final Future<BulkActionFutureResult> future) {
+    protected BulkActionFutureResultVo getSingleProcessingResult(String objectId, final Future<BulkActionFutureResultVo> future) {
 
         try {
-            BulkActionFutureResult futureResult = future.get();
+            BulkActionFutureResultVo futureResult = future.get();
             return futureResult;
 
         } catch (Exception e) {
 
             LOGGER.debug("Failed to get BA future result." + e.getMessage());
 
-            BulkActionFutureResult failResult = BulkActionFutureResult.makeFailure(objectId, e.getLocalizedMessage(), e);
+            BulkActionFutureResultVo failResult = BulkActionFutureResultVo.makeFailure(objectId, e.getLocalizedMessage(), e);
             return failResult;
         }
     }

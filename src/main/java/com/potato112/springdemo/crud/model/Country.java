@@ -3,6 +3,7 @@ package com.potato112.springdemo.crud.model;
 import javax.persistence.*;
 
 @Entity
+@Table(schema = "demo-db", name = "country")
 public class Country {
 
     @Id

@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
+@Table(schema = "demo-db", name = "rental_agreement")
 public class RentalAgreement implements Serializable {
 
     @Id

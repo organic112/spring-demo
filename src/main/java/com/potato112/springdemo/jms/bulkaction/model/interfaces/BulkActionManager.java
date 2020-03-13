@@ -1,8 +1,8 @@
 package com.potato112.springdemo.jms.bulkaction.model.interfaces;
 
 import com.potato112.springdemo.jms.bulkaction.model.enums.BulkActionStatus;
-import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionResult;
-import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
+import com.potato112.springdemo.jms.bulkaction.model.entity.BulkActionResult;
+import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResultVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -114,16 +114,16 @@ public class BulkActionManager implements BulkActionInitiator, BulkActionResultM
     }
 
     @Override
-    public void completeBulkAction(String bulkActionResultId, BulkActionsRunResult bulkActionsRunResult) {
+    public void completeBulkAction(String bulkActionResultId, BulkActionsRunResultVo bulkActionsRunResultVo) {
 
-        bulkActionsRunResult.getResultList(); // TODO concat to one message and set as bulkActionMessage
+        bulkActionsRunResultVo.getResultList(); // TODO concat to one message and set as bulkActionMessage
         // get Bulk action by id BulkActionResult bar = dao.getBulkActionResultById(id)
         // setStatus(bulkActionStatus)
         // setEndProcessingDate(new Date())
         // setDetails(bulkActionMessage)
 
 
-        bulkActionsRunResult.getResultList().forEach(result -> {
+        bulkActionsRunResultVo.getResultList().forEach(result -> {
             String cause = "";
             if (null != result.getException()) {
                 cause = result.getException().getMessage();

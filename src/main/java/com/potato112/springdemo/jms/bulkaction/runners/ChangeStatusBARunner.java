@@ -1,8 +1,8 @@
 package com.potato112.springdemo.jms.bulkaction.runners;
 
-import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionFutureResult;
+import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionFutureResultVo;
 import com.potato112.springdemo.jms.bulkaction.model.init.ChangeStatusBAInit;
-import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
+import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResultVo;
 import com.potato112.springdemo.jms.bulkaction.model.init.ChangeStatusParams;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionInit;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.StatusManager;
@@ -26,7 +26,7 @@ public abstract class ChangeStatusBARunner<OBJTYPE extends SysDocument, STATUS e
 
     protected abstract AsyncStatusChanger<OBJTYPE, STATUS> getStatusChanger();
 
-    public BulkActionsRunResult run(final BulkActionInit bulkActionInit) {
+    public BulkActionsRunResultVo run(final BulkActionInit bulkActionInit) {
 
         @SuppressWarnings("unchecked")
         ChangeStatusBAInit<OBJTYPE, STATUS> init = (ChangeStatusBAInit<OBJTYPE, STATUS>) bulkActionInit;
@@ -34,11 +34,11 @@ public abstract class ChangeStatusBARunner<OBJTYPE extends SysDocument, STATUS e
         LOGGER.info("Start running...");
 
         boolean totalSuccess = true;
-        Future<BulkActionFutureResult> bulkActionResult;
-        final Map<String, Future<BulkActionFutureResult>> bulkActionResults;
+        Future<BulkActionFutureResultVo> bulkActionResult;
+        final Map<String, Future<BulkActionFutureResultVo>> bulkActionResults;
         bulkActionResults = new HashMap<>();
 
-        final BulkActionsRunResult result = new BulkActionsRunResult();
+        final BulkActionsRunResultVo result = new BulkActionsRunResultVo();
 
 
         validateInit(bulkActionInit);
@@ -60,8 +60,8 @@ public abstract class ChangeStatusBARunner<OBJTYPE extends SysDocument, STATUS e
 
         for (String id : bulkActionResults.keySet()) {
 
-            Future<BulkActionFutureResult> future = bulkActionResults.get(id);
-            BulkActionFutureResult singleProcessingResult = getSingleProcessingResult(id, future);
+            Future<BulkActionFutureResultVo> future = bulkActionResults.get(id);
+            BulkActionFutureResultVo singleProcessingResult = getSingleProcessingResult(id, future);
             totalSuccess = totalSuccess && singleProcessingResult.isSuccess();
             result.getResultList().add(singleProcessingResult);
         }
@@ -77,7 +77,7 @@ public abstract class ChangeStatusBARunner<OBJTYPE extends SysDocument, STATUS e
      * Wrapper for changing status of single sys document.
      * By default method calls AsyncStatusChanger, that runs in separate thread and separate transaction
      */
-    protected Future<BulkActionFutureResult> changeStatus(String id, BulkActionInit bulkActionInit) {
+    protected Future<BulkActionFutureResultVo> changeStatus(String id, BulkActionInit bulkActionInit) {
         AsyncStatusChanger<OBJTYPE, STATUS> statusChanger = getStatusChanger();
         return statusChanger.processSingleItemAsync(id, castInit(bulkActionInit), this);
     }

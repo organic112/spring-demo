@@ -3,9 +3,8 @@ package com.potato112.springdemo.jms.bulkaction.services;
 
 import com.potato112.springdemo.jms.bulkaction.model.init.InvestmentChangeStatusBAInit;
 import com.potato112.springdemo.jms.bulkaction.model.interfaces.BulkActionResultManager;
-import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResult;
+import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionsRunResultVo;
 import com.potato112.springdemo.jms.bulkaction.runners.InvestmentAmortizationBARunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +33,7 @@ public class InvestmentChangeStatusMDC extends AbstractBulkActionMDC<InvestmentC
     }
 
     @Override
-    protected BulkActionsRunResult runBulkAction(InvestmentChangeStatusBAInit bulkActionInit) {
+    protected BulkActionsRunResultVo runBulkAction(InvestmentChangeStatusBAInit bulkActionInit) {
 
         return investmentAmortizationBARunner.run(bulkActionInit);
     }

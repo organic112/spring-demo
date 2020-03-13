@@ -2,28 +2,33 @@ package com.potato112.springdemo.jms.bulkaction.model.results;
 
 import java.io.Serializable;
 
-public class BulkActionFutureResult implements Serializable {
+
+/**
+ * Bulk Action runs multiple parallel async processing operations.
+ * This class represents result of single such operation.
+ */
+public class BulkActionFutureResultVo implements Serializable {
 
     private String processedObjectCode;
     private boolean success = true;
     private String resultDetails;
     private Exception exception;
 
-    public BulkActionFutureResult() {
+    public BulkActionFutureResultVo() {
     }
 
-    public static BulkActionFutureResult makeSuccess(final String processedObjectCode, final String resultDetails) {
+    public static BulkActionFutureResultVo makeSuccess(final String processedObjectCode, final String resultDetails) {
 
-        BulkActionFutureResult result = new BulkActionFutureResult();
+        BulkActionFutureResultVo result = new BulkActionFutureResultVo();
         result.processedObjectCode = processedObjectCode;
         result.success = true;
         result.resultDetails = resultDetails;
         return result;
     }
 
-    public static BulkActionFutureResult makeFailure(final String processedObjectCode, final String resultDetails, final Exception exception) {
+    public static BulkActionFutureResultVo makeFailure(final String processedObjectCode, final String resultDetails, final Exception exception) {
 
-        BulkActionFutureResult result = new BulkActionFutureResult();
+        BulkActionFutureResultVo result = new BulkActionFutureResultVo();
         result.processedObjectCode = processedObjectCode;
         result.success = false;
         result.resultDetails = resultDetails;

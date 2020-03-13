@@ -1,27 +1,24 @@
 package com.potato112.springdemo.jms.bulkaction.model.results;
 
-import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionFutureResult;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class BulkActionsRunResult {
-
+public class BulkActionsRunResultVo {
 
     private Boolean success = null;
     private String details;
-    private List<BulkActionFutureResult> resultList = new ArrayList<>();
+    private List<BulkActionFutureResultVo> resultList = new ArrayList<>();
 
 
-    public BulkActionsRunResult() {
+    public BulkActionsRunResultVo() {
     }
 
-    public BulkActionsRunResult(Boolean success) {
+    public BulkActionsRunResultVo(Boolean success) {
         validateResult(success);
         this.success = success;
     }
 
-    public BulkActionsRunResult(Boolean success, String details) {
+    public BulkActionsRunResultVo(Boolean success, String details) {
         this(success);
         this.details = details;
     }
@@ -44,11 +41,11 @@ public class BulkActionsRunResult {
         this.details = details;
     }
 
-    public List<BulkActionFutureResult> getResultList() {
+    public List<BulkActionFutureResultVo> getResultList() {
         return resultList;
     }
 
-    public void setResultList(List<BulkActionFutureResult> resultList) {
+    public void setResultList(List<BulkActionFutureResultVo> resultList) {
         this.resultList = resultList;
     }
 

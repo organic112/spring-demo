@@ -1,6 +1,6 @@
 package com.potato112.springdemo.jms.bulkaction.runners;
 
-import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionFutureResult;
+import com.potato112.springdemo.jms.bulkaction.model.results.BulkActionFutureResultVo;
 import com.potato112.springdemo.jms.bulkaction.model.exception.AlreadyLockedException;
 import com.potato112.springdemo.jms.bulkaction.model.exception.checked.CustomExplicitBussiesException;
 import com.potato112.springdemo.jms.bulkaction.model.exception.StatusManagerException;
@@ -38,7 +38,7 @@ public abstract class AbstractAsyncBAProcessor<OBJTYPE extends SysDocument, INIT
 
     @Async   // note dedicated TaskExecutor bean is defined in config for this annotation, TODO check if it is proper solution
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Future<BulkActionFutureResult> processSingleItemAsync(final String id, final INIT bulkActionInit, final RUNNER parentRunner) {
+    public Future<BulkActionFutureResultVo> processSingleItemAsync(final String id, final INIT bulkActionInit, final RUNNER parentRunner) {
 
         String code = "";
         OBJTYPE document = null;
@@ -88,7 +88,7 @@ public abstract class AbstractAsyncBAProcessor<OBJTYPE extends SysDocument, INIT
             return handleException(e, parentRunner, code);
         }
 
-        BulkActionFutureResult result = BulkActionFutureResult.makeSuccess(code, getSuccessMessage(document));
+        BulkActionFutureResultVo result = BulkActionFutureResultVo.makeSuccess(code, getSuccessMessage(document));
         return new AsyncResult<>(result);
     }
 
@@ -96,7 +96,7 @@ public abstract class AbstractAsyncBAProcessor<OBJTYPE extends SysDocument, INIT
         return "OK";
     }
 
-    private Future<BulkActionFutureResult> handleException(Exception e, RUNNER parentRunner, String code) {
+    private Future<BulkActionFutureResultVo> handleException(Exception e, RUNNER parentRunner, String code) {
 
         if (e instanceof AlreadyLockedException || e.getCause() instanceof AlreadyLockedException) {
             AlreadyLockedException exception = (AlreadyLockedException) e.getCause();
