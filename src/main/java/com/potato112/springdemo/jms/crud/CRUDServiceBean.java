@@ -264,4 +264,14 @@ public class CRUDServiceBean<E> implements CRUDService<E> {
     public int updateWithNameQuery(String namedQueryName) {
         return 0;
     }
+
+
+    public boolean contains(E e) {
+
+        return em.contains(e);
+    }
+
+    public EntityManager getEntityManager() {
+        return em;
+    }
 }
