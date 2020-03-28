@@ -2,6 +2,9 @@ package com.potato112.springdemo.crud.jdbc.model;
 
 import java.io.Serializable;
 
+/**
+ * provides base fields for SQL result row
+ */
 public abstract class BaseVO implements Serializable {
 
     private String id;

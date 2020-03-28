@@ -15,4 +15,20 @@ class DBQueryMapUtilTest {
         String query = DBQueryMapUtil.getSqlQueryVo("select.rentalCars");
         System.out.println(query);
     }
+
+    @Test
+    void getNextSqlQueryVo() throws SQLException {
+
+        DBQueryMapUtil.readQueries();
+        String query = DBQueryMapUtil.getSqlQueryVo("insert.docLock");
+        System.out.println(query);
+    }
+
+    @Test
+    void shouldSelectSqlQueryVo() throws SQLException {
+
+        DBQueryMapUtil.readQueries();
+        String query = DBQueryMapUtil.getSqlQueryVo("select.docLock");
+        System.out.println(query);
+    }
 }

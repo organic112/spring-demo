@@ -75,8 +75,6 @@ public class BulkActionManager implements BulkActionInitiator, BulkActionResultM
         } catch (Exception e) {
             throw new JMSException(e.getLocalizedMessage());
         }
-
-
     }
 
     private String createBulkActionResultInDatabase(BulkActionInit bulkActionInit) {
@@ -124,6 +122,7 @@ public class BulkActionManager implements BulkActionInitiator, BulkActionResultM
 
 
         bulkActionsRunResultVo.getResultList().forEach(result -> {
+
             String cause = "";
             if (null != result.getException()) {
                 cause = result.getException().getMessage();
@@ -143,7 +142,6 @@ public class BulkActionManager implements BulkActionInitiator, BulkActionResultM
         bulkActionResult.setBulkActionStatus(bulkActionStatus);
         bulkActionResult.setEndProcessingDateTime(LocalDateTime.now());
         bulkActionResult.setProcessingDetails(bulkActionMessage);
-
 
         String message = "FINAL action:" + "result Id" + bulkActionResultId + " - " + bulkActionStatus.name() + " - " + LocalDateTime.now() + " end time:"
                 + " - " + bulkActionMessage;

@@ -1,4 +1,4 @@
-package com.potato112.springdemo.crud.jdbc;
+package com.potato112.springdemo.crud.jdbc.services;
 
 import com.potato112.springdemo.crud.jdbc.model.RentalCarVO;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,6 @@
 package com.potato112.springdemo.crud.jdbc.model;
 
+
 public class RentalCarVO extends BaseVO {
 
     private String brand;

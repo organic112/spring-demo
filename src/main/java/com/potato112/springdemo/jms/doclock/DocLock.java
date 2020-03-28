@@ -30,7 +30,7 @@ import javax.persistence.Table;
 public class DocLock extends BaseEntity {
 
     @Id
-    @Column(name = "doc_locks_id", length = 30)
+    @Column(name = "doc_locks_id", length = 50)
     @GeneratedValue(generator = "seq_id")
     @GenericGenerator(name = "seq_id", strategy = "identity")
     private String id;

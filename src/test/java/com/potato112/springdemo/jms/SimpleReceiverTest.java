@@ -1,7 +1,7 @@
 package com.potato112.springdemo.jms;
 
 import com.potato112.springdemo.conf.AppConfig;
-import com.potato112.springdemo.crud.jdbc.RentalCarDAO;
+import com.potato112.springdemo.crud.jdbc.services.RentalCarDAO;
 import com.potato112.springdemo.crud.jdbc.datasource.DataSourceBuilder;
 import com.potato112.springdemo.crud.jdbc.model.RentalCarVO;
 import com.potato112.springdemo.utils.DBQueryMapUtil;

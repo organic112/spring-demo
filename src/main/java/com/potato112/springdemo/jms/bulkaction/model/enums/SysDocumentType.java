@@ -4,7 +4,8 @@ public enum SysDocumentType {
 
     INVESTMENT_DOCUMENT("Investment amortization document"),
     CLIENT_DOCUMENT("Client history document"),
-    AGREEMENT_DOCUMENT("Agreement document");
+    AGREEMENT_DOCUMENT("Agreement document"),
+    CAR_DOCUMENT("Car document");
 
     private String fullName;
 
