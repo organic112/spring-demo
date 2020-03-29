@@ -7,6 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+//import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ import java.util.List;
 @Configuration
 @EnableAsync
 @EnableJms
+@EnableWebSecurity
+//@EnableRedisHttpSession  //for standard spring config
 @ComponentScan({"com.potato112.springdemo"})
 public class AppConfig implements CommandLineRunner {
 

@@ -22,7 +22,6 @@ public class ThreadConfig {
     }
 
     @Bean
-
     public TaskExecutor threadPoolTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(4);
