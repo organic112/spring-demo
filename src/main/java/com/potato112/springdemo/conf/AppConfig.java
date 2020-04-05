@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import java.util.List;
 @EnableAsync
 @EnableJms
 @EnableWebSecurity
-//@EnableRedisHttpSession  //for standard spring config
 @ComponentScan({"com.potato112.springdemo"})
 public class AppConfig implements CommandLineRunner {
 
@@ -74,7 +72,7 @@ public class AppConfig implements CommandLineRunner {
             System.out.println("no args passed to application");
             System.out.println("RUNNING SPRING INTEGRATION TESTS MODE...");
 
-             bulkActionExecutor.executeBulkAction();
+            // bulkActionExecutor.executeBulkAction();
         }
     }
 }
