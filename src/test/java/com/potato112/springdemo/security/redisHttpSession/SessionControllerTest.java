@@ -1,4 +1,4 @@
-package com.potato112.springdemo.redisHttpSession;
+package com.potato112.springdemo.security.redisHttpSession;
 
 import com.potato112.springdemo.DemoApp;
 import org.junit.AfterClass;

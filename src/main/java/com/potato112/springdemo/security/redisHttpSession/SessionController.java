@@ -1,4 +1,4 @@
-package com.potato112.springdemo.redisHttpSession;
+package com.potato112.springdemo.security.redisHttpSession;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
