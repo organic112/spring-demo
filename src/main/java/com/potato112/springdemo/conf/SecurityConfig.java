@@ -10,20 +10,30 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 
 /**
- * This protects our endpoints with basic authentication and sets up a user to test with
+ * This protects endpoints with basic authentication and sets up a user to test with
  */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // password storage format, for plain text, add {noop}
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password("{noop}password").roles("ADMIN");
+    public void configureGlobal(AuthenticationManagerBuilder authManagerBuilder) throws Exception {
+
+        authManagerBuilder
+                .inMemoryAuthentication()
+                .withUser("admin")
+                .password("{noop}test_pass_01") // password storage format, for plain text, add {noop}
+                .roles("ADMIN");
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().and().authorizeRequests().antMatchers("/").hasRole("ADMIN").anyRequest().authenticated();
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .httpBasic()
+                .and().authorizeRequests()
+                .antMatchers("/")
+                .hasRole("ADMIN")
+                .anyRequest()
+                .authenticated();
     }
 }

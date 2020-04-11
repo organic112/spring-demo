@@ -102,6 +102,4 @@ public class JdbcDocLockDaoTest {
         DocLockVO docLockVOnull = jdbcDocLockDao.getDocLock(connection, "test_doc_id");
         System.out.println("try fetch lock id (null ok):" + docLockVOnull);
     }
-
-
 }

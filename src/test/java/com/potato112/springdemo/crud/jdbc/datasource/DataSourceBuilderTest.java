@@ -5,7 +5,7 @@ import org.junit.Test;
 import javax.sql.DataSource;
 
 
-class DataSourceBuilderTest {
+public class DataSourceBuilderTest {
 
 
 

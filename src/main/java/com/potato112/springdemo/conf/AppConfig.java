@@ -3,11 +3,14 @@ package com.potato112.springdemo.conf;
 import com.potato112.springdemo.jms.bulkaction.BulkActionExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import redis.clients.jedis.Jedis;
+import redis.embedded.RedisServer;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
