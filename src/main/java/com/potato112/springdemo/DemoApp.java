@@ -18,7 +18,7 @@ public class DemoApp {
 
         } catch (Exception e) {
             String errorMessage = "Application encountered unrecoverable error.";
-            LOGGER.debug(errorMessage);
+            LOGGER.debug(errorMessage + e.getLocalizedMessage());
         }
     }
 }

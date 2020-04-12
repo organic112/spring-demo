@@ -32,7 +32,6 @@ public class SessionControllerTest {
     private TestRestTemplate testRestTemplateNoAuth;
     private TestRestTemplate testRestTemplateAuthenticated;
 
-
     /**
      * 1. Create Rest client with template, to start Http session on rest controller
      * - no auth
