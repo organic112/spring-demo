@@ -1,6 +1,7 @@
-package com.potato112.springdemo.security.userauthsecurity;
+package com.potato112.springdemo.security.userauthsecurity.service;
 
 
+import com.potato112.springdemo.security.userauthsecurity.model.UserDetailsAuthority;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -21,12 +22,13 @@ public class WebSecurityService {
     /**
      * Check if user is authenticated (logged in)
      * Note: AnonymousAuthenticationToken has to be ignored (it is always created)
+     *
      * @return
      */
-    public boolean isUserLoggedIn(){
+    public boolean isUserLoggedIn() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        boolean isLogged = authentication !=null &&
+        boolean isLogged = authentication != null &&
                 !(authentication instanceof AnonymousAuthenticationToken) &&
                 authentication.isAuthenticated();
 
@@ -37,28 +39,28 @@ public class WebSecurityService {
      * Returns if user has access to:
      * - view class (defines access rules as role)
      */
-    public boolean isAccessApproved(Class<?> securedViewClass){
+    public boolean isAccessApproved(Class<?> securedViewClass) {
 
         Secured secured = AnnotationUtils.findAnnotation(securedViewClass, Secured.class);
 
-        if(secured== null){
+        if (secured == null) {
             return true;
         }
-        final List<String> allowedRoles  = Arrays.asList(secured.value());
+        final List<String> allowedRoles = Arrays.asList(secured.value());
         return isAccessApproved(allowedRoles);
     }
 
-    public boolean isAccessApproved(List<String> allowedRoles){
+    public boolean isAccessApproved(List<String> allowedRoles) {
 
         final Authentication userAuth = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = userAuth.getAuthorities();
         return authorities.stream().map(GrantedAuthority::getAuthority).anyMatch(allowedRoles::contains);
     }
 
-    public UserAuthority getUser() {
+    public UserDetailsAuthority getUser() {
 
         SecurityContext securityContext = SecurityContextHolder.getContext();
         final Authentication userAuth = securityContext.getAuthentication();
-        return (UserAuthority) userAuth.getPrincipal();
+        return (UserDetailsAuthority) userAuth.getPrincipal();
     }
 }

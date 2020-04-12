@@ -1,4 +1,4 @@
-package com.potato112.springdemo.crud.repository;
+package com.potato112.springdemo.crud.jpa.services;
 
 import com.potato112.springdemo.crud.model.RentalAgreement;
 import org.springframework.data.domain.Example;
