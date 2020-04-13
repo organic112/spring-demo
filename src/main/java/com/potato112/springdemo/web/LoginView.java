@@ -34,8 +34,10 @@ public class LoginView extends AbstractLoginView implements BeforeEnterObserver 
 
         login = new LoginForm();
         LoginI18n loginMessages = getLoginI18n();
+
         login.setI18n(loginMessages);
         login.setAction("login");
+
         login.addForgotPasswordListener(getForgotPasswordEventComponentEventListener());
         return login;
     }
@@ -68,14 +70,25 @@ public class LoginView extends AbstractLoginView implements BeforeEnterObserver 
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
+
+/*        if(beforeEnterEvent.getNavigationTarget()!=null) {
+            log.info("LL01 before enter event" + beforeEnterEvent.getForwardTarget().toString());
+        }*/
+
         if (webSecurityService.isUserLoggedIn()) {
+
+            log.info("LL01 User logged in reroute to initial site...");
             beforeEnterEvent.forwardTo(OverviewFooView.class);
         }
         Location location = beforeEnterEvent.getLocation();
         QueryParameters queryParameters = location.getQueryParameters();
+
+        log.info("LL01 query path: "+ location.getPathWithQueryParameters());
+
         Map<String, List<String>> parameters = queryParameters.getParameters();
-        List<String> error = parameters.getOrDefault("error", Collections.emptyList());
-        if (!error.isEmpty()) {
+
+        List<String> errors = parameters.getOrDefault("error", Collections.emptyList());
+        if (!errors.isEmpty()) {
             login.setError(true);
         }
     }

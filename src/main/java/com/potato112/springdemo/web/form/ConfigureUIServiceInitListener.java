@@ -27,6 +27,8 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     @Override
     public void serviceInit(ServiceInitEvent event) {
 
+        log.info("XX01 event context: " + event.getSource().getContext().toString());
+
         event.getSource().addUIInitListener(uiEvent -> {
             final UI ui = uiEvent.getUI();
             ui.getPage().retrieveExtendedClientDetails(details
@@ -38,34 +40,33 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 
     private void beforeEnter(BeforeEnterEvent event) {
 
-        log.info("XX01 before enter listener!");
-
         UI ui = event.getUI();
         VaadinSession session = ui.getSession();
         WebBrowser browser = session.getBrowser();
         Class<?> navigationTarget = event.getNavigationTarget();
 
-        if (browser.isEdge() && !navigationTarget.isAssignableFrom(UnsupportedBrowserView.class)) {
+        log.info("XX01 before enter listener! target:" + navigationTarget.getName());
+
+/*        if (browser.isEdge() && !navigationTarget.isAssignableFrom(UnsupportedBrowserView.class)) {
 
             log.info("XX02 before enter listener!");
             event.rerouteTo(UnsupportedBrowserView.class);
-        }
+        }*/
 
-        if (!webSecurityService.isAccessGranted(event.getNavigationTarget())) {
-            log.info("XX03 before enter listener!");
+        if (!webSecurityService.isAccessGranted(navigationTarget)) {
 
+            log.info("XX03 before enter listener! Access to not granted!");
             if (webSecurityService.isUserLoggedIn()) {
 
-                log.info("XX04 before enter listener!");
+                log.info("XX04 before enter listener! logged but acccess not granted, reroute to error");
+
                 event.rerouteToError(NotFoundException.class);
-
             } else {
+                log.info("XX05 before enter listener! User not logged in,  reroute to login page");
 
-                log.info("XX05 before enter listener!");
-                log.info("reroute to login view page...");
                 event.rerouteTo(LoginView.class); // FIXME LoginView.class
             }
         }
-        log.info("XX06 Before enter listener: Access is granted");
+        log.info("XX06 Before enter listener: Access to target is granted: " + navigationTarget.getName());
     }
 }

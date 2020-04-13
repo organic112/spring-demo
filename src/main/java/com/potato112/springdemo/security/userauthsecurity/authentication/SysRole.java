@@ -28,4 +28,15 @@ public class SysRole {
         private OwnerRole() {
         }
     }
+
+    public static String[] getAllRoles() {
+
+        String[] ALL_ROLES = {
+                SpecialistRole.USER,
+                DistributorRole.USER,
+                DistributorRole.MANAGER,
+                OwnerRole.MANAGER,
+                OwnerRole.ADMIN};
+        return ALL_ROLES;
+    }
 }

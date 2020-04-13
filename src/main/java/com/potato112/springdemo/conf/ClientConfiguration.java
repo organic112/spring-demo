@@ -6,6 +6,7 @@ import com.potato112.springdemo.security.userauthsecurity.service.WebSecuritySer
 import feign.RequestInterceptor;
 import feign.codec.ErrorDecoder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.entity.ContentType;
 import org.jboss.logging.Logger;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 
 import java.nio.charset.StandardCharsets;
 
+@Slf4j
 @RequiredArgsConstructor
 public class ClientConfiguration {
 
@@ -42,6 +44,7 @@ public class ClientConfiguration {
     public RequestInterceptor requestInterceptor() {
 
         return requestTemplate -> {
+            log.info("Echo01 request interceptor (request headers setup)");
 
             String auth = techUser + ":" + techPassword;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.US_ASCII));
@@ -52,8 +55,12 @@ public class ClientConfiguration {
             if (!requestTemplate.url().contains("/login/")) {
                 UserDetailsAuthority user = webSecurityService.getUser();
                 UserDetailsVO userDetailsVO = user.getUserDetailsVO();
+
+                // FIXME ! check this if this affects routing (foo = group)
                 String userFooId = userDetailsVO.getSelectedOrganizationId();
                 requestTemplate.header("UserFooContext", userFooId);
+
+                log.info("Echo02 request interceptor (request headers setup)");
             }
         };
     }

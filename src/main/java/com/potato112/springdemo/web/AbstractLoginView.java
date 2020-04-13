@@ -27,6 +27,7 @@ public abstract class AbstractLoginView extends AppLayout implements PageConfigu
         Component mainComponent = buildMainComponent();
         centerLayout.add(mainComponent);
         centerLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        buildFinalView(centerLayout);
     }
 
     private void buildFinalView(HorizontalLayout centerLayout) {

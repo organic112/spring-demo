@@ -10,15 +10,16 @@ public class ExtendedClientDetailsManager {
 
     public void saveExtendedClientDetails(ExtendedClientDetails extendedClientDetails) {
 
-        log.warn("Echo YY01 ExtendedClientDetailsManager");
+        log.info("Echo YY01 ExtendedClientDetailsManager");
 
-        if(null == extendedClientDetails){
-            log.warn("extendedClientDetails are null !");
+        if (null == extendedClientDetails) {
+            log.info("Echo YY02 extendedClientDetails are null !");
         }
         getCurrentSession().setAttribute("extendedClientDetails", extendedClientDetails);
     }
 
     private static VaadinSession getCurrentSession() {
+
         return UI.getCurrent().getSession();
     }
 }

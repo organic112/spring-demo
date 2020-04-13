@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 
 import javax.annotation.PostConstruct;
 
-@PWA(name = "Sys Custom", shortName = "SC")
+//@PWA(name = "Sys Custom", shortName = "SC")
 @Route(value = "", layout = MainView.class)
 @AllArgsConstructor
 public class SimpleTestView extends SysPage {

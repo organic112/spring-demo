@@ -19,16 +19,23 @@
         <java.version>1.8</java.version>
         <vaadin.version>14.0.14</vaadin.version>
     </properties>
+    <repositories>
+        <repository>
+            <id>Jboss Releases</id>
+            <url>http://repository.jboss.org/nexus/content/repositories/releases/</url>
+        </repository>
+
+    </repositories>
 
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
         </dependency>
-<!--        <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session-core</artifactId>
-        </dependency>-->
+        <!--        <dependency>
+                    <groupId>org.springframework.session</groupId>
+                    <artifactId>spring-session-core</artifactId>
+                </dependency>-->
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>flow-server-production-mode</artifactId>
@@ -209,21 +216,21 @@
             <artifactId>jedis</artifactId>
             <version>3.2.0</version>
         </dependency>
-        <dependency>
+<!--        <dependency> FIXME REDIS
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
+        </dependency>-->
 
-        <dependency>
+<!--        <dependency>  FIXME REDIS
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
-        </dependency>
-
-
-<!--        <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session</artifactId>
         </dependency>-->
+
+
+        <!--        <dependency>
+                    <groupId>org.springframework.session</groupId>
+                    <artifactId>spring-session</artifactId>
+                </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -251,6 +258,13 @@
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-httpclient</artifactId>
             <version>10.4.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.seam.security/seam-security -->
+        <dependency>
+            <groupId>org.jboss.seam.security</groupId>
+            <artifactId>seam-security</artifactId>
+            <version>3.2.0.Final</version>
         </dependency>
     </dependencies>
 
@@ -413,17 +427,17 @@
         </profile>
     </profiles>
 
-<!--    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.0.1.RELEASE</version>
-                <configuration>
-                    <executable>true</executable>
-                    <mainClass>com.potato112.springdemo.DemoApp</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>-->
+    <!--    <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>2.0.1.RELEASE</version>
+                    <configuration>
+                        <executable>true</executable>
+                        <mainClass>com.potato112.springdemo.DemoApp</mainClass>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>-->
 </project>
