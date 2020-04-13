@@ -99,6 +99,6 @@ public class SessionControllerTest {
     }
 
     private String getTestUrl() {
-        return "http://localhost:" + port;
+        return "http://localhost:" + port +"/testcontroller";
     }
 }

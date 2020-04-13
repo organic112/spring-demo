@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Handles security and query rights
  */
+@Service
 public class WebSecurityService {
 
     /**
@@ -39,7 +41,7 @@ public class WebSecurityService {
      * Returns if user has access to:
      * - view class (defines access rules as role)
      */
-    public boolean isAccessApproved(Class<?> securedViewClass) {
+    public boolean isAccessGranted(Class<?> securedViewClass) {
 
         Secured secured = AnnotationUtils.findAnnotation(securedViewClass, Secured.class);
 
@@ -47,10 +49,10 @@ public class WebSecurityService {
             return true;
         }
         final List<String> allowedRoles = Arrays.asList(secured.value());
-        return isAccessApproved(allowedRoles);
+        return isAccessGranted(allowedRoles);
     }
 
-    public boolean isAccessApproved(List<String> allowedRoles) {
+    public boolean isAccessGranted(List<String> allowedRoles) {
 
         final Authentication userAuth = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = userAuth.getAuthorities();

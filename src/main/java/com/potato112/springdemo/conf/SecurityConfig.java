@@ -12,11 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * This protects endpoints with basic authentication and sets up a user to test with
  */
-@Configuration
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+/*    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authManagerBuilder) throws Exception {
 
         authManagerBuilder
@@ -31,9 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .httpBasic()
                 .and().authorizeRequests()
-                .antMatchers("/")
+                .antMatchers("/testcontroller")
                 .hasRole("ADMIN")
                 .anyRequest()
                 .authenticated();
-    }
+    }*/
 }

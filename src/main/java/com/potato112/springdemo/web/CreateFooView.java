@@ -4,9 +4,9 @@ import com.potato112.springdemo.crud.jdbc.services.JdbcDocLockDao;
 import com.potato112.springdemo.crud.jdbc.services.RentalCarDAO;
 import com.potato112.springdemo.security.userauthsecurity.authentication.SysRole;
 import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
-import com.potato112.springdemo.web.form.BinderWithValueChangeListener;
-import com.potato112.springdemo.web.form.DefaultLeaveFormAction;
-import com.potato112.springdemo.web.form.FooFormDetailsVO;
+import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
+import com.potato112.springdemo.web.form.listeners.DefaultLeaveFormAction;
+import com.potato112.springdemo.web.form.vo.FooFormDetailsVO;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -16,7 +16,7 @@ import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
 
 
-@Route(value = CreateFooView.ROUTE)
+@Route(value = CreateFooView.ROUTE,  layout = MainView.class)
 @Secured({
         SysRole.SpecialistRole.USER,
         SysRole.DistributorRole.USER,

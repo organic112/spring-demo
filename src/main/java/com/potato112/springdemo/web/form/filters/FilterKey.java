@@ -1,4 +1,4 @@
-package com.potato112.springdemo.web.form;
+package com.potato112.springdemo.web.form.filters;
 
 public enum FilterKey {
 

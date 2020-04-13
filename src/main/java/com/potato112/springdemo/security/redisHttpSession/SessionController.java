@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
  * Example controller that provides String content.
  * When request is made and authenticated user starts new Http session.
  */
-@RestController
+//@RestController
 public class SessionController {
-    @RequestMapping("/")
+    //@RequestMapping("/testcontroller")
     public String helloAdmin() {
         return "hello admin";
     }

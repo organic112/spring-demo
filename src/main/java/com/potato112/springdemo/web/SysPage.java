@@ -20,7 +20,7 @@ public abstract class SysPage extends Div {
     @Getter
     private Component footer;
 
-    protected SysPage(){
+    protected SysPage() {
 
         this.blankPage = new Div();
 
@@ -39,6 +39,34 @@ public abstract class SysPage extends Div {
         blankPage.add(footerContainer);
 
         this.add(blankPage);
+    }
+
+    protected void setHeader(Component newHeader) {
+        this.headerContainer.removeAll();
+        if (null == newHeader) {
+            return;
+        }
+        this.header = newHeader;
+        this.headerContainer.add(newHeader);
+    }
+
+    protected void setContent(Component content) {
+        contentContainer.removeAll();
+
+        if (null == content) {
+            return;
+        }
+        this.content = content;
+        contentContainer.add(content);
+    }
+
+    protected void setFooter(Component newFooter) {
+        this.footerContainer.removeAll();
+        if (null == newFooter) {
+            return;
+        }
+        this.footer = newFooter;
+        this.footerContainer.add(newFooter);
     }
 
 }

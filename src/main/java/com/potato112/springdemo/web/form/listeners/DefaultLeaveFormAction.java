@@ -1,4 +1,4 @@
-package com.potato112.springdemo.web.form;
+package com.potato112.springdemo.web.form.listeners;
 
 import com.vaadin.flow.router.BeforeLeaveEvent;
 

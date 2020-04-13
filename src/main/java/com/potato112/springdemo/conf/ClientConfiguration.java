@@ -1,0 +1,60 @@
+package com.potato112.springdemo.conf;
+
+import com.potato112.springdemo.security.userauthsecurity.UserDetailsVO;
+import com.potato112.springdemo.security.userauthsecurity.model.UserDetailsAuthority;
+import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
+import feign.RequestInterceptor;
+import feign.codec.ErrorDecoder;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.http.entity.ContentType;
+import org.jboss.logging.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
+
+import java.nio.charset.StandardCharsets;
+
+@RequiredArgsConstructor
+public class ClientConfiguration {
+
+    private static final String USER_FOO_CONTEXT_HEADER = "UserFooContext";
+
+    @Value("${spring.security.user.name}")
+    private String techUser;
+    @Value("${spring.security.user.password}")
+    private String techPassword;
+
+    private final WebSecurityService webSecurityService;
+
+
+    @Bean
+    public Logger.Level feignLoggerLevel() {
+        return Logger.Level.DEBUG;
+    }
+
+    @Bean
+    public ErrorDecoder errorDecoder() {
+        return new CustomErrorDecoder();
+    }
+
+    @Bean
+    public RequestInterceptor requestInterceptor() {
+
+        return requestTemplate -> {
+
+            String auth = techUser + ":" + techPassword;
+            byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.US_ASCII));
+            String authHeader = "Basic" + new String(encodedAuth);
+            requestTemplate.header(HttpHeaders.AUTHORIZATION, authHeader);
+            requestTemplate.header(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());
+
+            if (!requestTemplate.url().contains("/login/")) {
+                UserDetailsAuthority user = webSecurityService.getUser();
+                UserDetailsVO userDetailsVO = user.getUserDetailsVO();
+                String userFooId = userDetailsVO.getSelectedOrganizationId();
+                requestTemplate.header("UserFooContext", userFooId);
+            }
+        };
+    }
+}
