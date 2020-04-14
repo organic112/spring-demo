@@ -26,4 +26,9 @@ public class CustomRequestCache extends HttpSessionRequestCache {
             super.saveRequest(request, response);
         }
     }
+
+    @Override
+    public void removeRequest(HttpServletRequest currentRequest, HttpServletResponse response) {
+        super.removeRequest(currentRequest, response);
+    }
 }

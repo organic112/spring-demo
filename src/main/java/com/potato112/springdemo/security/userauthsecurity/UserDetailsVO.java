@@ -3,6 +3,7 @@ package com.potato112.springdemo.security.userauthsecurity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,7 +16,7 @@ public class UserDetailsVO {
     private String email;
     private String password;
     private String selectedOrganizationId;
-    private List<UserGroupVO> userGroups;
+    private List<UserGroupVO> userGroups = new ArrayList<>();
 
 
 }

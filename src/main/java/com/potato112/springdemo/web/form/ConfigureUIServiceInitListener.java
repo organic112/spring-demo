@@ -28,16 +28,21 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     public void serviceInit(ServiceInitEvent event) {
 
         log.info("XX01 event context: " + event.getSource().getContext().toString());
+                // event in vaadin servlet context
 
         event.getSource().addUIInitListener(uiEvent -> {
             final UI ui = uiEvent.getUI();
             ui.getPage().retrieveExtendedClientDetails(
                     details -> new ExtendedClientDetailsManager()
                     .saveExtendedClientDetails(details));
+
             ui.addBeforeEnterListener(this::beforeEnter);
         });
     }
 
+    /**
+     * Checks authorization to navigation target, when invalid redirects to login Page
+     */
     private void beforeEnter(BeforeEnterEvent event) {
 
         UI ui = event.getUI();
@@ -47,13 +52,14 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 
         log.info("XX01 before enter listener! target:" + navigationTarget.getName());
 
-/*        if (browser.isEdge() && !navigationTarget.isAssignableFrom(UnsupportedBrowserView.class)) {
 
-            log.info("XX02 before enter listener!");
-            event.rerouteTo(UnsupportedBrowserView.class);
-        }*/
+        if (!LoginView.class.equals(event.getNavigationTarget()) //
+                && !webSecurityService.isUserLoggedIn()) { //
+            event.rerouteTo(LoginView.class); //
+        }
 
-        if (!webSecurityService.isAccessGranted(navigationTarget)) {
+
+/*        if (!webSecurityService.isAccessGranted(navigationTarget)) {
 
             log.info("XX03 before enter listener! Access to not granted!");
             if (webSecurityService.isUserLoggedIn()) {
@@ -66,7 +72,8 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 
                 event.rerouteTo(LoginView.class); // FIXME LoginView.class
             }
-        }
+        }*/
+
         log.info("XX06 Before enter listener: Access to target is granted: " + navigationTarget.getName());
     }
 }

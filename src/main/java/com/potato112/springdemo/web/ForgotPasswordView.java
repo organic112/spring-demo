@@ -77,7 +77,7 @@ public class ForgotPasswordView extends AbstractLoginView implements BeforeEnter
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
 
         if (webSecurityService.isUserLoggedIn()) {
-            beforeEnterEvent.forwardTo(OverviewFooView.class);
+            beforeEnterEvent.forwardTo(LandingPageExampleView.class);
         }
     }
 

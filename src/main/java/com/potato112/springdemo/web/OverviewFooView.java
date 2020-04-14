@@ -1,5 +1,6 @@
 package com.potato112.springdemo.web;
 
+import com.potato112.springdemo.security.userauthsecurity.authentication.SysRole;
 import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
 import com.potato112.springdemo.web.form.filters.FilterKey;
 import com.potato112.springdemo.web.form.filters.FilteringHelper;
@@ -12,23 +13,26 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * This is example landing page after successful login
+ */
 @Route(value = OverviewFooView.ROUTE, layout = MainView.class)
 /*@Secured({
         SysRole.OwnerRole.ADMIN,
         SysRole.OwnerRole.MANAGER
 })*/
-
 @AllArgsConstructor
 public class OverviewFooView extends SysPage implements HasUrlParameter<String> {
 
     static final FilterKey FILTER_KEY = FilterKey.FOO_OVERVIEW_FILTERS;
-    public static final String ROUTE = "";  // note not "/foo" but default route ""
+    public static final String ROUTE = "foo";  // dont user "/" note not "/foo"  but "foo", and as default route  ""
 
     private final transient WebSecurityService webSecurityService;
     private final FilteringHelper filteringHelper;

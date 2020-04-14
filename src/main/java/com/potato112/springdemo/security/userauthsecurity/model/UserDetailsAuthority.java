@@ -38,7 +38,7 @@ public class UserDetailsAuthority implements UserDetails {
                 .collect(Collectors.toList());
 
         //TODO some logic related to group type
-        GroupType fixmeHardcodedType = GroupType.SPECIALIST;
+        GroupType fixmeHardcodedType = GroupType.OWNER;
 
         return rolesInGroup.stream()
                 .map(role -> new GroupAuthority(fixmeHardcodedType, role.getEnumValue()))

@@ -17,13 +17,13 @@ import org.springframework.security.access.annotation.Secured;
 
 
 @Route(value = CreateFooView.ROUTE,  layout = MainView.class)
-@Secured({
+/*@Secured({
         SysRole.SpecialistRole.USER,
         SysRole.DistributorRole.USER,
         SysRole.DistributorRole.MANAGER,
         SysRole.OwnerRole.MANAGER,
         SysRole.OwnerRole.ADMIN
-})
+})*/
 public class CreateFooView extends SysPage implements BeforeLeaveObserver {
 
     static final String ROUTE = "foo/create";

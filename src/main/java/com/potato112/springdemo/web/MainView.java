@@ -3,45 +3,58 @@ package com.potato112.springdemo.web;
 import com.potato112.springdemo.security.userauthsecurity.authentication.SysRole;
 import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
 import com.vaadin.flow.component.HasElement;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PageConfigurator;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
 
 import java.util.Objects;
 
 @Slf4j
-/*@Secured({
+@Secured({
         SysRole.OwnerRole.ADMIN,
         SysRole.OwnerRole.MANAGER,
         SysRole.DistributorRole.USER,
         SysRole.DistributorRole.MANAGER,
         SysRole.SpecialistRole.USER,
-})*/
+})
 public class MainView extends VerticalLayout implements RouterLayout, PageConfigurator {
 
     private Div contentContainer = new Div();
 
-    public MainView(WebSecurityService webSecurityService){
+    private WebSecurityService webSecurityService;
+
+    public MainView(WebSecurityService webSecurityService) {
         this.setSpacing(false);
 
         log.info("Echo01 Create MainView...");
 
-        Div mainContentWindow = new Div();
+        Label mainViewLayoutTop = new Label("MAIN VIEW LAYOUT, below routed content:");
+        add(mainViewLayoutTop);
 
+        Div mainContentWindow = new Div();
         Div div = new Div();
         div.add(contentContainer);
-
         mainContentWindow.add(div);
         add(mainContentWindow);
 
-        Button button = new Button("test Main View button");
-        add(button);
+
+        Label mainViewLayoutLabel = new Label("mainViewLayoutLabel");
+        Button logoutButton = new Button("LOGOUT");
+
+        logoutButton.addClickListener(buttonClickEvent -> {
+            UI.getCurrent().getSession().getSession().invalidate();
+            UI.getCurrent().navigate(LoginView.class);
+            UI.getCurrent().getPage().reload();
+        });
+
+        add(mainViewLayoutLabel, logoutButton);
     }
 
     @Override

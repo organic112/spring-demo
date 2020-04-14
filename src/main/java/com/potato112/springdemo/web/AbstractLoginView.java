@@ -48,5 +48,7 @@ public abstract class AbstractLoginView extends AppLayout implements PageConfigu
     public void configurePage(InitialPageSettings initialPageSettings) {
 
         // FIXME configure
+        initialPageSettings.addLink("shortcut icon", "icons/favicon.ico");
+        initialPageSettings.addFavIcon("icon", "icons/favicon.ico", "192x192");
     }
 }
