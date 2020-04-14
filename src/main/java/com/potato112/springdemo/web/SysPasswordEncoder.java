@@ -1,5 +1,6 @@
 package com.potato112.springdemo.web;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.seam.security.management.PasswordHash;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,10 +11,14 @@ import java.security.GeneralSecurityException;
 /**
  * encodes raw password to 'hashed password key'
  */
+@Slf4j
 public class SysPasswordEncoder implements PasswordEncoder {
+
 
     @Override
     public String encode(CharSequence rawPassword) {
+
+        log.info("PASS01 encode raw password:" + rawPassword);
 
         if (StringUtils.isBlank(rawPassword)) {
             return null;
@@ -22,7 +27,12 @@ public class SysPasswordEncoder implements PasswordEncoder {
         try {
             char[] passToChar = rawPassword.toString().toCharArray();
             PasswordHash passwordHash = new PasswordHash();
-            return passwordHash.createPasswordKey(passToChar, saltToByte, 100);
+
+            String passKey = passwordHash.createPasswordKey(passToChar, saltToByte, 100);
+
+            log.info("PASS02 encoded to key:" + passKey);
+
+            return passKey;
         } catch (GeneralSecurityException e) {
             return null;
         }
@@ -36,6 +46,5 @@ public class SysPasswordEncoder implements PasswordEncoder {
         String encoded = encode(rawPassword);
         return encoded.equalsIgnoreCase(encodedPassword);
     }
-
 
 }

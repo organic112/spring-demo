@@ -1,20 +1,17 @@
 package com.potato112.springdemo.web;
 
-import com.potato112.springdemo.security.userauthsecurity.authentication.SysRole;
 import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
 import com.potato112.springdemo.web.form.filters.FilterKey;
 import com.potato112.springdemo.web.form.filters.FilteringHelper;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
-import com.vaadin.flow.server.PWA;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.annotation.Secured;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -31,7 +28,7 @@ import java.util.Map;
 public class OverviewFooView extends SysPage implements HasUrlParameter<String> {
 
     static final FilterKey FILTER_KEY = FilterKey.FOO_OVERVIEW_FILTERS;
-    public static final String ROUTE = "/foo"; // note not "/foo" but default route "/"
+    public static final String ROUTE = "";  // note not "/foo" but default route ""
 
     private final transient WebSecurityService webSecurityService;
     private final FilteringHelper filteringHelper;
@@ -42,7 +39,6 @@ public class OverviewFooView extends SysPage implements HasUrlParameter<String> 
         this.webSecurityService = webSecurityService;
         this.filteringHelper = filteringHelper;
         // this.fooGrid = fooGrid;
-
         create();
     }*/
 
@@ -50,6 +46,9 @@ public class OverviewFooView extends SysPage implements HasUrlParameter<String> 
     private void create() {
 
         // Dummy impl
+
+        Div content = new Div();
+
         Button button = new Button("Test Foo Overview button");
         button.setIcon(VaadinIcon.USER.create());
         Label label = new Label("Test label");
@@ -66,7 +65,9 @@ public class OverviewFooView extends SysPage implements HasUrlParameter<String> 
         layout.add(label);
         layout.add(button);
 
-        this.setContent(layout);
+        content.add(layout);
+
+        this.setContent(content);
     }
 
     @Override

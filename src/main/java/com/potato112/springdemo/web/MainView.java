@@ -32,9 +32,14 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
 
         log.info("Echo01 Create MainView...");
 
+        Div mainContentWindow = new Div();
+
         Div div = new Div();
         div.add(contentContainer);
-        add(div);
+
+        mainContentWindow.add(div);
+        add(mainContentWindow);
+
         Button button = new Button("test Main View button");
         add(button);
     }
@@ -47,13 +52,17 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
         Objects.requireNonNull(hasElement);
         Objects.requireNonNull(hasElement.getElement());
 
+        log.info("Echo03 has element: " + hasElement.toString());
+
         contentContainer.removeAll();
         contentContainer.getElement().appendChild(hasElement.getElement());
+
+        log.info("Echo04 added element to content container: " + hasElement.getElement().toString());
     }
 
     @Override
     public void configurePage(InitialPageSettings initialPageSettings) {
 
-        log.info("Echo03 configure page...");
+        log.info("Echo05 configure page...");
     }
 }

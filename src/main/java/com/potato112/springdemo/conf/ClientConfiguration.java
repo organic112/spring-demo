@@ -24,11 +24,11 @@ public class ClientConfiguration {
 
     @Value("${spring.security.user.name}")
     private String techUser;
-    @Value("${spring.security.user.password}")
+
+    @Value("${spring.security.user.passwod")
     private String techPassword;
 
     private final WebSecurityService webSecurityService;
-
 
     @Bean
     public Logger.Level feignLoggerLevel() {
@@ -40,6 +40,9 @@ public class ClientConfiguration {
         return new CustomErrorDecoder();
     }
 
+    /**
+     * Request interceptor for REST client queries
+     */
     @Bean
     public RequestInterceptor requestInterceptor() {
 
@@ -48,17 +51,20 @@ public class ClientConfiguration {
 
             String auth = techUser + ":" + techPassword;
             byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.US_ASCII));
-            String authHeader = "Basic" + new String(encodedAuth);
+            String authHeader = "Basic " + new String(encodedAuth);
+
             requestTemplate.header(HttpHeaders.AUTHORIZATION, authHeader);
             requestTemplate.header(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());
 
+            // add user organization header for requests not related to "/login/"
             if (!requestTemplate.url().contains("/login/")) {
+
                 UserDetailsAuthority user = webSecurityService.getUser();
                 UserDetailsVO userDetailsVO = user.getUserDetailsVO();
 
                 // FIXME ! check this if this affects routing (foo = group)
                 String userFooId = userDetailsVO.getSelectedOrganizationId();
-                requestTemplate.header("UserFooContext", userFooId);
+                requestTemplate.header(USER_FOO_CONTEXT_HEADER, userFooId);
 
                 log.info("Echo02 request interceptor (request headers setup)");
             }

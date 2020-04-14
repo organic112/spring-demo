@@ -15,11 +15,13 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@Route(value = "login")
+@Route(value = LoginView.ROUTE)
 @PageTitle("Login")
 public class LoginView extends AbstractLoginView implements BeforeEnterObserver {
 
-    private LoginForm login;
+    public static final String ROUTE = "login" ;
+    private LoginForm loginForm;
+
 
     private final WebSecurityService webSecurityService;
 
@@ -32,42 +34,15 @@ public class LoginView extends AbstractLoginView implements BeforeEnterObserver 
 
         log.info("Echo01 LoginView build component");
 
-        login = new LoginForm();
+        loginForm = new LoginForm();
         LoginI18n loginMessages = getLoginI18n();
 
-        login.setI18n(loginMessages);
-        login.setAction("login");
+        loginForm.setI18n(loginMessages);
+        loginForm.setAction("login");
+        loginForm.addForgotPasswordListener(getForgotPasswordEventComponentEventListener());
 
-        login.addForgotPasswordListener(getForgotPasswordEventComponentEventListener());
-        return login;
+        return loginForm;
     }
-
-    private ComponentEventListener<AbstractLogin.ForgotPasswordEvent> getForgotPasswordEventComponentEventListener() {
-        return event -> getUI().ifPresent(ui -> ui.getPage().setLocation("forgot-password"));
-    }
-
-    private LoginI18n getLoginI18n() {
-
-        LoginI18n loginMessages = new LoginI18n();
-        LoginI18n.Header header = new LoginI18n.Header();
-        loginMessages.setHeader(header);
-
-        LoginI18n.Form form = new LoginI18n.Form();
-        form.setTitle("login");
-        form.setUsername("Username");
-        form.setPassword("Password");
-        form.setSubmit("Login");
-        form.setForgotPassword("Forgot password");
-        loginMessages.setForm(form);
-
-        LoginI18n.ErrorMessage errorMessage = new LoginI18n.ErrorMessage();
-        errorMessage.setTitle("Invalid user name and password");
-        errorMessage.setMessage("Please enter correct credentials");
-        loginMessages.setErrorMessage(errorMessage);
-        return loginMessages;
-    }
-
-
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
 
@@ -76,10 +51,10 @@ public class LoginView extends AbstractLoginView implements BeforeEnterObserver 
         }*/
 
         if (webSecurityService.isUserLoggedIn()) {
-
             log.info("LL01 User logged in reroute to initial site...");
-            beforeEnterEvent.forwardTo(OverviewFooView.class);
+            beforeEnterEvent.forwardTo(OverviewFooView.class);  // FIXME
         }
+
         Location location = beforeEnterEvent.getLocation();
         QueryParameters queryParameters = location.getQueryParameters();
 
@@ -89,7 +64,38 @@ public class LoginView extends AbstractLoginView implements BeforeEnterObserver 
 
         List<String> errors = parameters.getOrDefault("error", Collections.emptyList());
         if (!errors.isEmpty()) {
-            login.setError(true);
+            loginForm.setError(true);
         }
     }
+
+    private ComponentEventListener<AbstractLogin.ForgotPasswordEvent> getForgotPasswordEventComponentEventListener() {
+        return event -> getUI().ifPresent(ui -> ui.getPage().setLocation(ForgotPasswordView.ROUTE));
+    }
+
+    private LoginI18n getLoginI18n() {
+
+        LoginI18n loginMessages = new LoginI18n();
+
+        LoginI18n.Header header = new LoginI18n.Header();
+        header.setTitle("Sys login title");
+        loginMessages.setHeader(header);
+
+        LoginI18n.Form loginForm = new LoginI18n.Form();
+        loginForm.setTitle("Login title");
+        loginForm.setUsername("Username");
+        loginForm.setPassword("Password");
+        loginForm.setSubmit("Login");
+        loginForm.setForgotPassword("Forgot password");
+        loginMessages.setForm(loginForm);
+
+        LoginI18n.ErrorMessage errorMessage = new LoginI18n.ErrorMessage();
+        errorMessage.setTitle("Invalid user name and password");
+        errorMessage.setMessage("Please enter correct credentials");
+
+        loginMessages.setErrorMessage(errorMessage);
+        return loginMessages;
+    }
+
+
+
 }

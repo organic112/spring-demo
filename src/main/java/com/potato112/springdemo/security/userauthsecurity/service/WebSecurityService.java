@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -36,13 +37,25 @@ public class WebSecurityService {
     public boolean isUserLoggedIn() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        boolean isLogged = authentication != null &&
+        boolean isLogged = null != authentication &&
                 !(authentication instanceof AnonymousAuthenticationToken) &&
                 authentication.isAuthenticated();
 
-        log.info("Echo01 Is user logged in:" + isLogged);
+        if (null == authentication) {
+            log.info("authentiaction is null");
+        }
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            log.info("!! Anonymous token in authentication!");
+        } else {
+            log.info("OK, not anonymus tocken in auth");
+        }
+        log.info("Is authenticated: " + authentication.isAuthenticated());
+        log.info("Echo01 Is user logged in: " + isLogged);
 
+        // FIXME (user not authenticated
         return isLogged;
+
+        // return true;
     }
 
     public static boolean isFrameworkInternalRequest(HttpServletRequest request) {
@@ -91,4 +104,17 @@ public class WebSecurityService {
         final Authentication userAuth = securityContext.getAuthentication();
         return (UserDetailsAuthority) userAuth.getPrincipal();
     }
+
+    public void setAuthToken(UserDetailsAuthority userDetailsAuthority) {
+
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication userAuthentication = securityContext.getAuthentication();
+        UsernamePasswordAuthenticationToken newAuth =
+                new UsernamePasswordAuthenticationToken(userDetailsAuthority, userAuthentication.getCredentials(),
+                        userDetailsAuthority.getAuthorities());
+
+        securityContext.setAuthentication(newAuth);
+    }
+
+
 }

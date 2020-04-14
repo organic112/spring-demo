@@ -5,6 +5,9 @@ import com.vaadin.flow.component.page.ExtendedClientDetails;
 import com.vaadin.flow.server.VaadinSession;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Sets REST client extended details
+ */
 @Slf4j
 public class ExtendedClientDetailsManager {
 

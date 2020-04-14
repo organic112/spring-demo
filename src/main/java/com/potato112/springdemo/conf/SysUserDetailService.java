@@ -46,11 +46,12 @@ public class SysUserDetailService implements UserDetailsService, UserDetailsPass
             throw new RuntimeException("User not found");
         }
         return userByName  */
-        log.info("Get user mocked authority...");
-        return getUserServiceMockedAuthority();
+        log.info("Get mocked authorities by user name");
+        return getUserServiceMockedAuthorityByName();
     }
 
-    private UserDetailsAuthority getUserServiceMockedAuthority() {
+    // MOCKED AUTHORITIES form WebSecurityService
+    private UserDetailsAuthority getUserServiceMockedAuthorityByName() {
 
         UserDetailsAuthority userDetailsAuthority = new UserDetailsAuthority();
 
@@ -60,7 +61,7 @@ public class SysUserDetailService implements UserDetailsService, UserDetailsPass
 
         UserDetailsVO userDetailsVO = new UserDetailsVO();
         userDetailsVO.setEmail("admin"); //test@email.com
-        userDetailsVO.setPassword("xxx");
+        userDetailsVO.setPassword("98ACDA0612B5263009C0E9F605F6844B8DAFF5AE");
         userDetailsVO.setFirstName("admin");
         userDetailsVO.setLastName("admin");
         userDetailsVO.setUserGroups(Arrays.asList(userGroupVO));
