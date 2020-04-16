@@ -31,7 +31,7 @@ import java.util.List;
 public class BulkActionResult extends BaseEntity {
 
     @Id
-    @Column(name = "bulkactions_id")
+    @Column(name = "bulkactions_id", length = 50)
     @GeneratedValue(generator = "seq_id")
     @GenericGenerator(name = "seq_id", strategy = "identity")
     private String id;

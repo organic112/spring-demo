@@ -53,13 +53,13 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
         log.info("XX01 before enter listener! target:" + navigationTarget.getName());
 
 
-        if (!LoginView.class.equals(event.getNavigationTarget()) //
+/*        if (!LoginView.class.equals(event.getNavigationTarget()) //
                 && !webSecurityService.isUserLoggedIn()) { //
             event.rerouteTo(LoginView.class); //
-        }
+        }*/
 
 
-/*        if (!webSecurityService.isAccessGranted(navigationTarget)) {
+        if (!webSecurityService.isAccessGranted(navigationTarget)) {
 
             log.info("XX03 before enter listener! Access to not granted!");
             if (webSecurityService.isUserLoggedIn()) {
@@ -72,7 +72,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 
                 event.rerouteTo(LoginView.class); // FIXME LoginView.class
             }
-        }*/
+        }
 
         log.info("XX06 Before enter listener: Access to target is granted: " + navigationTarget.getName());
     }

@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class BulkActionResultMessage extends BaseEntity {
 
     @Id
-    @Column(name = "bulkactions_results_id")
+    @Column(name = "bulkactions_results_id", length = 50)
     @GeneratedValue(generator = "seq_id")
     @GenericGenerator(name = "seq_id", strategy = "identity")
     private String id;

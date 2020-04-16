@@ -41,9 +41,6 @@ public abstract class AbstractLoginView extends AppLayout implements PageConfigu
         getElement().appendChild(mainLayout.getElement());
     }
 
-    // TODO create header, footer etc.
-
-
     @Override
     public void configurePage(InitialPageSettings initialPageSettings) {
 
@@ -51,4 +48,6 @@ public abstract class AbstractLoginView extends AppLayout implements PageConfigu
         initialPageSettings.addLink("shortcut icon", "icons/favicon.ico");
         initialPageSettings.addFavIcon("icon", "icons/favicon.ico", "192x192");
     }
+
+    // TODO create header, footer etc.
 }

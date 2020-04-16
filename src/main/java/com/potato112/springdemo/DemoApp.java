@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
-@EnableFeignClients //FIXME auth stopped working
+@EnableFeignClients
 public class DemoApp {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DemoApp.class);

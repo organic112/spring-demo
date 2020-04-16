@@ -14,18 +14,6 @@ services:
     networks:
       - trade_network
 
-#  broker:
-#    container_name: "demo-crud"
-#    build: ./demo-crud
-#    depends_on:
-#      - demo-db
-#    tty: true
-#    volumes:
-#      - ../../../xxx:/opt/xxx
-#    command: ["bash","-c","java -jar opt/xxx/demo/target/demo-2.0-SNAPSHOT.jar docker live"]
-#    networks:
-#      - trade_network
-
 networks:
   trade_network:
     driver: bridge
