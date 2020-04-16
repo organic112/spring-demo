@@ -33,7 +33,7 @@ import static com.potato112.springdemo.web.LandingPageExampleView.ROUTE;
 })
 public class LandingPageExampleView extends SysPage implements BeforeEnterObserver {
 
-    public static final String ROUTE = "landing";
+    public static final String ROUTE = "";
 
     @PostConstruct
     public void init() {

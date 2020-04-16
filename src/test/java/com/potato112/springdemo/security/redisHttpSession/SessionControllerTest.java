@@ -1,3 +1,4 @@
+/*
 package com.potato112.springdemo.security.redisHttpSession;
 
 import com.potato112.springdemo.conf.TestRedisConfiguration;
@@ -19,9 +20,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
+*/
 /**
  * note Redis server for tests is configured in TestRedisConfiguration
- */
+ *//*
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestRedisConfiguration.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SessionControllerTest {
@@ -32,12 +35,14 @@ public class SessionControllerTest {
     private TestRestTemplate testRestTemplateNoAuth;
     private TestRestTemplate testRestTemplateAuthenticated;
 
-    /**
+    */
+/**
      * 1. Create Rest client with template, to start Http session on rest controller
      * - no auth
      * - with auth (username and pass for basic auth - valid credentials configured in SecurityConfig)
      * 2. Create Jedis client to use Redis session storage.
-     */
+     *//*
+
     @Before
     public void init() {
         testRestTemplateNoAuth = new TestRestTemplate();
@@ -101,4 +106,4 @@ public class SessionControllerTest {
     private String getTestUrl() {
         return "http://localhost:" + port +"/testcontroller";
     }
-}
+}*/
