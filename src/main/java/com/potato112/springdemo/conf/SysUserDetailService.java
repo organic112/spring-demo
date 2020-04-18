@@ -2,7 +2,6 @@ package com.potato112.springdemo.conf;
 
 
 import com.potato112.springdemo.security.userauthsecurity.model.UserDetailsAuthority;
-import com.potato112.springdemo.security.userauthsecurity.service.SysUserService;
 import com.potato112.springdemo.security.userauthsecurity.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

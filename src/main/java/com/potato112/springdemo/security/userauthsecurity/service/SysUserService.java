@@ -1,3 +1,4 @@
+/*
 package com.potato112.springdemo.security.userauthsecurity.service;
 
 
@@ -12,9 +13,11 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
+*/
 /*
 no used to remove
- */
+ *//*
+
 
 @Slf4j
 //@Service
@@ -42,6 +45,7 @@ public class SysUserService implements UserService {
         List<Roles> roles = Arrays.asList(Roles.ADMIN, Roles.MANAGER, Roles.USER);
         userGroupVO.setRoles(roles);
 
+*/
 /*        UserDetailsVO userDetailsVO = new UserDetailsVO();
         userDetailsVO.setEmail("admin"); //test@email.com
         userDetailsVO.setPassword("98ACDA0612B5263009C0E9F605F6844B8DAFF5AE");
@@ -52,10 +56,12 @@ public class SysUserService implements UserService {
         userDetailsVO.setSelectedOrganizationId("aaabbbcccddd"); // FIXME
         userDetailsAuthority.setUserDetailsVO(userDetailsVO);
 
-        log.info("Try for user login(e-mail): " + userDetailsVO.getEmail());*/
+        log.info("Try for user login(e-mail): " + userDetailsVO.getEmail());*//*
+
 
         return userDetailsAuthority;
     }
 }
 
 
+*/
