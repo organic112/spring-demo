@@ -18,9 +18,10 @@ public class UserDetailsAuthority implements UserDetails {
 
     private UserDetailsVO userDetailsVO;
     private boolean accountNotExpired;
-    private boolean accountNotLocket;
+    private boolean accountNotLocked;
     private boolean credentialsNotExpired;
     private boolean enabled;
+
 
     /**
      * Returns list of authorities granted with Roles from user groups.

@@ -3,6 +3,7 @@ package com.potato112.springdemo.conf;
 
 import com.potato112.springdemo.security.userauthsecurity.model.UserDetailsAuthority;
 import com.potato112.springdemo.security.userauthsecurity.service.SysUserService;
+import com.potato112.springdemo.security.userauthsecurity.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,10 +20,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysUserDetailService implements UserDetailsService, UserDetailsPasswordService {
 
-    // TODO some UsersService
-    private SysUserService userService;
 
-    public SysUserDetailService(SysUserService userService) {
+    private UserService userService;
+
+    public SysUserDetailService(UserService userService) {
         this.userService = userService;
     }
 

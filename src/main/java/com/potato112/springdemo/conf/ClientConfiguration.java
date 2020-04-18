@@ -25,7 +25,7 @@ public class ClientConfiguration {
     @Value("${spring.security.user.name}")
     private String techUser;
 
-    @Value("${spring.security.user.passwod")
+    @Value("${spring.security.user.password}")
     private String techPassword;
 
     private final WebSecurityService webSecurityService;

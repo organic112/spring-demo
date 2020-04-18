@@ -52,7 +52,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         log.info("Echo01 security login configuration");
-
         http.csrf().disable()
                 .requestCache().requestCache(new CustomRequestCache()) // saves only not Vaadin requests
                 .and().authorizeRequests() // authorize all requests
