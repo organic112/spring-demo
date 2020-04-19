@@ -4,6 +4,7 @@ package com.potato112.springdemo.security.userauthsecurity.service;
 import com.potato112.springdemo.conf.ClientConfiguration;
 import com.potato112.springdemo.security.userauthsecurity.model.UserDetailsAuthority;
 import com.potato112.springdemo.web.ui.OffsetResponseVo;
+import com.potato112.springdemo.web.ui.UserFormParametersVo;
 import com.potato112.springdemo.web.ui.UserOverviewResponseVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
@@ -26,5 +27,8 @@ public interface JSONUserClient {
 
     @GetMapping(value = "/api/v1/user", produces = MediaType.APPLICATION_JSON_VALUE)
     OffsetResponseVo<UserOverviewResponseVo> getUsers(@SpringQueryMap Map<String, String> params);
+
+    @GetMapping(value = "/api/v1/user/create-parameters", produces = MediaType.APPLICATION_JSON_VALUE)
+    UserFormParametersVo getUserParameters();
 
 }

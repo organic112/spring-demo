@@ -41,7 +41,7 @@ public class UserGridFactory {
                 query -> userService.getUsers(QueryUtils.buildSearchVo(query, filters)).stream(),
                 query -> userService.count(QueryUtils.buildSearchVoForCountQuery(query, filters))
         );
-
+        userGrid.setPageSize(10);
         userGrid.setDataProvider(provider);
         userGrid.addSortListener(event -> sortingHelper.setSortingInSession(event, SortingKey.USER_SORTING));
         return userGrid;

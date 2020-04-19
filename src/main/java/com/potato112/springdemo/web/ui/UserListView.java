@@ -70,13 +70,9 @@ public class UserListView extends SysPage {
         } else  {
             confirmDeletion();
         }
-
     }
 
     private void confirmDeletion() {
-
         // TODO confirmation dialog
     }
-
-
 }

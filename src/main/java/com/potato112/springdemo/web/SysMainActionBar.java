@@ -25,6 +25,14 @@ public class SysMainActionBar extends Div {
         return this.primaryButton;
     }
 
+
+    public Button configureSecondaryActionBar(String text, Runnable action) {
+
+        this.secondaryButton = new SysButtonFactory().createSecondaryButton(text);
+        setButtonInSlot(secondaryButtonContainer, secondaryButton, action);
+        return this.secondaryButton;
+    }
+
     private void setButtonInSlot(Div slot, Button button, Runnable action) {
         slot.removeAll();
         button.addClickListener(event -> action.run());

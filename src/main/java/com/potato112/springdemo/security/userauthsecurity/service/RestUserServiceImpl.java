@@ -2,12 +2,14 @@ package com.potato112.springdemo.security.userauthsecurity.service;
 
 import com.potato112.springdemo.security.userauthsecurity.model.UserDetailsAuthority;
 import com.potato112.springdemo.web.ui.OffsetResponseVo;
+import com.potato112.springdemo.web.ui.UserFormParametersVo;
 import com.potato112.springdemo.web.ui.UserOverviewResponseVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
-
+@Slf4j
 @Service
 public class RestUserServiceImpl implements UserService {
 
@@ -28,6 +30,8 @@ public class RestUserServiceImpl implements UserService {
     @Override
     public String create(UserVo userVo) {
 
+        log.info("try insert user with id:" + userVo.getId());
+
         return this.jsonUserClient.create(userVo);
     }
 
@@ -46,5 +50,10 @@ public class RestUserServiceImpl implements UserService {
     public int count(OffsetSearchVo searchVo) {
         OffsetResponseVo<UserOverviewResponseVo> response = getForSearch(searchVo);
         return (int) response.getOffsetInfo().getTotal();
+    }
+
+    @Override
+    public UserFormParametersVo getUserFromParameters() {
+        return this.jsonUserClient.getUserParameters();
     }
 }

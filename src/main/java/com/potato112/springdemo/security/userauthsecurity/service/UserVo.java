@@ -10,10 +10,13 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+/**
+ * Provides validation for user from
+ */
 @Getter
 @Setter
 @NoArgsConstructor
-//@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserVo implements Serializable {
 
     public static final class AttributeName {

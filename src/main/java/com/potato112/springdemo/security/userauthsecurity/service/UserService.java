@@ -1,6 +1,7 @@
 package com.potato112.springdemo.security.userauthsecurity.service;
 
 import com.potato112.springdemo.security.userauthsecurity.model.UserDetailsAuthority;
+import com.potato112.springdemo.web.ui.UserFormParametersVo;
 import com.potato112.springdemo.web.ui.UserOverviewResponseVo;
 
 import java.util.Collection;
@@ -25,5 +26,5 @@ public interface UserService {
 
     int count(OffsetSearchVo searchVo);
 
-
+    UserFormParametersVo getUserFromParameters();
 }
