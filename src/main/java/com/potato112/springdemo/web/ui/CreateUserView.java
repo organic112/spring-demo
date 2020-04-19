@@ -32,6 +32,8 @@ public class CreateUserView extends SysPage implements BeforeLeaveObserver {
     }
 
     private void configureCreateUserView() {
+
+        saveButton = new Button("SAVE");
         // back button
         // header
         // footer

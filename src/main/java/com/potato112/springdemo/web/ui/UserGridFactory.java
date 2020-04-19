@@ -25,6 +25,7 @@ public class UserGridFactory {
         SysGridHelper.initializeGridStyle(userGrid);
 
         userGrid.setSelectionMode(Grid.SelectionMode.MULTI);
+        userGrid.setWidth("900px");
         userGrid.addSelectionListener(selectionEvent -> {
         });  // FIXME empty?
 
