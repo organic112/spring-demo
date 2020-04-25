@@ -1,4 +1,4 @@
-package com.potato112.springdemo.jms.doclock;
+package com.potato112.springdemo.jms.crud;
 
 
 import javax.persistence.criteria.CriteriaQuery;

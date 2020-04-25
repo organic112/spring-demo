@@ -1,6 +1,5 @@
 package com.potato112.springdemo.jms.crud;
 
-import com.potato112.springdemo.jms.doclock.ReadService;
 import org.hibernate.FlushMode;
 
 /**
