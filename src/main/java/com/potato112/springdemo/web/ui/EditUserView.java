@@ -1,5 +1,6 @@
 package com.potato112.springdemo.web.ui;
 
+import com.potato112.springdemo.security.userauthsecurity.authentication.SysView;
 import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.SysPage;
 import com.vaadin.flow.router.*;
@@ -8,8 +9,13 @@ import com.vaadin.flow.router.*;
 public class EditUserView extends SysPage implements HasUrlParameter<String>, BeforeLeaveObserver {
 
     public static final String ROUTE = "user/edit";
-
+    public static final String VIEW_NAME = SysView.FooBusinessArea.FOO_OVERVIEW_VIEW;
     // private UserService userService;
+
+    @Override
+    protected String getViewName() {
+        return VIEW_NAME;
+    }
 
 
     @Override

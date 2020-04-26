@@ -18,17 +18,14 @@ import org.springframework.security.access.annotation.Secured;
 
 @Route(value = CreateFooView.ROUTE,  layout = MainView.class)
 @Secured({
-
         SysView.FooBusinessArea.FOO_OVERVIEW_VIEW,
         SysView.AdministrationArea.USER_VIEW
-/*        SysView.FooBusinessArea.MANAGER,*/
-        // mocked user should not pass
-/*        SysRole.OwnerRole.MANAGER,
-        SysRole.OwnerRole.ADMIN*/
 })
 public class CreateFooView extends SysPage implements BeforeLeaveObserver {
 
     static final String ROUTE = "foo/create";
+    public static final String VIEW_NAME = SysView.FooBusinessArea.FOO_OVERVIEW_VIEW;
+
     private static final Class<OverviewFooView> BACK_NAVIGATION_TARGET = OverviewFooView.class;
     private static final Class<EditFooView> EDIT_VIEW = EditFooView.class;
 
@@ -54,6 +51,11 @@ public class CreateFooView extends SysPage implements BeforeLeaveObserver {
     private void create() {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(button);
+    }
+
+    @Override
+    protected String getViewName() {
+        return VIEW_NAME;
     }
 
     @Override

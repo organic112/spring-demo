@@ -1,9 +1,8 @@
 package com.potato112.springdemo.web.ui;
 
-import com.potato112.springdemo.security.userauthsecurity.model.UserDetailsAuthority;
+import com.potato112.springdemo.security.userauthsecurity.model.UserAuthority;
 import com.potato112.springdemo.security.userauthsecurity.service.UserService;
 import com.potato112.springdemo.security.userauthsecurity.service.UserVo;
-import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
@@ -16,10 +15,11 @@ public class UserGridFactory {
 
 
     private static final SortingKey SORTING_KEY = SortingKey.USER_SORTING;
+    private UserAuthority userAuthority;
 
+    Grid<UserOverviewResponseVo> create(UserService userService, UserAuthority userAuthority, Map<String, String> filters) {
 
-    Grid<UserOverviewResponseVo> create(UserService userService, WebSecurityService securityService, Map<String, String> filters) {
-
+        this.userAuthority = userAuthority;
         SortingHelper<UserOverviewResponseVo> sortingHelper = new SortingHelper<>();
         Grid<UserOverviewResponseVo> userGrid = new Grid<>(UserOverviewResponseVo.class);
         SysGridHelper.initializeGridStyle(userGrid);
@@ -31,7 +31,9 @@ public class UserGridFactory {
 
         buildColumns(userGrid);
 
-        UserDetailsAuthority userDetailsAuthority = securityService.getUser();
+        //UserDetailsAuthority userDetailsAuthority = securityService.getUser();
+
+
         //UserGroupVO userGroup = userDetailsAuthority.getAuthorities().g
         //filters.put("userGroupId", userGroup.getId());
 
@@ -77,7 +79,9 @@ public class UserGridFactory {
         lockedColumn.setKey(UserVo.AttributeName.LOCKED);
         lockedColumn.setHeader(headerFactory.createActionsHeader("Locked"));
 
-        new CommonGridColumnFactory().addActionColumn(userGrid, this::navigateToEditView);
+        if (getUserEditPermission()) {
+            new CommonGridColumnFactory(userAuthority).addActionColumn(userGrid, this::navigateToEditView);
+        }
 
         userGrid.setSortableColumns(UserVo.AttributeName.EMAIL, UserVo.AttributeName.FIRST_NAME, UserVo.AttributeName.LAST_NAME,
                 UserVo.AttributeName.PHONE, UserVo.AttributeName.LOCKED);
@@ -86,4 +90,9 @@ public class UserGridFactory {
     private void navigateToEditView(UserOverviewResponseVo user) {
         UI.getCurrent().navigate(EditUserView.class, user.getId());
     }
+
+    boolean getUserEditPermission() {
+        return null != userAuthority && userAuthority.canUpdate();
+    }
+
 }

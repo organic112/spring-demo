@@ -1,7 +1,8 @@
 package com.potato112.springdemo.web.ui;
 
+import com.potato112.springdemo.security.userauthsecurity.UserAuthService;
+import com.potato112.springdemo.security.userauthsecurity.authentication.SysView;
 import com.potato112.springdemo.security.userauthsecurity.service.UserService;
-import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
 import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.SysButtonFactory;
 import com.potato112.springdemo.web.SysPage;
@@ -12,32 +13,42 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.selection.SelectionEvent;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.HashSet;
 import java.util.Map;
+
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Route(value = UserListView.ROUTE, layout = MainView.class)
+@Secured(value = UserListView.VIEW_NAME)
 public class UserListView extends SysPage {
 
     public static final String ROUTE = "user";
+    public static final String VIEW_NAME = SysView.AdministrationArea.USER_VIEW;
 
     private final transient UserService userService;
-
     private final Grid<UserOverviewResponseVo> usersGrid;
-
     private Set<String> selectedUsersIdRows;
+
+    @Override
+    protected String getViewName(){
+        return UserListView.VIEW_NAME;
+    }
 
     // search
     // map filters
     private final Map<String, String> filters;
 
-    public UserListView(UserService userService, WebSecurityService securityService, FilteringHelper filteringHelper){
+    public UserListView(UserService userService, UserAuthService userAuthService, FilteringHelper filteringHelper) {
+
+        this.userAuthService = userAuthService;
+        initUserCUDAuthorization();
 
         this.userService = userService;
         this.filters = filteringHelper.loadFilters(FilterKey.USER_FILTERS);
-        this.usersGrid = new UserGridFactory().create(this.userService, securityService, filters);
+        this.usersGrid = new UserGridFactory().create(this.userService, userAuthority, filters);
         this.usersGrid.addSelectionListener(this::getSelectedUserIds);
         this.selectedUsersIdRows = new HashSet<>();
 
@@ -56,7 +67,7 @@ public class UserListView extends SysPage {
         this.setContent(content);
     }
 
-    private void getSelectedUserIds(SelectionEvent<Grid<UserOverviewResponseVo>, UserOverviewResponseVo> gridUserVoSelectionEvent){
+    private void getSelectedUserIds(SelectionEvent<Grid<UserOverviewResponseVo>, UserOverviewResponseVo> gridUserVoSelectionEvent) {
 
         this.selectedUsersIdRows = gridUserVoSelectionEvent.getAllSelectedItems().stream()
                 .map(UserOverviewResponseVo::getId)
@@ -65,9 +76,9 @@ public class UserListView extends SysPage {
 
     private void deleteSelectedUsers() {
 
-        if(this.selectedUsersIdRows.isEmpty()){
+        if (this.selectedUsersIdRows.isEmpty()) {
             // TODO notification
-        } else  {
+        } else {
             confirmDeletion();
         }
     }

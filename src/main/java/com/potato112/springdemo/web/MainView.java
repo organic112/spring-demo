@@ -1,9 +1,8 @@
 package com.potato112.springdemo.web;
 
+import com.potato112.springdemo.security.userauthsecurity.UserAuthService;
 import com.potato112.springdemo.security.userauthsecurity.authentication.SysView;
-import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
 import com.vaadin.flow.component.HasElement;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
@@ -16,23 +15,16 @@ import org.springframework.security.access.annotation.Secured;
 
 import java.util.Objects;
 
+
+
 @Slf4j
-@Secured({
-
-        SysView.FooBusinessArea.FOO_OVERVIEW_VIEW
-
-/*        SysView.OwnerRole.ADMIN,
-        SysView.OwnerRole.MANAGER,
-        SysView.FooBusinessArea.MANAGER,
-        SysView.AuthorizationArea.USER_VIEW,*/
-})
 public class MainView extends VerticalLayout implements RouterLayout, PageConfigurator {
 
     private Div contentContainer = new Div();
 
-    private WebSecurityService webSecurityService;
+    public MainView(UserAuthService userAuthService) {
 
-    public MainView(WebSecurityService webSecurityService) {
+
         this.setSpacing(false);
 
         log.info("Echo01 Create MainView...");
@@ -51,9 +43,12 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
         Button logoutButton = new Button("LOGOUT");
 
         logoutButton.addClickListener(buttonClickEvent -> {
+
+            userAuthService.invalidateUserSession();
+/*
             UI.getCurrent().getSession().getSession().invalidate();
             UI.getCurrent().navigate(LoginView.class);
-            UI.getCurrent().getPage().reload();
+            UI.getCurrent().getPage().reload();*/
         });
 
         add(mainViewLayoutLabel, logoutButton);

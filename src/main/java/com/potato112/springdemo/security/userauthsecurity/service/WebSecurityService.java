@@ -73,29 +73,32 @@ public class WebSecurityService {
      * Returns if user has access to:
      * - view class (defines access rules as role)
      */
-    public boolean isAccessGranted(Class<?> securedViewClass) {
+    public boolean isAccessGranted(Class<?> securedViewTargetClass) {
 
-        Secured secured = AnnotationUtils.findAnnotation(securedViewClass, Secured.class);
+        Secured secured = AnnotationUtils.findAnnotation(securedViewTargetClass, Secured.class);
 
         if (secured == null) {
             return true;
         }
-        final List<String> securedViewNames = Arrays.asList(secured.value());
-        boolean isAccessGranted = isAccessGranted(securedViewNames);
+
+
+
+        final List<String> securedPageViewNames = Arrays.asList(secured.value());
+        boolean isAccessGranted = isAccessGranted(securedPageViewNames);
 
         log.info("Echo02 Check is framework internal request:" + isAccessGranted);
         return isAccessGranted;
     }
 
-    public boolean isAccessGranted(List<String> allowedViews) {
+    public boolean isAccessGranted(List<String> securedPageViewNames) {
 
         final Authentication userAuth = userAuthService.getAuthentication();
 
         if (null != userAuth) {
             log.info("AA01 user auth: " + userAuth.getName());
 
-            Collection<? extends GrantedAuthority> authorities = userAuth.getAuthorities();
-            return authorities.stream().map(GrantedAuthority::getAuthority).anyMatch(allowedViews::contains);
+            Collection<? extends GrantedAuthority> userGrantedAuthorities = userAuth.getAuthorities();
+            return userGrantedAuthorities.stream().map(GrantedAuthority::getAuthority).anyMatch(securedPageViewNames::contains);
 
         } else {
             log.info("AA02 user auth is null");

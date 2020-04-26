@@ -1,5 +1,7 @@
 package com.potato112.springdemo.web.ui;
 
+import com.potato112.springdemo.security.userauthsecurity.ViewName;
+import com.potato112.springdemo.security.userauthsecurity.authentication.SysView;
 import com.potato112.springdemo.security.userauthsecurity.model.UserDetailsAuthority;
 import com.potato112.springdemo.security.userauthsecurity.service.UserService;
 import com.potato112.springdemo.security.userauthsecurity.service.UserVo;
@@ -19,6 +21,8 @@ import com.vaadin.flow.router.Route;
 public class CreateUserView extends SysPage implements BeforeLeaveObserver {
 
     static final String ROUTE = "user/create";
+    public static final String VIEW_NAME = SysView.FooBusinessArea.FOO_OVERVIEW_VIEW;
+
 
     private static final Class<EditUserView> EDIT_VIEW = EditUserView.class;
 
@@ -26,6 +30,11 @@ public class CreateUserView extends SysPage implements BeforeLeaveObserver {
     private final transient UserService userService;
     private Button saveButton;
     private UserForm userForm;
+
+    @Override
+    protected String getViewName() {
+        return VIEW_NAME;
+    }
 
     public CreateUserView(UserService userService, WebSecurityService webSecurityService) {
 

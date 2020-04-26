@@ -36,7 +36,7 @@ public class UserDetailsAuthority implements UserDetails {
                 .collect(Collectors.toList());
 
         return allUserGroupPermissions.stream()
-                .map(groupPermissionVO -> new UserGroupsAuthority(groupPermissionVO))
+                .map(groupPermissionVO -> new UserAuthority(groupPermissionVO))
                 .collect(Collectors.toList());
     }
 

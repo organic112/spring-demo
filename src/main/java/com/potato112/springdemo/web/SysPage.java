@@ -1,12 +1,30 @@
 package com.potato112.springdemo.web;
 
+import com.potato112.springdemo.security.userauthsecurity.UserAuthService;
+import com.potato112.springdemo.security.userauthsecurity.authentication.SysView;
+import com.potato112.springdemo.security.userauthsecurity.model.UserAuthority;
+import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.PostConstruct;
+import java.util.List;
+import java.util.Optional;
+
+@Slf4j
 @Tag("sys-page")
+//@AllArgsConstructor
 public abstract class SysPage extends Div {
+
+
+    protected UserAuthService userAuthService;
+    protected UserAuthority userAuthority;
 
     private Div blankPage;
     private Div headerContainer;
@@ -20,6 +38,25 @@ public abstract class SysPage extends Div {
     @Getter
     private Component footer;
 
+    /**
+     * Checks user CRUD (CUD) permissions for current ViewName
+     * IF no CUD permissions fetched sets all CUD permissions to false (read only)
+     */
+    protected void initUserCUDAuthorization() {
+        Optional<UserAuthority> userAuthorityOp = userAuthService.getGrantedAuthorityByViewName(getViewName());
+        System.out.println("INIT01 USER AUTHORITY INITIALIZATION EXISTS:" + userAuthorityOp.isPresent());
+        if (!userAuthorityOp.isPresent()) {
+            log.info("User authority not found for view name:" + getViewName());
+            userAuthService.invalidateUserSession();
+        } else {
+            this.userAuthority = userAuthorityOp.get();
+        }
+    }
+
+    // provides view name for user access authorization
+    protected abstract String getViewName();
+
+    // default constructor without injections should be provided
     protected SysPage() {
 
         this.blankPage = new Div();

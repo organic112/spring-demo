@@ -18,16 +18,17 @@ import org.springframework.security.access.annotation.Secured;
 
 import javax.annotation.PostConstruct;
 
-import static com.potato112.springdemo.web.LandingPageExampleView.ROUTE;
+
 
 @PWA(name = "Sys Custom", shortName = "SC")
-@Route(value = ROUTE, layout = MainView.class)
+@Route(value = LandingPageExampleView.ROUTE, layout = MainView.class)
+@Secured(value = LandingPageExampleView.VIEW_NAME)
 @RouteAlias(value = "", layout = MainView.class)
-@Secured(value = SysView.FooBusinessArea.FOO_OVERVIEW_VIEW)
 @AllArgsConstructor
 public class LandingPageExampleView extends SysPage implements BeforeEnterObserver {
 
     public static final String ROUTE = "";
+    public static final String VIEW_NAME = "OTHER"; // not registered view_name - no access
 
     @PostConstruct
     public void init() {
@@ -46,6 +47,11 @@ public class LandingPageExampleView extends SysPage implements BeforeEnterObserv
         content.add(layout);
 
         this.setContent(content);
+    }
+
+    @Override
+    protected String getViewName() {
+        return VIEW_NAME;
     }
 
     @Override
