@@ -2,7 +2,7 @@ package com.potato112.springdemo.web;
 
 import com.potato112.springdemo.crud.jdbc.services.JdbcDocLockDao;
 import com.potato112.springdemo.crud.jdbc.services.RentalCarDAO;
-import com.potato112.springdemo.security.userauthsecurity.authentication.SysRole;
+import com.potato112.springdemo.security.userauthsecurity.authentication.SysView;
 import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 import com.potato112.springdemo.web.form.listeners.DefaultLeaveFormAction;
@@ -18,9 +18,10 @@ import org.springframework.security.access.annotation.Secured;
 
 @Route(value = CreateFooView.ROUTE,  layout = MainView.class)
 @Secured({
-        SysRole.SpecialistRole.USER,
-        SysRole.DistributorRole.USER,
-        SysRole.DistributorRole.MANAGER,
+
+        SysView.FooBusinessArea.FOO_OVERVIEW_VIEW,
+        SysView.AdministrationArea.USER_VIEW
+/*        SysView.FooBusinessArea.MANAGER,*/
         // mocked user should not pass
 /*        SysRole.OwnerRole.MANAGER,
         SysRole.OwnerRole.ADMIN*/

@@ -1,6 +1,5 @@
 package com.potato112.springdemo.web;
 
-import com.potato112.springdemo.security.userauthsecurity.authentication.SysRole;
 import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
 import com.potato112.springdemo.web.form.filters.FilterKey;
 import com.potato112.springdemo.web.form.filters.FilteringHelper;
@@ -13,7 +12,6 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.annotation.Secured;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;

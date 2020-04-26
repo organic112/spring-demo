@@ -1,6 +1,6 @@
 package com.potato112.springdemo.conf;
 
-import com.potato112.springdemo.security.userauthsecurity.authentication.SysRole;
+import com.potato112.springdemo.security.userauthsecurity.authentication.SysView;
 
 import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
 import com.potato112.springdemo.web.CustomRequestCache;
@@ -57,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests() // authorize all requests
                 .requestMatchers(WebSecurityService::isFrameworkInternalRequest).permitAll() // pass all internal requests
                 .antMatchers("/forgot-password").permitAll()
-                .anyRequest().hasAnyAuthority(SysRole.getAllRoles())
+                .anyRequest().hasAnyAuthority(SysView.getAllViews())
                 .and()
                 .formLogin().loginPage("/" + LoginView.ROUTE).permitAll()
                 .loginProcessingUrl("/" + LoginView.ROUTE).failureUrl("/" + LoginView.ROUTE + "/?error")

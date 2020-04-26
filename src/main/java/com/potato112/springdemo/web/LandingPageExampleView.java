@@ -1,6 +1,6 @@
 package com.potato112.springdemo.web;
 
-import com.potato112.springdemo.security.userauthsecurity.authentication.SysRole;
+import com.potato112.springdemo.security.userauthsecurity.authentication.SysView;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
@@ -23,14 +23,8 @@ import static com.potato112.springdemo.web.LandingPageExampleView.ROUTE;
 @PWA(name = "Sys Custom", shortName = "SC")
 @Route(value = ROUTE, layout = MainView.class)
 @RouteAlias(value = "", layout = MainView.class)
+@Secured(value = SysView.FooBusinessArea.FOO_OVERVIEW_VIEW)
 @AllArgsConstructor
-@Secured({
-/*        SysRole.OwnerRole.ADMIN,*/
-        SysRole.OwnerRole.MANAGER,
-        SysRole.DistributorRole.USER,
-        SysRole.DistributorRole.MANAGER,
-        SysRole.SpecialistRole.USER,
-})
 public class LandingPageExampleView extends SysPage implements BeforeEnterObserver {
 
     public static final String ROUTE = "";

@@ -1,6 +1,6 @@
 package com.potato112.springdemo.web;
 
-import com.potato112.springdemo.security.userauthsecurity.authentication.SysRole;
+import com.potato112.springdemo.security.userauthsecurity.authentication.SysView;
 import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.UI;
@@ -18,11 +18,13 @@ import java.util.Objects;
 
 @Slf4j
 @Secured({
-        SysRole.OwnerRole.ADMIN,
-        SysRole.OwnerRole.MANAGER,
-        SysRole.DistributorRole.USER,
-        SysRole.DistributorRole.MANAGER,
-        SysRole.SpecialistRole.USER,
+
+        SysView.FooBusinessArea.FOO_OVERVIEW_VIEW
+
+/*        SysView.OwnerRole.ADMIN,
+        SysView.OwnerRole.MANAGER,
+        SysView.FooBusinessArea.MANAGER,
+        SysView.AuthorizationArea.USER_VIEW,*/
 })
 public class MainView extends VerticalLayout implements RouterLayout, PageConfigurator {
 

@@ -4,17 +4,22 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-import java.util.List;
-
 
 @Getter
 @Setter
 @EqualsAndHashCode
-public class UserGroupVO implements Serializable {
+public class GroupPermissionVO {
 
     private String id;
-    private String groupName;
-    private List<GroupPermissionVO> groupPermissions;
+
+    //private UserGroup userGroupId;
+
+    private ViewName viewName;
+
+    private boolean canCreate;
+
+    private boolean canUpdate;
+
+    private boolean canDelete;
 
 }

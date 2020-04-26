@@ -1,9 +1,11 @@
 package com.potato112.springdemo.security.userauthsecurity.service;
 
 
+import com.potato112.springdemo.security.userauthsecurity.UserAuthService;
 import com.potato112.springdemo.security.userauthsecurity.model.UserDetailsAuthority;
 import com.vaadin.flow.server.ServletHelper;
 import com.vaadin.flow.shared.ApplicationConstants;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.annotation.Secured;
@@ -16,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,10 +27,12 @@ import java.util.stream.Stream;
 /**
  * Handles security and query rights
  */
-
 @Slf4j
 @Service
+@AllArgsConstructor
 public class WebSecurityService {
+
+    private UserAuthService userAuthService;
 
     /**
      * Check if user is authenticated (logged in)
@@ -38,18 +41,14 @@ public class WebSecurityService {
      * @return
      */
     public boolean isUserLoggedIn() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = userAuthService.getAuthentication();
 
         boolean isLogged = null != authentication &&
                 !(authentication instanceof AnonymousAuthenticationToken) &&
                 authentication.isAuthenticated();
 
         log.info("Echo01 Is user logged in: " + isLogged);
-
-        // FIXME (user not authenticated
         return isLogged;
-
-        // return true;
     }
 
     public static boolean isFrameworkInternalRequest(HttpServletRequest request) {
@@ -62,7 +61,7 @@ public class WebSecurityService {
                         .anyMatch(r -> r.getIdentifier().equals(parameterValue));
 
         log.info("Echo02 URL:" + request.getRequestURI() +
-                " path info: " + request.getPathInfo()+
+                " path info: " + request.getPathInfo() +
                 " servlet path: " + request.getServletPath() +
                 " Check is framework internal request:" + String.valueOf(isFrameworkInternalRequest).toUpperCase()
                 + " parameter_value: " + parameterValue);
@@ -81,23 +80,23 @@ public class WebSecurityService {
         if (secured == null) {
             return true;
         }
-        final List<String> allowedRoles = Arrays.asList(secured.value());
-
-        boolean isAccessGranted = isAccessGranted(allowedRoles);
+        final List<String> securedViewNames = Arrays.asList(secured.value());
+        boolean isAccessGranted = isAccessGranted(securedViewNames);
 
         log.info("Echo02 Check is framework internal request:" + isAccessGranted);
         return isAccessGranted;
     }
 
-    public boolean isAccessGranted(List<String> allowedRoles) {
+    public boolean isAccessGranted(List<String> allowedViews) {
 
-        final Authentication userAuth = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication userAuth = userAuthService.getAuthentication();
+
         if (null != userAuth) {
             log.info("AA01 user auth: " + userAuth.getName());
-            // FIXME NullPointer get authorities form Authentication
-            Collection<? extends GrantedAuthority> authorities = userAuth.getAuthorities();
 
-            return authorities.stream().map(GrantedAuthority::getAuthority).anyMatch(allowedRoles::contains);
+            Collection<? extends GrantedAuthority> authorities = userAuth.getAuthorities();
+            return authorities.stream().map(GrantedAuthority::getAuthority).anyMatch(allowedViews::contains);
+
         } else {
             log.info("AA02 user auth is null");
         }
@@ -124,10 +123,7 @@ public class WebSecurityService {
         securityContext.setAuthentication(newAuth);
 
         // check new authentication
-
         SecurityContext updatedSecurityContext = SecurityContextHolder.getContext();
-
-
         List<GrantedAuthority> authorities = new ArrayList<>(updatedSecurityContext.getAuthentication().getAuthorities());
 
         log.info("A003 new authorities from updated context number: " + authorities.size());
@@ -143,6 +139,4 @@ public class WebSecurityService {
 
         securityContext.setAuthentication(newAuth);
     }
-
-
 }

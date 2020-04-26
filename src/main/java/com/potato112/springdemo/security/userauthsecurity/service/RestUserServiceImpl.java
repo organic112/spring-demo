@@ -54,6 +54,8 @@ public class RestUserServiceImpl implements UserService {
 
     @Override
     public UserFormParametersVo getUserFromParameters() {
+
+        System.out.println("ECHO XXXX Additional PARAMETERS !");
         return this.jsonUserClient.getUserParameters();
     }
 }

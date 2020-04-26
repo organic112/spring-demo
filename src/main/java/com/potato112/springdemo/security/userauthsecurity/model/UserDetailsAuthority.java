@@ -1,5 +1,6 @@
 package com.potato112.springdemo.security.userauthsecurity.model;
 
+import com.potato112.springdemo.security.userauthsecurity.GroupPermissionVO;
 import com.potato112.springdemo.security.userauthsecurity.UserDetailsVO;
 import com.potato112.springdemo.security.userauthsecurity.UserGroupVO;
 import lombok.Data;
@@ -29,20 +30,13 @@ public class UserDetailsAuthority implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        List<UserGroupVO> groups = userDetailsVO.getUserGroups();
-
-        List<Roles> rolesInGroup = groups.stream()
-                .map(UserGroupVO::getRoles)
-                .collect(Collectors.toList())
-                .stream()
+        List<GroupPermissionVO> allUserGroupPermissions = userDetailsVO.getUserGroups().stream()
+                .map(UserGroupVO::getGroupPermissions)
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
-        //TODO some logic related to group type
-        GroupType fixmeHardcodedType = GroupType.OWNER;
-
-        return rolesInGroup.stream()
-                .map(role -> new GroupAuthority(fixmeHardcodedType, role.getEnumValue()))
+        return allUserGroupPermissions.stream()
+                .map(groupPermissionVO -> new UserGroupsAuthority(groupPermissionVO))
                 .collect(Collectors.toList());
     }
 
