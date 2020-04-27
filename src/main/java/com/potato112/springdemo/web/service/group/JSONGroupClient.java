@@ -23,7 +23,7 @@ public interface JSONGroupClient {
     String create(@RequestBody GroupDto groupDto);
 
     @GetMapping(value = "/api/v1/group", produces = MediaType.APPLICATION_JSON_VALUE)
-    OffsetResponseDto<GroupOverviewResponseDto> getUsers(@SpringQueryMap Map<String, String> params);
+    OffsetResponseDto<GroupOverviewResponseDto> getGroups(@SpringQueryMap Map<String, String> params);
 
 /*    @GetMapping(value = "/api/v1/group/create-parameters", produces = MediaType.APPLICATION_JSON_VALUE)
     UserFormParametersVo getGroupParameters();*/

@@ -5,6 +5,7 @@ import com.potato112.springdemo.web.service.group.GroupPermissionDto;
 import com.potato112.springdemo.web.service.group.GroupService;
 import com.potato112.springdemo.web.service.search.QueryUtils;
 import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
+import com.potato112.springdemo.web.service.user.UserVo;
 import com.potato112.springdemo.web.ui.constants.ViewName;
 import com.potato112.springdemo.web.ui.group.GroupDto;
 import com.potato112.springdemo.web.ui.user.EditUserView;
@@ -38,6 +39,7 @@ public class GroupGridFactory implements GridFactory<GroupOverviewResponseDto> {
                 query -> groupService.getGroups(QueryUtils.buildSearchVo(query, filters)).stream(),
                 query -> groupService.count(QueryUtils.buildSearchVoForCountQuery(query, filters))
         );
+        groupGrid.setWidth("900px");
         groupGrid.setPageSize(10);
         groupGrid.setDataProvider(dataProvider);
         buildColumns(groupGrid);
@@ -52,6 +54,7 @@ public class GroupGridFactory implements GridFactory<GroupOverviewResponseDto> {
         Grid.Column<GroupOverviewResponseDto> groupNameColumn = groupsGrid.addColumn(GroupDto.AttributeName.GROUP_NAME);
         groupNameColumn.setHeader(headerFactory.createHeader("Group name"));
 
+/*
         Grid.Column<GroupOverviewResponseDto> groupPermissionsColumn = groupsGrid.addComponentColumn(gropuDto -> {
 
             List<String> permissionNames = gropuDto.getPermissionDtoList().stream()
@@ -60,7 +63,13 @@ public class GroupGridFactory implements GridFactory<GroupOverviewResponseDto> {
                     .collect(Collectors.toList());
             return SysGridCellListItemFactory.create(permissionNames);
         });
+
+        groupPermissionsColumn.setKey(UserVo.AttributeName.USER_GROUPS);
+        groupPermissionsColumn.setSortable(false);
         groupPermissionsColumn.setHeader(headerFactory.createHeader("Group permissions"));
+*/
+
+
 
         if (getUserEditPermission()) {
             new CommonGridColumnFactory(userAuthorityVo).addActionColumn(groupsGrid, this::navigateToEditView);

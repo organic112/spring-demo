@@ -30,7 +30,7 @@ public class RestGroupServiceImpl implements GroupService {
     }
 
     private OffsetResponseDto<GroupOverviewResponseDto> getForSearch(OffsetSearchDto searchDto) {
-        return this.jsonGroupClient.getUsers(searchDto.toParamMap());
+        return this.jsonGroupClient.getGroups(searchDto.toParamMap());
     }
 
     @Override

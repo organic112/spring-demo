@@ -10,7 +10,6 @@ import java.util.Collection;
 public interface UserService {
 
 
-
     String create(UserVo userVo);
 
     UserDetailsAuthority getUserByName(String userName);

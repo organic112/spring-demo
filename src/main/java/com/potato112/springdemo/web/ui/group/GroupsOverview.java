@@ -6,6 +6,7 @@ import com.potato112.springdemo.web.form.filters.FilterKey;
 import com.potato112.springdemo.web.form.filters.FilteringHelper;
 import com.potato112.springdemo.web.service.group.GroupOverviewResponseDto;
 
+import com.potato112.springdemo.web.service.group.GroupService;
 import com.potato112.springdemo.web.service.group.RestGroupServiceImpl;
 import com.potato112.springdemo.web.service.security.UserAuthService;
 import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
@@ -37,7 +38,7 @@ public class GroupsOverview extends SysPage {
     public static final String ROUTE = "group";
     public static final String VIEW_NAME = SysView.AdministrationArea.GROUP_VIEW; // change to GROUP_VIEW
 
-    private final transient RestGroupServiceImpl groupService;
+    private final transient GroupService groupService;
 
     private final Grid<GroupOverviewResponseDto> groupsGrid;
     private Set<String> selectedGridRowIds;
@@ -50,7 +51,7 @@ public class GroupsOverview extends SysPage {
     }
 
 
-    public GroupsOverview(RestGroupServiceImpl groupService, UserAuthService userAuthService, FilteringHelper filteringHelper) {
+    public GroupsOverview(GroupService groupService, UserAuthService userAuthService, FilteringHelper filteringHelper) {
 
         this.userAuthService = userAuthService;
         UserAuthorityVo authorityVo = getUserCUDAuthorization();
