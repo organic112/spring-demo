@@ -1,6 +1,6 @@
 package com.potato112.springdemo.web.service.security.model;
 
-import com.potato112.springdemo.web.service.group.GroupPermissionVO;
+import com.potato112.springdemo.web.service.group.GroupPermissionDto;
 import com.potato112.springdemo.web.service.user.UserDetailsVO;
 import com.potato112.springdemo.web.service.group.UserGroupVO;
 import lombok.Data;
@@ -30,13 +30,13 @@ public class UserDetailsAuthority implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        List<GroupPermissionVO> allUserGroupPermissions = userDetailsVO.getUserGroups().stream()
+        List<GroupPermissionDto> allUserGroupPermissions = userDetailsVO.getUserGroups().stream()
                 .map(UserGroupVO::getGroupPermissions)
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
         return allUserGroupPermissions.stream()
-                .map(groupPermissionVO -> new UserAuthority(groupPermissionVO))
+                .map(groupPermissionDto -> new UserAuthorityVo(groupPermissionDto))
                 .collect(Collectors.toList());
     }
 

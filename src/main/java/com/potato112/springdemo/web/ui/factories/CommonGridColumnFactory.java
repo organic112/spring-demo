@@ -1,6 +1,6 @@
 package com.potato112.springdemo.web.ui.factories;
 
-import com.potato112.springdemo.web.service.security.model.UserAuthority;
+import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
@@ -11,10 +11,10 @@ import java.util.function.Consumer;
 
 public class CommonGridColumnFactory {
 
-    private UserAuthority userAuthority;
+    private UserAuthorityVo userAuthorityVo;
 
-    public CommonGridColumnFactory(UserAuthority userAuthority) {
-        this.userAuthority = userAuthority;
+    public CommonGridColumnFactory(UserAuthorityVo userAuthorityVo) {
+        this.userAuthorityVo = userAuthorityVo;
     }
 
     public <T> Grid.Column<T> addRemoveItemColumn(Grid<T> grid, Consumer<T> deleteAction) {
@@ -55,7 +55,7 @@ public class CommonGridColumnFactory {
     }
 
     boolean getUserEditPermission() {
-        return userAuthority.canUpdate();
+        return userAuthorityVo.canUpdate();
     }
 
 }

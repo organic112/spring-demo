@@ -76,7 +76,7 @@ public class CreateUserView extends SysPage implements BeforeLeaveObserver {
 
     private void backToOverview() {
 
-        UI.getCurrent().navigate(UserListView.class);
+        UI.getCurrent().navigate(UserOverview.class);
     }
 
     private void configureUserForm(WebSecurityService webSecurityService) {

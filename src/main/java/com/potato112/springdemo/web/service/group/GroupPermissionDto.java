@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class GroupPermissionVO {
+public class GroupPermissionDto {
 
     private String id;
 

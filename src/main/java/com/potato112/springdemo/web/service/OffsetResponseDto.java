@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class OffsetResponseVo<T> {
+public class OffsetResponseDto<T> {
 
     private List<T> content;
     private OffsetInfoVo offsetInfo;

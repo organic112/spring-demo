@@ -1,10 +1,11 @@
 package com.potato112.springdemo.web.ui.common;
 
 import com.potato112.springdemo.web.service.security.UserAuthService;
-import com.potato112.springdemo.web.service.security.model.UserAuthority;
+import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.html.Div;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +18,7 @@ public abstract class SysPage extends Div {
 
 
     protected UserAuthService userAuthService;
-    protected UserAuthority userAuthority;
+
 
     private Div blankPage;
     private Div headerContainer;
@@ -35,15 +36,15 @@ public abstract class SysPage extends Div {
      * Checks user CRUD (CUD) permissions for current ViewName
      * IF no CUD permissions fetched sets all CUD permissions to false (read only)
      */
-    protected void initUserCUDAuthorization() {
-        Optional<UserAuthority> userAuthorityOp = userAuthService.getGrantedAuthorityByViewName(getViewName());
+    protected UserAuthorityVo getUserCUDAuthorization() {
+        Optional<UserAuthorityVo> userAuthorityOp = userAuthService.getGrantedAuthorityByViewName(getViewName());
         System.out.println("INIT01 USER AUTHORITY INITIALIZATION EXISTS:" + userAuthorityOp.isPresent());
         if (!userAuthorityOp.isPresent()) {
             log.info("User authority not found for view name:" + getViewName());
             userAuthService.invalidateUserSession();
-        } else {
-            this.userAuthority = userAuthorityOp.get();
+            return null;
         }
+        return userAuthorityOp.get();
     }
 
     // provides view name for user access authorization

@@ -5,7 +5,7 @@ import com.potato112.springdemo.web.service.user.UserService;
 import com.potato112.springdemo.web.service.user.UserVo;
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
 import com.potato112.springdemo.web.ui.user.UserFormParametersVo;
-import com.potato112.springdemo.web.ui.user.UserOverviewResponseVo;
+import com.potato112.springdemo.web.ui.user.UserOverviewResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -38,19 +38,19 @@ public class RestUserServiceImpl implements UserService {
     }
 
     @Override
-    public Collection<UserOverviewResponseVo> getUsers(OffsetSearchVo searchVo) {
+    public Collection<UserOverviewResponseDto> getUsers(OffsetSearchDto searchVo) {
 
-        OffsetResponseVo<UserOverviewResponseVo> response = getForSearch(searchVo);
+        OffsetResponseDto<UserOverviewResponseDto> response = getForSearch(searchVo);
         return response.getContent();
     }
 
-    private OffsetResponseVo<UserOverviewResponseVo> getForSearch(OffsetSearchVo searchVo) {
+    private OffsetResponseDto<UserOverviewResponseDto> getForSearch(OffsetSearchDto searchVo) {
         return this.jsonUserClient.getUsers(searchVo.toParamMap());
     }
 
     @Override
-    public int count(OffsetSearchVo searchVo) {
-        OffsetResponseVo<UserOverviewResponseVo> response = getForSearch(searchVo);
+    public int count(OffsetSearchDto searchVo) {
+        OffsetResponseDto<UserOverviewResponseDto> response = getForSearch(searchVo);
         return (int) response.getOffsetInfo().getTotal();
     }
 

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-public class OffsetSearchVo {
+public class OffsetSearchDto {
 
     public static final String OFFSET = "offset";
     public static final String LIMIT = "limit";
@@ -19,7 +19,7 @@ public class OffsetSearchVo {
     private String sortField;
     private String sortOrder;
 
-    private OffsetSearchVo() {
+    private OffsetSearchDto() {
     }
 
     public Map<String, String> toParamMap() {
@@ -62,9 +62,9 @@ public class OffsetSearchVo {
             return this;
         }
 
-        public OffsetSearchVo build() {
+        public OffsetSearchDto build() {
 
-            OffsetSearchVo ret = new OffsetSearchVo();
+            OffsetSearchDto ret = new OffsetSearchDto();
             ret.filterParams = this.filterParams;
             ret.offsetParam = this.offset;
             ret.limitParam = this.limit;

@@ -1,6 +1,5 @@
 package com.potato112.springdemo.web.service.group;
 
-import com.potato112.springdemo.web.service.group.GroupPermissionVO;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +15,6 @@ public class UserGroupVO implements Serializable {
 
     private String id;
     private String groupName;
-    private List<GroupPermissionVO> groupPermissions;
+    private List<GroupPermissionDto> groupPermissions;
 
 }

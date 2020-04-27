@@ -5,7 +5,7 @@ import com.potato112.springdemo.conf.ClientConfiguration;
 import com.potato112.springdemo.web.service.user.UserVo;
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
 import com.potato112.springdemo.web.ui.user.UserFormParametersVo;
-import com.potato112.springdemo.web.ui.user.UserOverviewResponseVo;
+import com.potato112.springdemo.web.ui.user.UserOverviewResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.http.MediaType;
@@ -26,7 +26,7 @@ public interface JSONUserClient {
     String create(@RequestBody UserVo userVo);
 
     @GetMapping(value = "/api/v1/user", produces = MediaType.APPLICATION_JSON_VALUE)
-    OffsetResponseVo<UserOverviewResponseVo> getUsers(@SpringQueryMap Map<String, String> params);
+    OffsetResponseDto<UserOverviewResponseDto> getUsers(@SpringQueryMap Map<String, String> params);
 
     @GetMapping(value = "/api/v1/user/create-parameters", produces = MediaType.APPLICATION_JSON_VALUE)
     UserFormParametersVo getUserParameters();
