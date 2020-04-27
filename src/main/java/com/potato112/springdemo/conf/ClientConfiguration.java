@@ -1,8 +1,8 @@
 package com.potato112.springdemo.conf;
 
-import com.potato112.springdemo.security.userauthsecurity.UserDetailsVO;
-import com.potato112.springdemo.security.userauthsecurity.model.UserDetailsAuthority;
-import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
+import com.potato112.springdemo.web.service.user.UserDetailsVO;
+import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
+import com.potato112.springdemo.web.service.security.WebSecurityService;
 import feign.RequestInterceptor;
 import feign.codec.ErrorDecoder;
 import lombok.RequiredArgsConstructor;

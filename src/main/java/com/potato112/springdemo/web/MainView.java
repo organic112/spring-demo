@@ -1,7 +1,6 @@
 package com.potato112.springdemo.web;
 
-import com.potato112.springdemo.security.userauthsecurity.UserAuthService;
-import com.potato112.springdemo.security.userauthsecurity.authentication.SysView;
+import com.potato112.springdemo.web.service.security.UserAuthService;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
@@ -11,7 +10,6 @@ import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PageConfigurator;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.annotation.Secured;
 
 import java.util.Objects;
 

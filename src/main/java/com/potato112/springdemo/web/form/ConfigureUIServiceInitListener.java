@@ -1,7 +1,7 @@
 package com.potato112.springdemo.web.form;
 
-import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
-import com.potato112.springdemo.web.LoginView;
+import com.potato112.springdemo.web.service.security.WebSecurityService;
+import com.potato112.springdemo.web.ui.login.LoginView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.NotFoundException;

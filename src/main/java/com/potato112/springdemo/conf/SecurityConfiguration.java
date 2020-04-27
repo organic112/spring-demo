@@ -1,11 +1,11 @@
 package com.potato112.springdemo.conf;
 
-import com.potato112.springdemo.security.userauthsecurity.authentication.SysView;
+import com.potato112.springdemo.web.ui.constants.SysView;
 
-import com.potato112.springdemo.security.userauthsecurity.service.WebSecurityService;
-import com.potato112.springdemo.web.CustomRequestCache;
-import com.potato112.springdemo.web.LoginView;
-import com.potato112.springdemo.web.SysPasswordEncoder;
+import com.potato112.springdemo.web.service.security.WebSecurityService;
+import com.potato112.springdemo.web.service.security.CustomRequestCache;
+import com.potato112.springdemo.web.ui.login.LoginView;
+import com.potato112.springdemo.web.service.security.SysPasswordEncoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

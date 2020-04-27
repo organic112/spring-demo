@@ -1,7 +1,6 @@
 package com.potato112.springdemo.web.form.vo;
 
-import com.potato112.springdemo.security.userauthsecurity.model.GroupType;
-import com.potato112.springdemo.web.form.vo.AddressVO;
+import com.potato112.springdemo.web.service.security.model.GroupType;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
