@@ -1,12 +1,9 @@
 package com.potato112.springdemo.web.ui.factories;
 
 import com.potato112.springdemo.web.service.group.GroupOverviewResponseDto;
-import com.potato112.springdemo.web.service.group.GroupPermissionDto;
 import com.potato112.springdemo.web.service.group.GroupService;
 import com.potato112.springdemo.web.service.search.QueryUtils;
 import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
-import com.potato112.springdemo.web.service.user.UserVo;
-import com.potato112.springdemo.web.ui.constants.ViewName;
 import com.potato112.springdemo.web.ui.group.GroupDto;
 import com.potato112.springdemo.web.ui.user.EditUserView;
 import com.vaadin.flow.component.UI;
@@ -14,9 +11,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class GroupGridFactory implements GridFactory<GroupOverviewResponseDto> {
 
@@ -68,7 +63,6 @@ public class GroupGridFactory implements GridFactory<GroupOverviewResponseDto> {
         groupPermissionsColumn.setSortable(false);
         groupPermissionsColumn.setHeader(headerFactory.createHeader("Group permissions"));
 */
-
 
 
         if (getUserEditPermission()) {
