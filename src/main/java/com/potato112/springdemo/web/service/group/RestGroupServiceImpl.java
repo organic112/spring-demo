@@ -1,5 +1,6 @@
 package com.potato112.springdemo.web.service.group;
 
+import com.google.gson.internal.$Gson$Preconditions;
 import com.potato112.springdemo.web.service.OffsetResponseDto;
 import com.potato112.springdemo.web.service.OffsetSearchDto;
 import com.potato112.springdemo.web.ui.group.GroupDto;
@@ -26,11 +27,17 @@ public class RestGroupServiceImpl implements GroupService {
     @Override
     public Collection<GroupOverviewResponseDto> getGroups(OffsetSearchDto searchDto) {
         OffsetResponseDto<GroupOverviewResponseDto> response = getForSearch(searchDto);
+
+        response.getContent().forEach(content -> {
+            log.info("LIST OF PERMISSIONS:");
+            content.getGroupPermissions().forEach(per -> log.info(""+per.getViewName().getEnumValue()));
+        });
+
         return response.getContent();
     }
 
     private OffsetResponseDto<GroupOverviewResponseDto> getForSearch(OffsetSearchDto searchDto) {
-        return this.jsonGroupClient.getGroups(searchDto.toParamMap());
+        return  this.jsonGroupClient.getGroups(searchDto.toParamMap());
     }
 
     @Override

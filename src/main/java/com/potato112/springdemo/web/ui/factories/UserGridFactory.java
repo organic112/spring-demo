@@ -39,13 +39,10 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
         Grid<UserOverviewResponseDto> userGrid = new Grid<>(UserOverviewResponseDto.class);
         SysGridHelper.initializeGridStyle(userGrid);
 
-        userGrid.setSelectionMode(Grid.SelectionMode.MULTI);
-        userGrid.setWidth("900px");
         userGrid.addSelectionListener(selectionEvent -> {
         });  // FIXME empty?
 
         buildColumns(userGrid);
-
         //UserDetailsAuthority userDetailsAuthority = securityService.getUser();
         //UserGroupVO userGroup = userDetailsAuthority.getAuthorities().g
         //filters.put("userGroupId", userGroup.getId());

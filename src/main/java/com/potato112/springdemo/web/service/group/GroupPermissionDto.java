@@ -13,8 +13,6 @@ public class GroupPermissionDto {
 
     private String id;
 
-    //private UserGroup userGroupId;
-
     private ViewName viewName;
 
     private boolean canCreate;
