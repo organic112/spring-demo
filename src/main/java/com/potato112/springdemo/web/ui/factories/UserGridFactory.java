@@ -53,6 +53,19 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
                 query -> userService.getUsers(QueryUtils.buildSearchVo(query, filters)).stream(),
                 query -> userService.count(QueryUtils.buildSearchVoForCountQuery(query, filters))
         );
+
+/*        Grid.Column<UserOverviewResponseDto> userGroupsColumn = userGrid.addComponentColumn(gropuDto -> {
+
+            List<String> groupNames = gropuDto.getUserGroups();
+            return SysGridCellListItemFactory.create(groupNames);
+        });
+
+        userGroupsColumn.setKey(UserVo.AttributeName.USER_GROUPS);
+        userGroupsColumn.setSortable(false);*/
+        //userGroupsColumn.setHeader(headerFactory.createHeader("Group permissions"));
+
+
+
         userGrid.setPageSize(10);
         userGrid.setDataProvider(provider);
         userGrid.addSortListener(event -> sortingHelper.setSortingInSession(event, SortingKey.USER_SORTING));
@@ -75,7 +88,7 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
 
         Grid.Column<UserOverviewResponseDto> groupsColumn = userGrid.addComponentColumn(
                 userOverviewVo -> {
-                    List<String> orgNames = userOverviewVo.getGroups();
+                    List<String> orgNames = userOverviewVo.getUserGroups();
                     return SysGridListItemFactory.create(orgNames);
                 });
         groupsColumn.setKey(UserVo.AttributeName.USER_GROUPS);

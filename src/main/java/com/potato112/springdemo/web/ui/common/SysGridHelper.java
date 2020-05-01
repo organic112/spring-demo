@@ -14,6 +14,6 @@ public class SysGridHelper {
         grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
 
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
-        grid.setWidth("1400px");
+        grid.setWidth("2000px");
     }
 }

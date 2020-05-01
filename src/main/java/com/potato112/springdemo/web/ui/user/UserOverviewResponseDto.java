@@ -15,7 +15,7 @@ public class UserOverviewResponseDto implements Serializable {
     String email;
     String firstName;
     String lastName;
-    List<String> groups;
+    List<String> userGroups;
     String phone;
     UserStatus locked;
 }
