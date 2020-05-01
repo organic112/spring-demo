@@ -1,10 +1,8 @@
 package com.potato112.springdemo.web.ui.user;
 
-import com.potato112.springdemo.web.service.group.GroupOverviewResponseDto;
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
-import com.potato112.springdemo.web.service.user.UserVo;
+import com.potato112.springdemo.web.service.user.UserDto;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.binder.Binder;
 
@@ -13,7 +11,7 @@ public class UserForm extends Div {
 
 
 
-    public UserForm(Binder<UserVo> binder, UserFormParametersVo parameters , UserDetailsAuthority userContext) {
+    public UserForm(Binder<UserDto> binder, UserFormParametersDto parameters , UserDetailsAuthority userContext) {
 
         UserBaseSection userBaseSection = new UserBaseSection(binder);
 

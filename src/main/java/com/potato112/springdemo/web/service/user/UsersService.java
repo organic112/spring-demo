@@ -2,15 +2,16 @@ package com.potato112.springdemo.web.service.user;
 
 import com.potato112.springdemo.web.service.OffsetSearchDto;
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
-import com.potato112.springdemo.web.ui.user.UserFormParametersVo;
+import com.potato112.springdemo.web.ui.user.UserFormParametersDto;
 import com.potato112.springdemo.web.ui.user.UserOverviewResponseDto;
 
 import java.util.Collection;
+import java.util.Optional;
 
-public interface UserService {
+public interface UsersService {
 
 
-    String create(UserVo userVo);
+    String create(UserDto userDto);
 
     UserDetailsAuthority getUserByName(String userName);
 
@@ -18,7 +19,12 @@ public interface UserService {
 
     int count(OffsetSearchDto searchVo);
 
-    UserFormParametersVo getUserFromParameters();
+    UserFormParametersDto getUserFromParameters();
+
+    Optional<UserDto> getUsers(String id);
+
+    UserDto update(UserDto userDto);
+
 
     // TODO service other methods
    /* String create(UserVO userVO);

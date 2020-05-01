@@ -2,7 +2,7 @@ package com.potato112.springdemo.conf;
 
 
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
-import com.potato112.springdemo.web.service.user.UserService;
+import com.potato112.springdemo.web.service.user.UsersService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,10 +20,10 @@ import org.springframework.stereotype.Service;
 public class SysUserDetailService implements UserDetailsService, UserDetailsPasswordService {
 
 
-    private UserService userService;
+    private UsersService usersService;
 
-    public SysUserDetailService(UserService userService) {
-        this.userService = userService;
+    public SysUserDetailService(UsersService usersService) {
+        this.usersService = usersService;
     }
 
     @Override
@@ -38,11 +38,11 @@ public class SysUserDetailService implements UserDetailsService, UserDetailsPass
             throw new UsernameNotFoundException("user name cannot be empty");
         }
 
-        UserDetailsAuthority userByName = userService.getUserByName(userName);
+        UserDetailsAuthority userByName = usersService.getUserByName(userName);
 
         if (null == userByName) {
             throw new UsernameNotFoundException("User not found");
         }
-        return userService.getUserByName(userName);
+        return usersService.getUserByName(userName);
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-public class UserFormParametersVo implements Serializable {
+public class UserFormParametersDto implements Serializable {
 
     private Map<GroupType, List<ViewName>> availableRolesPerType;
 

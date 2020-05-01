@@ -3,8 +3,8 @@ package com.potato112.springdemo.web.ui.user;
 import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
 import com.potato112.springdemo.web.ui.constants.SysView;
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
-import com.potato112.springdemo.web.service.user.UserService;
-import com.potato112.springdemo.web.service.user.UserVo;
+import com.potato112.springdemo.web.service.user.UsersService;
+import com.potato112.springdemo.web.service.user.UserDto;
 import com.potato112.springdemo.web.service.security.WebSecurityService;
 import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.ui.common.SysMainActionBar;
@@ -26,8 +26,8 @@ public class CreateUserView extends SysPage implements BeforeLeaveObserver {
 
     private static final Class<EditUserView> EDIT_VIEW = EditUserView.class;
 
-    private final BinderWithValueChangeListener<UserVo> binder;
-    private final transient UserService userService;
+    private final BinderWithValueChangeListener<UserDto> binder;
+    private final transient UsersService usersService;
     private UserForm userForm;
     private Button saveButton;
 
@@ -36,11 +36,11 @@ public class CreateUserView extends SysPage implements BeforeLeaveObserver {
         return VIEW_NAME;
     }
 
-    public CreateUserView(UserService userService, WebSecurityService webSecurityService) {
+    public CreateUserView(UsersService usersService, WebSecurityService webSecurityService) {
 
         configureCreateUserView();
-        this.userService = userService;
-        this.binder = new BinderWithValueChangeListener<>(UserVo.class);
+        this.usersService = usersService;
+        this.binder = new BinderWithValueChangeListener<>(UserDto.class);
         configureUserForm(webSecurityService);
     }
 
@@ -59,7 +59,7 @@ public class CreateUserView extends SysPage implements BeforeLeaveObserver {
 
     private void save() {
 
-        DefaultConfirmAction<UserVo, String> saveAction = new DefaultConfirmAction<>(binder, userService::create, id -> {
+        DefaultConfirmAction<UserDto, String> saveAction = new DefaultConfirmAction<>(binder, usersService::create, id -> {
             userForm.resetGridIsChanged();
             UI.getCurrent().navigate(EditUserView.class, id);
             // TODO show notification
@@ -80,10 +80,9 @@ public class CreateUserView extends SysPage implements BeforeLeaveObserver {
     }
 
     private void configureUserForm(WebSecurityService webSecurityService) {
-        binder.setBean(new UserVo());
-        UserFormParametersVo parameters = this.userService.getUserFromParameters();
+        binder.setBean(new UserDto());
+        UserFormParametersDto parameters = this.usersService.getUserFromParameters();
         UserDetailsAuthority userContext = webSecurityService.getUser();
-
 
         userForm = new UserForm(binder, parameters, userContext);
         userForm.setSaveButton(saveButton);
@@ -93,8 +92,6 @@ public class CreateUserView extends SysPage implements BeforeLeaveObserver {
 
     @Override
     public void beforeLeave(BeforeLeaveEvent beforeLeaveEvent) {
-
-
         Class<?> navigationTarget = beforeLeaveEvent.getNavigationTarget();
         if (isEditView(navigationTarget)) {
             return;
@@ -113,8 +110,6 @@ public class CreateUserView extends SysPage implements BeforeLeaveObserver {
         // TODO add logic with group modification
         return binder.wasModified();
     }
-
-
 
     private boolean isEditView(Class<?> navigationTarget) {
 

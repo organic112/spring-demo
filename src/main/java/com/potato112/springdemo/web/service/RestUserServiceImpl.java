@@ -1,19 +1,20 @@
 package com.potato112.springdemo.web.service;
 
 import com.potato112.springdemo.web.service.security.WebSecurityService;
-import com.potato112.springdemo.web.service.user.UserService;
-import com.potato112.springdemo.web.service.user.UserVo;
+import com.potato112.springdemo.web.service.user.UsersService;
+import com.potato112.springdemo.web.service.user.UserDto;
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
-import com.potato112.springdemo.web.ui.user.UserFormParametersVo;
+import com.potato112.springdemo.web.ui.user.UserFormParametersDto;
 import com.potato112.springdemo.web.ui.user.UserOverviewResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Slf4j
 @Service
-public class RestUserServiceImpl implements UserService {
+public class RestUserServiceImpl implements UsersService {
 
     private final JSONUserClient jsonUserClient;
     private final WebSecurityService securityService;
@@ -30,11 +31,11 @@ public class RestUserServiceImpl implements UserService {
     }
 
     @Override
-    public String create(UserVo userVo) {
+    public String create(UserDto userDto) {
 
-        log.info("try insert user with id:" + userVo.getId());
+        log.info("try insert user with id:" + userDto.getId());
 
-        return this.jsonUserClient.create(userVo);
+        return this.jsonUserClient.create(userDto);
     }
 
     @Override
@@ -55,9 +56,21 @@ public class RestUserServiceImpl implements UserService {
     }
 
     @Override
-    public UserFormParametersVo getUserFromParameters() {
+    public UserFormParametersDto getUserFromParameters() {
 
         System.out.println("ECHO XXXX Additional PARAMETERS !");
         return this.jsonUserClient.getUserParameters();
+    }
+
+    @Override
+    public Optional<UserDto> getUsers(String id) {
+
+        return Optional.of(this.jsonUserClient.getUserById(id));
+    }
+
+    @Override
+    public UserDto update(UserDto userDto) {
+
+        return this.jsonUserClient.update(userDto);
     }
 }

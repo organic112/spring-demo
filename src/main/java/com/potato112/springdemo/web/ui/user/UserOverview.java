@@ -4,7 +4,7 @@ import com.potato112.springdemo.web.service.security.UserAuthService;
 import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
 import com.potato112.springdemo.web.ui.common.SysUtilActionBar;
 import com.potato112.springdemo.web.ui.constants.SysView;
-import com.potato112.springdemo.web.service.user.UserService;
+import com.potato112.springdemo.web.service.user.UsersService;
 import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.ui.factories.SysButtonFactory;
 import com.potato112.springdemo.web.ui.common.SysPage;
@@ -31,7 +31,7 @@ public class UserOverview extends SysPage {
     public static final String ROUTE = "user";
     public static final String VIEW_NAME = SysView.AdministrationArea.USER_VIEW;
 
-    private final transient UserService userService;
+    private final transient UsersService usersService;
     private final Grid<UserOverviewResponseDto> usersGrid;
     private Set<String> selectedUsersIdRows;
 
@@ -44,14 +44,14 @@ public class UserOverview extends SysPage {
     // map filters
     private final Map<String, String> filters;
 
-    public UserOverview(UserService userService, UserAuthService userAuthService, FilteringHelper filteringHelper) {
+    public UserOverview(UsersService usersService, UserAuthService userAuthService, FilteringHelper filteringHelper) {
 
         this.userAuthService = userAuthService;
         UserAuthorityVo authorityVo = getUserCUDAuthorization();
 
-        this.userService = userService;
+        this.usersService = usersService;
         this.filters = filteringHelper.loadFilters(FilterKey.USER_FILTERS);
-        this.usersGrid = new UserGridFactory(this.userService, authorityVo, filters).create();
+        this.usersGrid = new UserGridFactory(this.usersService, authorityVo, filters).create();
         this.usersGrid.addSelectionListener(this::getSelectedUserIds);
         this.selectedUsersIdRows = new HashSet<>();
 

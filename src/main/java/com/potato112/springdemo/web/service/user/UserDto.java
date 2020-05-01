@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserVo implements Serializable {
+public class UserDto implements Serializable {
 
     public static final class AttributeName {
 

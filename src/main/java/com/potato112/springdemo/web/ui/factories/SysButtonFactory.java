@@ -75,4 +75,12 @@ public class SysButtonFactory {
         deleteButton.addClickListener(event -> action.run());
         return deleteButton;
     }
+
+    public Button createSaveButton(Runnable action) {
+
+        Icon icon = new Icon(VaadinIcon.CLOUD_DOWNLOAD_O);
+        Button saveButton = createPlainButton("save", icon);
+        saveButton.addClickListener(buttonClickEvent -> action.run());
+        return saveButton;
+    }
 }

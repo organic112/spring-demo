@@ -2,17 +2,14 @@ package com.potato112.springdemo.web.service;
 
 
 import com.potato112.springdemo.conf.ClientConfiguration;
-import com.potato112.springdemo.web.service.user.UserVo;
+import com.potato112.springdemo.web.service.user.UserDto;
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
-import com.potato112.springdemo.web.ui.user.UserFormParametersVo;
+import com.potato112.springdemo.web.ui.user.UserFormParametersDto;
 import com.potato112.springdemo.web.ui.user.UserOverviewResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -23,12 +20,19 @@ public interface JSONUserClient {
     UserDetailsAuthority getUserByName(@PathVariable("username") String userName);
 
     @PostMapping(value = "/api/v1/user", produces = MediaType.APPLICATION_JSON_VALUE)
-    String create(@RequestBody UserVo userVo);
+    String create(@RequestBody UserDto userDto);
 
     @GetMapping(value = "/api/v1/user", produces = MediaType.APPLICATION_JSON_VALUE)
     OffsetResponseDto<UserOverviewResponseDto> getUsers(@SpringQueryMap Map<String, String> params);
 
     @GetMapping(value = "/api/v1/user/create-parameters", produces = MediaType.APPLICATION_JSON_VALUE)
-    UserFormParametersVo getUserParameters();
+    UserFormParametersDto getUserParameters();
+
+    @PostMapping(value = "/api/v1/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    UserDto getUserById(@PathVariable("userId") String userId);
+
+    @PutMapping(value = "/api/v1/user", produces =  MediaType.APPLICATION_JSON_VALUE)
+    UserDto update(@RequestBody UserDto userDto);
+
 
 }

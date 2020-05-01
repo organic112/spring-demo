@@ -5,7 +5,7 @@ import com.potato112.springdemo.web.service.group.GroupPermissionDto;
 import com.potato112.springdemo.web.service.group.GroupService;
 import com.potato112.springdemo.web.service.search.QueryUtils;
 import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
-import com.potato112.springdemo.web.service.user.UserVo;
+import com.potato112.springdemo.web.service.user.UserDto;
 import com.potato112.springdemo.web.ui.common.SysGridHelper;
 import com.potato112.springdemo.web.ui.constants.ViewName;
 import com.potato112.springdemo.web.ui.group.GroupDto;
@@ -63,7 +63,7 @@ public class GroupGridFactory implements GridFactory<GroupOverviewResponseDto> {
             return SysGridCellListItemFactory.create(permissionNames);
         });
 
-        groupPermissionsColumn.setKey(UserVo.AttributeName.USER_GROUPS);
+        groupPermissionsColumn.setKey(UserDto.AttributeName.USER_GROUPS);
         groupPermissionsColumn.setSortable(false);
         groupPermissionsColumn.setHeader(headerFactory.createHeader("Group permissions"));
 

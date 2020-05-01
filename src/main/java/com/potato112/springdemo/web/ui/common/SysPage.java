@@ -4,6 +4,7 @@ import com.potato112.springdemo.web.service.security.UserAuthService;
 import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -98,6 +99,12 @@ public abstract class SysPage extends Div {
         }
         this.footer = newFooter;
         this.footerContainer.add(newFooter);
+    }
+
+    protected void configureBackButton(Class<? extends Component> navigationTarget) {
+
+        UI.getCurrent().navigate(navigationTarget);
+        //this.configureBackButton(() -> );
     }
 
 }

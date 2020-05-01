@@ -3,8 +3,8 @@ package com.potato112.springdemo.web.ui.factories;
 import com.potato112.springdemo.web.service.search.QueryUtils;
 import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
 
-import com.potato112.springdemo.web.service.user.UserService;
-import com.potato112.springdemo.web.service.user.UserVo;
+import com.potato112.springdemo.web.service.user.UsersService;
+import com.potato112.springdemo.web.service.user.UserDto;
 import com.potato112.springdemo.web.ui.common.SortingHelper;
 import com.potato112.springdemo.web.ui.common.SortingKey;
 import com.potato112.springdemo.web.ui.common.SysGridHelper;
@@ -22,12 +22,12 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
 
     private static final SortingKey SORTING_KEY = SortingKey.USER_SORTING;
 
-    private UserService userService;
+    private UsersService usersService;
     private UserAuthorityVo userAuthorityVo;
     private Map<String, String> filters;
 
-    public UserGridFactory(UserService userService, UserAuthorityVo userAuthorityVo, Map<String, String> filters) {
-        this.userService = userService;
+    public UserGridFactory(UsersService usersService, UserAuthorityVo userAuthorityVo, Map<String, String> filters) {
+        this.usersService = usersService;
         this.userAuthorityVo = userAuthorityVo;
         this.filters = filters;
     }
@@ -50,8 +50,8 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
         sortingHelper.loadSorting(userGrid, SortingKey.USER_SORTING);
 
         CallbackDataProvider<UserOverviewResponseDto, Map<String, String>> provider = DataProvider.fromFilteringCallbacks(
-                query -> userService.getUsers(QueryUtils.buildSearchVo(query, filters)).stream(),
-                query -> userService.count(QueryUtils.buildSearchVoForCountQuery(query, filters))
+                query -> usersService.getUsers(QueryUtils.buildSearchVo(query, filters)).stream(),
+                query -> usersService.count(QueryUtils.buildSearchVoForCountQuery(query, filters))
         );
 
 /*        Grid.Column<UserOverviewResponseDto> userGroupsColumn = userGrid.addComponentColumn(gropuDto -> {
@@ -77,13 +77,13 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
         SysGridHeaderFactory headerFactory = new SysGridHeaderFactory();
         userGrid.setColumns();
 
-        Grid.Column<UserOverviewResponseDto> emailColumn = userGrid.addColumn(UserVo.AttributeName.EMAIL);
+        Grid.Column<UserOverviewResponseDto> emailColumn = userGrid.addColumn(UserDto.AttributeName.EMAIL);
         emailColumn.setHeader(headerFactory.createHeader("Email"));
 
-        Grid.Column<UserOverviewResponseDto> firstNameColumn = userGrid.addColumn(UserVo.AttributeName.FIRST_NAME);
+        Grid.Column<UserOverviewResponseDto> firstNameColumn = userGrid.addColumn(UserDto.AttributeName.FIRST_NAME);
         firstNameColumn.setHeader(headerFactory.createHeader("First Name"));
 
-        Grid.Column<UserOverviewResponseDto> lastNameColumn = userGrid.addColumn(UserVo.AttributeName.LAST_NAME);
+        Grid.Column<UserOverviewResponseDto> lastNameColumn = userGrid.addColumn(UserDto.AttributeName.LAST_NAME);
         lastNameColumn.setHeader(headerFactory.createHeader("Last Name"));
 
         Grid.Column<UserOverviewResponseDto> groupsColumn = userGrid.addComponentColumn(
@@ -91,23 +91,23 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
                     List<String> orgNames = userOverviewVo.getUserGroups();
                     return SysGridListItemFactory.create(orgNames);
                 });
-        groupsColumn.setKey(UserVo.AttributeName.USER_GROUPS);
+        groupsColumn.setKey(UserDto.AttributeName.USER_GROUPS);
         groupsColumn.setSortable(false);
         groupsColumn.setHeader(headerFactory.createHeader("Groups"));
 
-        Grid.Column<UserOverviewResponseDto> phoneColumn = userGrid.addColumn(UserVo.AttributeName.PHONE);
+        Grid.Column<UserOverviewResponseDto> phoneColumn = userGrid.addColumn(UserDto.AttributeName.PHONE);
         phoneColumn.setHeader(headerFactory.createHeader("Phone"));
 
         Grid.Column<UserOverviewResponseDto> lockedColumn = userGrid.addColumn(user -> user.getLocked().getStatus());
-        lockedColumn.setKey(UserVo.AttributeName.LOCKED);
+        lockedColumn.setKey(UserDto.AttributeName.LOCKED);
         lockedColumn.setHeader(headerFactory.createHeader("Locked"));
 
         if (getUserEditPermission()) {
             new CommonGridColumnFactory(userAuthorityVo).addActionColumn(userGrid, this::navigateToEditView);
         }
 
-        userGrid.setSortableColumns(UserVo.AttributeName.EMAIL, UserVo.AttributeName.FIRST_NAME, UserVo.AttributeName.LAST_NAME,
-                UserVo.AttributeName.PHONE, UserVo.AttributeName.LOCKED);
+        userGrid.setSortableColumns(UserDto.AttributeName.EMAIL, UserDto.AttributeName.FIRST_NAME, UserDto.AttributeName.LAST_NAME,
+                UserDto.AttributeName.PHONE, UserDto.AttributeName.LOCKED);
     }
 
     private void navigateToEditView(UserOverviewResponseDto user) {
