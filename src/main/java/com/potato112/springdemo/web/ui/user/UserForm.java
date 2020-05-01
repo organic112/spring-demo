@@ -19,10 +19,7 @@ public class UserForm extends Div {
 
         Div baseSectionContent = new Div(userBaseSection);
 
-
-
         // TODO add groups grid
-
         this.add(baseSectionContent);
 
     }

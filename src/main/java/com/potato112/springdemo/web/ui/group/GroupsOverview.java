@@ -5,9 +5,7 @@ import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.form.filters.FilterKey;
 import com.potato112.springdemo.web.form.filters.FilteringHelper;
 import com.potato112.springdemo.web.service.group.GroupOverviewResponseDto;
-
 import com.potato112.springdemo.web.service.group.GroupService;
-import com.potato112.springdemo.web.service.group.RestGroupServiceImpl;
 import com.potato112.springdemo.web.service.security.UserAuthService;
 import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
 import com.potato112.springdemo.web.ui.common.SysPage;
@@ -15,13 +13,11 @@ import com.potato112.springdemo.web.ui.common.SysUtilActionBar;
 import com.potato112.springdemo.web.ui.constants.SysView;
 import com.potato112.springdemo.web.ui.factories.GroupGridFactory;
 import com.potato112.springdemo.web.ui.factories.SysButtonFactory;
-import com.potato112.springdemo.web.ui.user.CreateUserView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.selection.SelectionEvent;
 import com.vaadin.flow.router.Route;
-import org.picketlink.idm.impl.cache.GroupSearchImpl;
 import org.springframework.security.access.annotation.Secured;
 
 import java.util.HashSet;
@@ -67,7 +63,7 @@ public class GroupsOverview extends SysPage {
         SysButtonFactory buttonFactory = new SysButtonFactory();
         Button deleteButton = buttonFactory.createDeleteButton(this::deleteSelectedGroups);
 
-        Button addButton = buttonFactory.createNavigationToCreateButton(CreateUserView.class); //fixme create group view
+        Button addButton = buttonFactory.createNavigationToCreateButton(CreateGroupView.class); //fixme create group view
         SysUtilActionBar actionBar = new SysUtilActionBar();
         actionBar.addItem(addButton);
         actionBar.addItem(deleteButton);

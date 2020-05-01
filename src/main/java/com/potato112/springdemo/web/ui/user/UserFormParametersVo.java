@@ -13,5 +13,4 @@ public class UserFormParametersVo implements Serializable {
 
     private Map<GroupType, List<ViewName>> availableRolesPerType;
 
-
 }

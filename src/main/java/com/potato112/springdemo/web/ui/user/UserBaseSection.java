@@ -37,6 +37,7 @@ public class UserBaseSection extends FormLayout {
     }
 
     private boolean getStatus(UserVo userVo) {
+
         return UserStatus.DISABLED.equals(userVo.getLocked());
     }
 

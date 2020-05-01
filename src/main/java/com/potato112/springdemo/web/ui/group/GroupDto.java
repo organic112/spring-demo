@@ -1,13 +1,17 @@
 package com.potato112.springdemo.web.ui.group;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.potato112.springdemo.web.service.group.GroupPermissionDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -32,9 +36,9 @@ public class GroupDto implements Serializable {
     @Size(max = 50)
     private String groupName;
 
-    //  @Valid
-    //  @Size(min = 1, message = "Please add at least one Group")
-    //  private List<GroupPermissionVo> userGroups;
+    @Valid
+    @Size(min = 1, message = "Please add at least one Group")
+    private List<GroupPermissionDto> userGroups = new ArrayList<>();
 
     boolean isActive;
 

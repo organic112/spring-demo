@@ -20,8 +20,11 @@ public class RestGroupServiceImpl implements GroupService {
     }
 
     @Override
-    public String create(GroupDto userVo) {
-        return this.jsonGroupClient.create(userVo);
+    public String create(GroupDto groupDto) {
+
+        //System.out.println("try save group name: " +groupDto.getGroupName());
+
+        return this.jsonGroupClient.create(groupDto);
     }
 
     @Override

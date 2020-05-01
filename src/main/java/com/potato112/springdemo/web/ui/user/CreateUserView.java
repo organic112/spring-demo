@@ -28,8 +28,8 @@ public class CreateUserView extends SysPage implements BeforeLeaveObserver {
 
     private final BinderWithValueChangeListener<UserVo> binder;
     private final transient UserService userService;
-    private Button saveButton;
     private UserForm userForm;
+    private Button saveButton;
 
     @Override
     protected String getViewName() {
