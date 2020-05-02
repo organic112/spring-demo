@@ -1,5 +1,6 @@
 package com.potato112.springdemo.web.ui.user;
 
+import com.potato112.springdemo.SysUINotificationFactory;
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 import com.potato112.springdemo.web.form.listeners.DefaultLeaveFormAction;
 import com.potato112.springdemo.web.service.security.WebSecurityService;
@@ -44,7 +45,9 @@ public class EditUserView extends SysPage implements HasUrlParameter<String>, Be
         return VIEW_NAME;
     }
 
-
+    /**
+     * When redirected from Overview sets edit form with current user data by user id.
+     */
     @Override
     public void setParameter(BeforeEvent beforeEvent, String param) {
 
@@ -68,9 +71,11 @@ public class EditUserView extends SysPage implements HasUrlParameter<String>, Be
         return sysButtonFactory.createSaveButton(saveAction);
     }
 
-    private <CONFIRM_RESULT_TYPE> void confirmAction(CONFIRM_RESULT_TYPE confirm_result_type) {
-
-        System.out.println("fixme confirm action");
+    private void confirmAction(UserDto updatedUser) {
+        this.binder.setBean(updatedUser);
+        //this.userForm.setUpdatedUserGroups(updatedUser);  FIXME
+        this.userForm.resetGridIsChanged();
+        SysUINotificationFactory.showSuccess("User successfully updated.");
     }
 
     private void configureUserForm() {
@@ -89,10 +94,7 @@ public class EditUserView extends SysPage implements HasUrlParameter<String>, Be
     }
 
 
-
-
     // private UserService userService;
-
 
 
     @Override

@@ -71,6 +71,7 @@ public class RestUserServiceImpl implements UsersService {
     @Override
     public UserDto update(UserDto userDto) {
 
+        System.out.println("try update user" + userDto.getId());
         return this.jsonUserClient.update(userDto);
     }
 }

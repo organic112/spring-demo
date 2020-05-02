@@ -1,5 +1,6 @@
 package com.potato112.springdemo.web.ui.user;
 
+import com.potato112.springdemo.SysUINotificationFactory;
 import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
 import com.potato112.springdemo.web.ui.constants.SysView;
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
@@ -62,6 +63,7 @@ public class CreateUserView extends SysPage implements BeforeLeaveObserver {
         DefaultConfirmAction<UserDto, String> saveAction = new DefaultConfirmAction<>(binder, usersService::create, id -> {
             userForm.resetGridIsChanged();
             UI.getCurrent().navigate(EditUserView.class, id);
+            SysUINotificationFactory.showSuccess("User created successfully.");
             // TODO show notification
         });
         saveAction.run();

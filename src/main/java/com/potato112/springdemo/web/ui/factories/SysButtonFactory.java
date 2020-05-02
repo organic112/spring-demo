@@ -78,9 +78,9 @@ public class SysButtonFactory {
 
     public Button createSaveButton(Runnable action) {
 
-        Icon icon = new Icon(VaadinIcon.CLOUD_DOWNLOAD_O);
-        Button saveButton = createPlainButton("save", icon);
-        saveButton.addClickListener(buttonClickEvent -> action.run());
+        Icon icon = new Icon(VaadinIcon.DATABASE);
+        Button saveButton = createPlainButton("Save", icon);
+        saveButton.addClickListener(event -> action.run());
         return saveButton;
     }
 }
