@@ -7,13 +7,11 @@ import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
 import com.potato112.springdemo.web.service.user.UserDto;
 import com.potato112.springdemo.web.service.user.UsersService;
 import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
-import com.potato112.springdemo.web.ui.common.SysMainActionBar;
 import com.potato112.springdemo.web.ui.common.SysUtilActionBar;
 import com.potato112.springdemo.web.ui.constants.SysView;
 import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.ui.common.SysPage;
 import com.potato112.springdemo.web.ui.factories.SysButtonFactory;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.router.*;
 
@@ -39,6 +37,20 @@ public class EditUserView extends SysPage implements HasUrlParameter<String>, Be
         this.securityService = securitySettings;
         this.usersService = usersService;
         this.binder = new BinderWithValueChangeListener<>(UserDto.class);
+    }
+
+    @Override
+    protected String getViewName() {
+        return VIEW_NAME;
+    }
+
+
+    @Override
+    public void setParameter(BeforeEvent beforeEvent, String param) {
+
+        UserDto userDto = usersService.getUser(param).orElseThrow(NoSuchElementException::new);
+        this.binder.setBean(userDto);
+        configureUserForm();
     }
 
     private SysUtilActionBar createActionBar() {
@@ -81,20 +93,7 @@ public class EditUserView extends SysPage implements HasUrlParameter<String>, Be
 
     // private UserService userService;
 
-    @Override
-    protected String getViewName() {
-        return VIEW_NAME;
-    }
 
-
-    @Override
-    public void setParameter(BeforeEvent beforeEvent, String param) {
-
-        UserDto userDto = usersService.getUsers(param).orElseThrow(NoSuchElementException::new);
-        this.binder.setBean(userDto);
-        configureUserForm();
-
-    }
 
     @Override
     public void beforeLeave(BeforeLeaveEvent beforeLeaveEvent) {

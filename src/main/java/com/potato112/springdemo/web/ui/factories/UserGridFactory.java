@@ -50,7 +50,7 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
         sortingHelper.loadSorting(userGrid, SortingKey.USER_SORTING);
 
         CallbackDataProvider<UserOverviewResponseDto, Map<String, String>> provider = DataProvider.fromFilteringCallbacks(
-                query -> usersService.getUsers(QueryUtils.buildSearchVo(query, filters)).stream(),
+                query -> usersService.getUser(QueryUtils.buildSearchVo(query, filters)).stream(),
                 query -> usersService.count(QueryUtils.buildSearchVoForCountQuery(query, filters))
         );
 

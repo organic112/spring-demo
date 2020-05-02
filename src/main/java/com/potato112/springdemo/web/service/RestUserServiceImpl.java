@@ -39,7 +39,7 @@ public class RestUserServiceImpl implements UsersService {
     }
 
     @Override
-    public Collection<UserOverviewResponseDto> getUsers(OffsetSearchDto searchVo) {
+    public Collection<UserOverviewResponseDto> getUser(OffsetSearchDto searchVo) {
 
         OffsetResponseDto<UserOverviewResponseDto> response = getForSearch(searchVo);
         return response.getContent();
@@ -63,7 +63,7 @@ public class RestUserServiceImpl implements UsersService {
     }
 
     @Override
-    public Optional<UserDto> getUsers(String id) {
+    public Optional<UserDto> getUser(String id) {
 
         return Optional.of(this.jsonUserClient.getUserById(id));
     }

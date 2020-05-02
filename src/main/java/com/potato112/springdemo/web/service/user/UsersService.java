@@ -15,13 +15,13 @@ public interface UsersService {
 
     UserDetailsAuthority getUserByName(String userName);
 
-    Collection<UserOverviewResponseDto> getUsers(OffsetSearchDto searchVo);
+    Collection<UserOverviewResponseDto> getUser(OffsetSearchDto searchVo);
 
     int count(OffsetSearchDto searchVo);
 
     UserFormParametersDto getUserFromParameters();
 
-    Optional<UserDto> getUsers(String id);
+    Optional<UserDto> getUser(String id);
 
     UserDto update(UserDto userDto);
 
