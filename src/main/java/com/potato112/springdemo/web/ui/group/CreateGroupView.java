@@ -96,6 +96,6 @@ public class CreateGroupView extends SysPage implements BeforeLeaveObserver {
     }
 
     private boolean isEditView(Class<?> navigationTarget) {
-        return navigationTarget.isAssignableFrom(EditUserView.class);
+        return navigationTarget.isAssignableFrom(EditGroupView.class);
     }
 }

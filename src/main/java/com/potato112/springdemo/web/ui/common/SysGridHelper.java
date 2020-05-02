@@ -13,6 +13,7 @@ public class SysGridHelper {
         grid.addThemeVariants(GridVariant.LUMO_COLUMN_BORDERS);
         grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
 
+        grid.removeColumnByKey("id");
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
         grid.setWidth("2000px");
     }

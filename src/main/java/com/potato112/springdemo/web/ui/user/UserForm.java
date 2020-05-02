@@ -8,9 +8,6 @@ import com.vaadin.flow.data.binder.Binder;
 
 public class UserForm extends Div {
 
-
-
-
     public UserForm(Binder<UserDto> binder, UserFormParametersDto parameters , UserDetailsAuthority userContext) {
 
         UserBaseSection userBaseSection = new UserBaseSection(binder);

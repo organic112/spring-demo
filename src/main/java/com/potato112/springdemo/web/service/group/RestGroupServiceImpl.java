@@ -3,11 +3,13 @@ package com.potato112.springdemo.web.service.group;
 import com.google.gson.internal.$Gson$Preconditions;
 import com.potato112.springdemo.web.service.OffsetResponseDto;
 import com.potato112.springdemo.web.service.OffsetSearchDto;
+import com.potato112.springdemo.web.service.user.UserDto;
 import com.potato112.springdemo.web.ui.group.GroupDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -47,5 +49,18 @@ public class RestGroupServiceImpl implements GroupService {
     public int count(OffsetSearchDto searchDto) {
         OffsetResponseDto<GroupOverviewResponseDto> response = getForSearch(searchDto);
         return (int) response.getOffsetInfo().getTotal();
+    }
+
+    @Override
+    public Optional<GroupDto> getGroup(String id) {
+
+        return Optional.of(this.jsonGroupClient.getGroupById(id));
+    }
+
+    @Override
+    public GroupDto update(GroupDto groupDto) {
+        System.out.println("try update group" + groupDto.getId());
+
+        return this.jsonGroupClient.update(groupDto);
     }
 }

@@ -8,6 +8,7 @@ import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
 import com.potato112.springdemo.web.service.user.UserDto;
 import com.potato112.springdemo.web.ui.common.SysGridHelper;
 import com.potato112.springdemo.web.ui.constants.ViewName;
+import com.potato112.springdemo.web.ui.group.EditGroupView;
 import com.potato112.springdemo.web.ui.group.GroupDto;
 import com.potato112.springdemo.web.ui.user.EditUserView;
 import com.vaadin.flow.component.UI;
@@ -74,7 +75,7 @@ public class GroupGridFactory implements GridFactory<GroupOverviewResponseDto> {
     }
 
     private void navigateToEditView(GroupOverviewResponseDto group) {
-        UI.getCurrent().navigate(EditUserView.class, group.getId()); //fixme Edit group view
+        UI.getCurrent().navigate(EditGroupView.class, group.getId()); //fixme Edit group view
     }
 
     boolean getUserEditPermission() {

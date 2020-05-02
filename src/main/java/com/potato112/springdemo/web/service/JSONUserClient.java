@@ -25,8 +25,6 @@ public interface JSONUserClient {
     @GetMapping(value = "/api/v1/user", produces = MediaType.APPLICATION_JSON_VALUE)
     OffsetResponseDto<UserOverviewResponseDto> getUsers(@SpringQueryMap Map<String, String> params);
 
-    @GetMapping(value = "/api/v1/user/create-parameters", produces = MediaType.APPLICATION_JSON_VALUE)
-    UserFormParametersDto getUserParameters();
 
     @GetMapping(value = "/api/v1/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     UserDto getUserById(@PathVariable("userId") String userId);
@@ -35,4 +33,8 @@ public interface JSONUserClient {
     UserDto update(@RequestBody UserDto userDto);
 
 
+
+
+    @GetMapping(value = "/api/v1/user/create-parameters", produces = MediaType.APPLICATION_JSON_VALUE)
+    UserFormParametersDto getUserParameters();
 }

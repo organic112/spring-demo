@@ -38,7 +38,7 @@ public class GroupDto implements Serializable {
 
     @Valid
     @Size(min = 1, message = "Please add at least one Group")
-    private List<GroupPermissionDto> userGroups = new ArrayList<>();
+    private List<GroupPermissionDto> groupPermissions = new ArrayList<>();
 
     boolean isActive;
 
