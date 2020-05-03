@@ -3,12 +3,15 @@ package com.potato112.springdemo.web.ui.group;
 import com.potato112.springdemo.web.service.group.GroupPermissionDto;
 import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
 import com.potato112.springdemo.web.ui.LookupWindow;
+import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
 import com.potato112.springdemo.web.ui.common.SysGridHelper;
 import com.potato112.springdemo.web.ui.factories.CommonGridColumnFactory;
 import com.potato112.springdemo.web.ui.factories.GridFactory;
 import com.potato112.springdemo.web.ui.factories.SysButtonFactory;
 import com.potato112.springdemo.web.ui.factories.SysGridHeaderFactory;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 
 import java.util.List;
@@ -26,10 +29,14 @@ public class GroupPermissionsGridFactory implements GridFactory<GroupPermissionD
 
     private LookupWindow lookupWindow;
 
+    DefaultConfirmAction<GroupDto, GroupDto> saveAction;
+
     /**
      * Wraps grid of current group permission
      */
     public GroupPermissionsGridFactory(GroupDto bean, UserAuthorityVo authorityVo) {
+
+       // this.confirmUpdateEvent = confirmUpdateEvent;
 
         this.authorityVo = authorityVo;
 
@@ -37,9 +44,9 @@ public class GroupPermissionsGridFactory implements GridFactory<GroupPermissionD
             throw new IllegalArgumentException("Group form is not initialized. Bean is null");
         }
         this.groupPermissionsGrid = new Grid<>(GroupPermissionDto.class);
-        // this.groupPermissionsGrid = new Grid<>();
         SysGridHelper.initializeGridStyle(groupPermissionsGrid);
-        // groupPermissionsGrid.setColumns("viewName","canCreate","canUpdate","canDelete");
+
+
         List<GroupPermissionDto> groupPermissions = bean.getGroupPermissions();
         System.out.println("Group permissions size: " + groupPermissions.size());
 
@@ -76,12 +83,12 @@ public class GroupPermissionsGridFactory implements GridFactory<GroupPermissionD
 
         Grid.Column<GroupPermissionDto> actionColumn = factory.addEditRowActionColumn(groupPermissionsGrid, this::openEditLookupWindow);
 
-        //actionColumn.setSortable(false).setFlexGrow(0).setWidth("150px").setHeader(VaadinIcon.DIAMOND.create()).setTextAlign(ColumnTextAlign.CENTER);
+        actionColumn.setSortable(false).setFlexGrow(0).setWidth("150px").setTextAlign(ColumnTextAlign.CENTER);
         return actionColumn;
     }
-    private void openEditLookupWindow(GroupPermissionDto groupPermissionDto) {
+    private void openEditLookupWindow(GroupPermissionDto groupPermissionDto ) {
 
-        this.lookupWindow = new LookupWindow(groupPermissionDto, groupPermissionsGrid, saveButton);
+        this.lookupWindow = new LookupWindow(groupPermissionDto, groupPermissionsGrid, saveAction);
         lookupWindow.open();
     }
 
@@ -97,8 +104,8 @@ public class GroupPermissionsGridFactory implements GridFactory<GroupPermissionD
 
     }
 
-    public void setSaveButton(Button button) {
-        this.saveButton = button;
+    public void setSaveAction(DefaultConfirmAction<GroupDto, GroupDto> saveAction){
+         this.saveAction = saveAction;
     }
 
 }

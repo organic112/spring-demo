@@ -1,6 +1,7 @@
 package com.potato112.springdemo.web.ui.group;
 
 
+import com.potato112.springdemo.SysUINotificationFactory;
 import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 import com.potato112.springdemo.web.form.listeners.DefaultLeaveFormAction;
@@ -28,6 +29,8 @@ public class CreateGroupView extends SysPage implements BeforeLeaveObserver {
     private final transient GroupService groupService;
     private UserAuthorityVo authorityVo;
 
+    DefaultConfirmAction<GroupDto, GroupDto> saveAction;
+
     private GroupForm groupForm;
     private Button saveButton;
 
@@ -40,7 +43,16 @@ public class CreateGroupView extends SysPage implements BeforeLeaveObserver {
         this.groupService = groupService;
         this.binder = new BinderWithValueChangeListener<>(GroupDto.class);
 
+        saveAction = new DefaultConfirmAction<>(binder, groupService::update, this::confirmAction);
+
         configureGroupForm();
+    }
+
+    private void confirmAction(GroupDto updatedUser) {
+        this.binder.setBean(updatedUser);
+        //this.userForm.setUpdatedUserGroups(updatedUser);  FIXME
+        this.groupForm.resetGridIsChanged();
+        SysUINotificationFactory.showSuccess("Group successfully updated.");
     }
 
     @Override
@@ -64,8 +76,8 @@ public class CreateGroupView extends SysPage implements BeforeLeaveObserver {
 
     private void configureGroupForm() {
         binder.setBean(new GroupDto());
-        groupForm = new GroupForm(binder, authorityVo, saveButton);
-        groupForm.add(saveButton);
+        groupForm = new GroupForm(binder, authorityVo, saveAction);
+        //groupForm.add(saveButton);
         this.setContent(groupForm);
     }
 

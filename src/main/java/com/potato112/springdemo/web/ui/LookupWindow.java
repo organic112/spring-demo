@@ -1,8 +1,14 @@
 package com.potato112.springdemo.web.ui;
 
+import com.google.common.cache.RemovalListener;
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 import com.potato112.springdemo.web.service.group.GroupPermissionDto;
+import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
 import com.potato112.springdemo.web.ui.constants.ViewName;
+import com.potato112.springdemo.web.ui.factories.SysButtonFactory;
+import com.potato112.springdemo.web.ui.group.GroupDto;
+import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -11,6 +17,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.renderer.ClickableRenderer;
 
 import java.util.EnumSet;
 
@@ -23,14 +30,12 @@ public class LookupWindow extends Dialog {
 
     private BinderWithValueChangeListener<GroupPermissionDto> binder = new BinderWithValueChangeListener<>(GroupPermissionDto.class);
 
-    public LookupWindow(GroupPermissionDto groupPermissionDto, Grid<GroupPermissionDto> grid, Button saveGroupButton) {
+    public LookupWindow(GroupPermissionDto groupPermissionDto, Grid<GroupPermissionDto> grid, DefaultConfirmAction<GroupDto, GroupDto> saveAction) {
 
         this.binder.setBean(groupPermissionDto);
 
         VerticalLayout verticalLayout = new VerticalLayout();
-
         VerticalLayout formVertical = new VerticalLayout();
-
         HorizontalLayout horizontalLayoutLine2 = new HorizontalLayout();
         horizontalLayoutLine2.setAlignItems(FlexComponent.Alignment.CENTER);
 
@@ -49,23 +54,30 @@ public class LookupWindow extends Dialog {
 
         formVertical.add(viewNameCombo, canCreate, canUpdate, canDelete);
 
-        Button confirmButton = saveGroupButton;
+
+        SysButtonFactory sysButtonFactory = new SysButtonFactory();
+        Button confirmButton = sysButtonFactory.createSaveButton(saveAction);
 
         confirmButton.addClickListener(buttonClickEvent -> {
 
-            grid.getDataProvider().refreshAll();
-            this.close();
+                // FIXME workaround to avoid refresh breaking keys when using grid.getDataProvider().refreshAll();
+                grid.setDataProvider(grid.getDataProvider());
+                this.close();
         });
 
         Button cancelBtn = new Button("CANCEL");
         cancelBtn.addClickListener(buttonClickEvent -> {
+
             this.close();
         });
 
         horizontalLayoutLine2.add(confirmButton, cancelBtn);
         verticalLayout.add(formVertical, horizontalLayoutLine2);
         this.add(verticalLayout);
-    }
 
+
+
+
+    }
 
 }

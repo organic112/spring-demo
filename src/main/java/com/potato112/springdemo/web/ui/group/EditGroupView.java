@@ -30,6 +30,8 @@ public class EditGroupView extends SysPage implements HasUrlParameter<String>, B
 
     private GroupService groupService;
 
+    DefaultConfirmAction<GroupDto, GroupDto> saveAction;
+
 
     private Button saveButton;
     private GroupForm groupForm;
@@ -81,8 +83,7 @@ public class EditGroupView extends SysPage implements HasUrlParameter<String>, B
         this.add(mainActionBar);
 
         UserAuthorityVo authorityVo = getUserCUDAuthorization();
-        groupForm = new GroupForm(binder, authorityVo, saveButton);
-        //groupForm.setSaveButton(saveButton);
+        groupForm = new GroupForm(binder, authorityVo, saveAction);
         this.setContent(groupForm);
     }
 
@@ -95,7 +96,7 @@ public class EditGroupView extends SysPage implements HasUrlParameter<String>, B
 
     private Button createSaveButton() {
         SysButtonFactory sysButtonFactory = new SysButtonFactory();
-        DefaultConfirmAction<GroupDto, GroupDto> saveAction = new DefaultConfirmAction<>(binder, groupService::update, this::confirmAction);
+        saveAction = new DefaultConfirmAction<>(binder, groupService::update, this::confirmAction);
         return sysButtonFactory.createSaveButton(saveAction);
     }
 

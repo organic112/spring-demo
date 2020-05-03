@@ -2,6 +2,7 @@ package com.potato112.springdemo.web.ui.group;
 
 import com.potato112.springdemo.web.service.group.GroupPermissionDto;
 import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
+import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
@@ -12,20 +13,17 @@ public class GroupForm extends Div {
 
     private final GroupPermissionsGridFactory groupPermissionsGridFactory;
 
-    private Button saveButton;
-
     Grid<GroupPermissionDto> permissionsGrid;
 
-    public GroupForm(Binder<GroupDto> binder, UserAuthorityVo authorityVo, Button saveButton) {
-
-        this.saveButton = saveButton;
+    public GroupForm(Binder<GroupDto> binder, UserAuthorityVo authorityVo, DefaultConfirmAction<GroupDto, GroupDto> saveAction) {
 
         GroupBaseSection groupBaseSection = new GroupBaseSection(binder);
         groupPermissionsGridFactory = new GroupPermissionsGridFactory(binder.getBean(), authorityVo);
 
         permissionsGrid = groupPermissionsGridFactory.create();
 
-        groupPermissionsGridFactory.setSaveButton(saveButton);
+        groupPermissionsGridFactory.setSaveAction(saveAction);
+
 
         Button addButton = groupPermissionsGridFactory.createAddGroupPermissionsButton();
 
@@ -42,7 +40,7 @@ public class GroupForm extends Div {
 
         System.out.println("FIXME permissions grid reload !");
 
-       // permissionsGrid.getDataProvider().refreshAll();
+        // permissionsGrid.getDataProvider().refreshAll();
     }
 
 
