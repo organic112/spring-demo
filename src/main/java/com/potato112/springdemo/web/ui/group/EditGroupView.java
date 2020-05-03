@@ -5,6 +5,8 @@ import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 import com.potato112.springdemo.web.form.listeners.DefaultLeaveFormAction;
 import com.potato112.springdemo.web.service.group.GroupService;
+import com.potato112.springdemo.web.service.security.UserAuthService;
+import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
 import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
 import com.potato112.springdemo.web.ui.common.SysPage;
 import com.potato112.springdemo.web.ui.common.SysUtilActionBar;
@@ -26,14 +28,18 @@ public class EditGroupView extends SysPage implements HasUrlParameter<String>, B
 
     private final BinderWithValueChangeListener<GroupDto> binder;
 
-    GroupService groupService;
+    private GroupService groupService;
+
 
     private Button saveButton;
     private GroupForm groupForm;
 
-    public EditGroupView(GroupService groupService) {
+    public EditGroupView(GroupService groupService, UserAuthService userAuthService) {
+        this.userAuthService = userAuthService;
+
         this.groupService = groupService;
         this.binder = new BinderWithValueChangeListener<>(GroupDto.class);
+
     }
 
     @Override
@@ -45,9 +51,9 @@ public class EditGroupView extends SysPage implements HasUrlParameter<String>, B
      * When redirected from Overview sets edit form with current item  data by item id.
      */
     @Override
-    public void setParameter(BeforeEvent beforeEvent, String param) {
+    public void setParameter(BeforeEvent beforeEvent, String id) {
 
-        GroupDto groupDto = groupService.getGroup(param).orElseThrow(NoSuchElementException::new);
+        GroupDto groupDto = groupService.getGroup(id).orElseThrow(NoSuchElementException::new);
         this.binder.setBean(groupDto);
         configureGroupForm();
     }
@@ -74,7 +80,8 @@ public class EditGroupView extends SysPage implements HasUrlParameter<String>, B
         SysUtilActionBar mainActionBar = createActionBar();
         this.add(mainActionBar);
 
-        groupForm = new GroupForm(binder);
+        UserAuthorityVo authorityVo = getUserCUDAuthorization();
+        groupForm = new GroupForm(binder, authorityVo, saveButton);
         //groupForm.setSaveButton(saveButton);
         this.setContent(groupForm);
     }

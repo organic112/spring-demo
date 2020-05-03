@@ -103,7 +103,7 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
         lockedColumn.setHeader(headerFactory.createHeader("Locked"));
 
         if (getUserEditPermission()) {
-            new CommonGridColumnFactory(userAuthorityVo).addActionColumn(userGrid, this::navigateToEditView);
+            new CommonGridColumnFactory(userAuthorityVo).addEditRowActionColumn(userGrid, this::navigateToEditView);
         }
 
         userGrid.setSortableColumns(UserDto.AttributeName.EMAIL, UserDto.AttributeName.FIRST_NAME, UserDto.AttributeName.LAST_NAME,
@@ -111,6 +111,8 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
     }
 
     private void navigateToEditView(UserOverviewResponseDto user) {
+
+
         UI.getCurrent().navigate(EditUserView.class, user.getId());
     }
 

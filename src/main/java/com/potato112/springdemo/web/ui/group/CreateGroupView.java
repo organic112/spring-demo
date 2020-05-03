@@ -5,6 +5,8 @@ import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 import com.potato112.springdemo.web.form.listeners.DefaultLeaveFormAction;
 import com.potato112.springdemo.web.service.group.GroupService;
+import com.potato112.springdemo.web.service.security.UserAuthService;
+import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
 import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
 import com.potato112.springdemo.web.ui.common.SysMainActionBar;
 import com.potato112.springdemo.web.ui.common.SysPage;
@@ -24,14 +26,17 @@ public class CreateGroupView extends SysPage implements BeforeLeaveObserver {
 
     private final BinderWithValueChangeListener<GroupDto> binder;
     private final transient GroupService groupService;
+    private UserAuthorityVo authorityVo;
 
     private GroupForm groupForm;
     private Button saveButton;
 
-    public CreateGroupView(GroupService groupService) {
+    public CreateGroupView(GroupService groupService, UserAuthService userAuthService ) {
+
+        this.userAuthService = userAuthService;
+        authorityVo = getUserCUDAuthorization();
 
         configureCreateUserView();
-
         this.groupService = groupService;
         this.binder = new BinderWithValueChangeListener<>(GroupDto.class);
 
@@ -59,7 +64,7 @@ public class CreateGroupView extends SysPage implements BeforeLeaveObserver {
 
     private void configureGroupForm() {
         binder.setBean(new GroupDto());
-        groupForm = new GroupForm(binder);
+        groupForm = new GroupForm(binder, authorityVo, saveButton);
         groupForm.add(saveButton);
         this.setContent(groupForm);
     }

@@ -10,7 +10,6 @@ import com.potato112.springdemo.web.ui.common.SysGridHelper;
 import com.potato112.springdemo.web.ui.constants.ViewName;
 import com.potato112.springdemo.web.ui.group.EditGroupView;
 import com.potato112.springdemo.web.ui.group.GroupDto;
-import com.potato112.springdemo.web.ui.user.EditUserView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
@@ -26,10 +25,13 @@ public class GroupGridFactory implements GridFactory<GroupOverviewResponseDto> {
     private UserAuthorityVo userAuthorityVo;
     private Map<String, String> filters;
 
+
     public GroupGridFactory(GroupService groupService, UserAuthorityVo userAuthorityVo, Map<String, String> filters) {
         this.groupService = groupService;
         this.userAuthorityVo = userAuthorityVo;
         this.filters = filters;
+
+
     }
 
     @Override
@@ -70,12 +72,13 @@ public class GroupGridFactory implements GridFactory<GroupOverviewResponseDto> {
 
 
         if (getUserEditPermission()) {
-            new CommonGridColumnFactory(userAuthorityVo).addActionColumn(groupsGrid, this::navigateToEditView);
+            new CommonGridColumnFactory(userAuthorityVo).addEditRowActionColumn(groupsGrid, this::navigateToEditView);
         }
     }
 
     private void navigateToEditView(GroupOverviewResponseDto group) {
-        UI.getCurrent().navigate(EditGroupView.class, group.getId()); //fixme Edit group view
+
+        UI.getCurrent().navigate(EditGroupView.class, group.getId());
     }
 
     boolean getUserEditPermission() {

@@ -13,6 +13,7 @@ public class CommonGridColumnFactory {
 
     private UserAuthorityVo userAuthorityVo;
 
+
     public CommonGridColumnFactory(UserAuthorityVo userAuthorityVo) {
         this.userAuthorityVo = userAuthorityVo;
     }
@@ -36,11 +37,33 @@ public class CommonGridColumnFactory {
         return column;
     }
 
-    public <T> Grid.Column<T> addActionColumn(Grid<T> grid, Consumer<T> navigationAction) {
+    public <T> Grid.Column<T> addEditRowActionColumn(Grid<T> grid, Consumer<T> navigationAction) {
 
         return grid.addComponentColumn(item -> {
 
             Icon icon = new Icon(VaadinIcon.PENCIL);
+
+            SysButtonFactory buttonFactory = new SysButtonFactory();
+            Button editButton = buttonFactory.createEditButton(icon, () -> navigationAction.accept(item));
+
+            editButton.setVisible(getUserEditPermission());
+
+            editButton.setHeight("16px");
+            return new Div(editButton);
+        }).setFlexGrow(0)
+                .setWidth("68px")
+                .setHeader(new SysGridHeaderFactory().createActionsHeader("EDIT"));
+    }
+
+    /**
+     * Intended for abstract action column with button
+     *
+     */
+    public <T> Grid.Column<T> addActionColumn(Grid<T> grid, Consumer<T> navigationAction) {
+
+        return grid.addComponentColumn(item -> {
+
+            Icon icon = new Icon(VaadinIcon.ENTER);
 
             SysButtonFactory buttonFactory = new SysButtonFactory();
             Button editButton = buttonFactory.createEditButton(icon, () -> navigationAction.accept(item));

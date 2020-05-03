@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 
 @Route(value = GroupsOverview.ROUTE, layout = MainView.class)
-@Secured(value = GroupsOverview.VIEW_NAME)
+//@Secured(value = GroupsOverview.VIEW_NAME)
 public class GroupsOverview extends SysPage {
 
 

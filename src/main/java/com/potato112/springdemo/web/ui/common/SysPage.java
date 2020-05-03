@@ -17,9 +17,7 @@ import java.util.Optional;
 //@AllArgsConstructor
 public abstract class SysPage extends Div {
 
-
     protected UserAuthService userAuthService;
-
 
     private Div blankPage;
     private Div headerContainer;
