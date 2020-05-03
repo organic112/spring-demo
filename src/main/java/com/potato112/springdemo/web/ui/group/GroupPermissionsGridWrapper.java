@@ -3,10 +3,13 @@ package com.potato112.springdemo.web.ui.group;
 import com.potato112.springdemo.SysUINotificationFactory;
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 import com.potato112.springdemo.web.service.group.GroupPermissionDto;
+import com.potato112.springdemo.web.service.user.UserDto;
 import com.potato112.springdemo.web.ui.common.SysDropdownFactory;
 import com.potato112.springdemo.web.ui.common.SysDropdownMenu;
 import com.potato112.springdemo.web.ui.common.SysGridHelper;
 import com.potato112.springdemo.web.ui.factories.SysButtonFactory;
+import com.potato112.springdemo.web.ui.factories.SysGridHeaderFactory;
+import com.potato112.springdemo.web.ui.user.UserOverviewResponseDto;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -46,11 +49,11 @@ public class GroupPermissionsGridWrapper implements Serializable {
         if (null == bean) {
             throw new IllegalArgumentException("Group form is not initialized. Bean is null");
         }
-        //this.groupPermissionsGrid = new Grid<>(GroupPermissionDto.class);
-        this.groupPermissionsGrid = new Grid<>();
-        //SysGridHelper.initializeGridStyle(groupPermissionsGrid);
+        this.groupPermissionsGrid = new Grid<>(GroupPermissionDto.class);
+       // this.groupPermissionsGrid = new Grid<>();
+        SysGridHelper.initializeGridStyle(groupPermissionsGrid);
 
-       // groupPermissionsGrid.setColumns("viewName","canCreate","canUpdate","canDelete");
+        //groupPermissionsGrid.setColumns("viewName","canCreate","canUpdate","canDelete");
 
         List<GroupPermissionDto> groupPermissions = bean.getGroupPermissions();
         System.out.println("Group permissions size: "+groupPermissions.size());
@@ -76,11 +79,24 @@ public class GroupPermissionsGridWrapper implements Serializable {
 
     public Grid<GroupPermissionDto> create(){
 
+        SysGridHeaderFactory headerFactory = new SysGridHeaderFactory();
+        groupPermissionsGrid.setColumns();
+        
 
+        Grid.Column<GroupPermissionDto> viewNameColumn = groupPermissionsGrid.addColumn("viewName");
+        viewNameColumn.setHeader(headerFactory.createHeader("View Name"));
+
+        Grid.Column<GroupPermissionDto> canCreateColumn = groupPermissionsGrid.addColumn("canCreate");
+        canCreateColumn.setHeader(headerFactory.createHeader("Create"));
+
+        Grid.Column<GroupPermissionDto> canUpdateColumn = groupPermissionsGrid.addColumn("canUpdate");
+        canUpdateColumn.setHeader(headerFactory.createHeader("Update"));
+
+        Grid.Column<GroupPermissionDto> canDeleteColumn = groupPermissionsGrid.addColumn("canDelete");
+        canDeleteColumn.setHeader(headerFactory.createHeader("Delete"));
 
         Grid.Column<GroupPermissionDto> actionColumn = configureActionColumn();
-        groupPermissionsGrid.setColumnOrder(actionColumn);
-
+        groupPermissionsGrid.setColumnOrder(viewNameColumn, canCreateColumn,canUpdateColumn ,canDeleteColumn, actionColumn);
 
         return groupPermissionsGrid;
     }
