@@ -12,13 +12,18 @@ public class GroupForm extends Div {
 
     private final GroupPermissionsGridFactory groupPermissionsGridFactory;
 
+    private Button saveButton;
+
+    Grid<GroupPermissionDto> permissionsGrid;
 
     public GroupForm(Binder<GroupDto> binder, UserAuthorityVo authorityVo, Button saveButton) {
+
+        this.saveButton = saveButton;
 
         GroupBaseSection groupBaseSection = new GroupBaseSection(binder);
         groupPermissionsGridFactory = new GroupPermissionsGridFactory(binder.getBean(), authorityVo);
 
-        Grid<GroupPermissionDto> permissionsGrid = groupPermissionsGridFactory.create();
+        permissionsGrid = groupPermissionsGridFactory.create();
 
         groupPermissionsGridFactory.setSaveButton(saveButton);
 
@@ -35,7 +40,9 @@ public class GroupForm extends Div {
 
     public void resetGridIsChanged() {
 
-        System.out.println("FIXME implement grid reset !");
+        System.out.println("FIXME permissions grid reload !");
+
+       // permissionsGrid.getDataProvider().refreshAll();
     }
 
 

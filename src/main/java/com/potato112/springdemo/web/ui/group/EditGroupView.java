@@ -94,10 +94,8 @@ public class EditGroupView extends SysPage implements HasUrlParameter<String>, B
     }
 
     private Button createSaveButton() {
-
         SysButtonFactory sysButtonFactory = new SysButtonFactory();
         DefaultConfirmAction<GroupDto, GroupDto> saveAction = new DefaultConfirmAction<>(binder, groupService::update, this::confirmAction);
-
         return sysButtonFactory.createSaveButton(saveAction);
     }
 

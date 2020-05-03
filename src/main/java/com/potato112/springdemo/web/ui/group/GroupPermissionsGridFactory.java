@@ -1,6 +1,5 @@
 package com.potato112.springdemo.web.ui.group;
 
-import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 import com.potato112.springdemo.web.service.group.GroupPermissionDto;
 import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
 import com.potato112.springdemo.web.ui.LookupWindow;
@@ -17,7 +16,7 @@ import java.util.List;
 public class GroupPermissionsGridFactory implements GridFactory<GroupPermissionDto> {
 
     private Grid<GroupPermissionDto> groupPermissionsGrid;
-    private BinderWithValueChangeListener<GroupPermissionDto> groupPermissionBinder;
+   // private BinderWithValueChangeListener<GroupPermissionDto> groupPermissionBinder;
     UserAuthorityVo authorityVo;
 
     private Button addButton;
@@ -45,9 +44,6 @@ public class GroupPermissionsGridFactory implements GridFactory<GroupPermissionD
         System.out.println("Group permissions size: " + groupPermissions.size());
 
         this.groupPermissionsGrid.setItems(groupPermissions);
-
-
-
     }
 
     public Grid<GroupPermissionDto> create() {
@@ -68,6 +64,7 @@ public class GroupPermissionsGridFactory implements GridFactory<GroupPermissionD
         canDeleteColumn.setHeader(headerFactory.createHeader("Delete"));
 
         Grid.Column<GroupPermissionDto> actionColumn = configureActionColumn();
+
         groupPermissionsGrid.setColumnOrder(viewNameColumn, canCreateColumn, canUpdateColumn, canDeleteColumn, actionColumn);
 
         return groupPermissionsGrid;
@@ -77,17 +74,14 @@ public class GroupPermissionsGridFactory implements GridFactory<GroupPermissionD
 
         CommonGridColumnFactory factory = new CommonGridColumnFactory(authorityVo);
 
-        Grid.Column<GroupPermissionDto> actionColumn = factory.addEditRowActionColumn(groupPermissionsGrid, this::navigateToEditView);
+        Grid.Column<GroupPermissionDto> actionColumn = factory.addEditRowActionColumn(groupPermissionsGrid, this::openEditLookupWindow);
 
         //actionColumn.setSortable(false).setFlexGrow(0).setWidth("150px").setHeader(VaadinIcon.DIAMOND.create()).setTextAlign(ColumnTextAlign.CENTER);
         return actionColumn;
     }
-    private void navigateToEditView(GroupPermissionDto groupPermissionDto) {
+    private void openEditLookupWindow(GroupPermissionDto groupPermissionDto) {
 
-        this.groupPermissionBinder = new BinderWithValueChangeListener<>(GroupPermissionDto.class);
-        this.groupPermissionBinder.setBean(groupPermissionDto);
-
-        this.lookupWindow = new LookupWindow(groupPermissionBinder, saveButton);
+        this.lookupWindow = new LookupWindow(groupPermissionDto, groupPermissionsGrid, saveButton);
         lookupWindow.open();
     }
 

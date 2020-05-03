@@ -1,26 +1,18 @@
 package com.potato112.springdemo.web.ui;
 
+import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 import com.potato112.springdemo.web.service.group.GroupPermissionDto;
-import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
 import com.potato112.springdemo.web.ui.constants.ViewName;
-import com.potato112.springdemo.web.ui.factories.SysButtonFactory;
-import com.potato112.springdemo.web.ui.group.GroupDto;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
-import javafx.collections.ObservableList;
 
-
-import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -29,10 +21,11 @@ import java.util.Set;
 public class LookupWindow extends Dialog {
 
 
-    public LookupWindow( Binder<GroupPermissionDto> binder, Button saveButton) {
+    private BinderWithValueChangeListener<GroupPermissionDto> binder = new BinderWithValueChangeListener<>(GroupPermissionDto.class);
 
+    public LookupWindow(GroupPermissionDto groupPermissionDto, Grid<GroupPermissionDto> grid, Button saveGroupButton) {
 
-        GroupPermissionDto dto = binder.getBean();
+        this.binder.setBean(groupPermissionDto);
 
         VerticalLayout verticalLayout = new VerticalLayout();
 
@@ -56,12 +49,23 @@ public class LookupWindow extends Dialog {
 
         formVertical.add(viewNameCombo, canCreate, canUpdate, canDelete);
 
-        Button confirmButton = saveButton;
+        Button confirmButton = saveGroupButton;
+
+        confirmButton.addClickListener(buttonClickEvent -> {
+
+            grid.getDataProvider().refreshAll();
+            this.close();
+        });
+
         Button cancelBtn = new Button("CANCEL");
+        cancelBtn.addClickListener(buttonClickEvent -> {
+            this.close();
+        });
 
         horizontalLayoutLine2.add(confirmButton, cancelBtn);
         verticalLayout.add(formVertical, horizontalLayoutLine2);
         this.add(verticalLayout);
     }
+
 
 }
