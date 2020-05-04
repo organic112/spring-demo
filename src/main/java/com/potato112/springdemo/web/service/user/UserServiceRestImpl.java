@@ -29,6 +29,7 @@ public class UserServiceRestImpl implements UsersService {
 
     @Override
     public UserDetailsAuthority getUserByName(String userName) {
+
         return this.jsonUserClient.getUserByName(userName);
     }
 
