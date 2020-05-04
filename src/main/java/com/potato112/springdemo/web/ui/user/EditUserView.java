@@ -5,10 +5,10 @@ import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener
 import com.potato112.springdemo.web.form.listeners.DefaultLeaveFormAction;
 import com.potato112.springdemo.web.service.security.WebSecurityService;
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
-import com.potato112.springdemo.web.service.user.UserDto;
-import com.potato112.springdemo.web.service.user.UsersService;
-import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
-import com.potato112.springdemo.web.ui.common.SysUtilActionBar;
+import com.potato112.springdemo.web.service.user.model.UserDto;
+import com.potato112.springdemo.web.service.user.model.UsersService;
+import com.potato112.springdemo.web.ui.common.action.DefaultConfirmAction;
+import com.potato112.springdemo.web.ui.common.action.SysUtilActionBar;
 import com.potato112.springdemo.web.ui.constants.SysView;
 import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.ui.common.SysPage;
@@ -23,7 +23,6 @@ public class EditUserView extends SysPage implements HasUrlParameter<String>, Be
 
     public static final String ROUTE = "user/edit";
     public static final String VIEW_NAME = SysView.AdministrationArea.USER_VIEW;
-
     public static final Class<UserOverview> BACK_NAVIGATION_TARGET = UserOverview.class;
 
     private final BinderWithValueChangeListener<UserDto> binder;
@@ -54,6 +53,21 @@ public class EditUserView extends SysPage implements HasUrlParameter<String>, Be
         UserDto userDto = usersService.getUser(param).orElseThrow(NoSuchElementException::new);
         this.binder.setBean(userDto);
         configureUserForm();
+    }
+
+    @Override
+    public void beforeLeave(BeforeLeaveEvent beforeLeaveEvent) {
+        Class<?> navigationTarget = beforeLeaveEvent.getNavigationTarget();
+        if (isEditView(navigationTarget)) {
+            return;
+        }
+        if (binder.wasModified() || userForm.gridWasModified()) {
+            beforeLeaveEvent.postpone();
+            DefaultLeaveFormAction cancelAction = new DefaultLeaveFormAction(beforeLeaveEvent, this::wasModified,
+                    () -> {
+                    });
+            cancelAction.run();
+        }
     }
 
     private SysUtilActionBar createActionBar() {
@@ -91,25 +105,6 @@ public class EditUserView extends SysPage implements HasUrlParameter<String>, Be
         userForm = new UserForm(binder, parametersDto, userContext);
         userForm.setSaveButton(saveButton);
         this.setContent(userForm);
-    }
-
-
-    // private UserService userService;
-
-
-    @Override
-    public void beforeLeave(BeforeLeaveEvent beforeLeaveEvent) {
-        Class<?> navigationTarget = beforeLeaveEvent.getNavigationTarget();
-        if (isEditView(navigationTarget)) {
-            return;
-        }
-        if (binder.wasModified() || userForm.gridWasModified()) {
-            beforeLeaveEvent.postpone();
-            DefaultLeaveFormAction cancelAction = new DefaultLeaveFormAction(beforeLeaveEvent, this::wasModified,
-                    () -> {
-                    });
-            cancelAction.run();
-        }
     }
 
     private boolean isEditView(Class<?> navigationTarget) {

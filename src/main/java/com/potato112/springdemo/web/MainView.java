@@ -22,11 +22,9 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
 
     public MainView(UserAuthService userAuthService) {
 
-
         this.setSpacing(false);
 
         log.info("Echo01 Create MainView...");
-
         Label mainViewLayoutTop = new Label("MAIN VIEW LAYOUT, below routed content:");
         add(mainViewLayoutTop);
 
@@ -35,7 +33,6 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
         div.add(contentContainer);
         mainContentWindow.add(div);
         add(mainContentWindow);
-
 
         Label mainViewLayoutLabel = new Label("mainViewLayoutLabel");
         Button logoutButton = new Button("LOGOUT");
@@ -48,7 +45,6 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
             UI.getCurrent().navigate(LoginView.class);
             UI.getCurrent().getPage().reload();*/
         });
-
         add(mainViewLayoutLabel, logoutButton);
     }
 
@@ -56,21 +52,17 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
     public void showRouterLayoutContent(HasElement hasElement) {
 
         log.info("Echo02 show router content...");
-
         Objects.requireNonNull(hasElement);
         Objects.requireNonNull(hasElement.getElement());
 
         log.info("Echo03 has element: " + hasElement.toString());
-
         contentContainer.removeAll();
         contentContainer.getElement().appendChild(hasElement.getElement());
-
         log.info("Echo04 added element to content container: " + hasElement.getElement().toString());
     }
 
     @Override
     public void configurePage(InitialPageSettings initialPageSettings) {
-
         log.info("Echo05 configure page...");
     }
 }

@@ -1,7 +1,7 @@
-package com.potato112.springdemo.web.ui.group;
+package com.potato112.springdemo.web.service.group.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.potato112.springdemo.web.service.group.GroupPermissionDto;
+import com.potato112.springdemo.web.service.group.model.GroupPermissionDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,13 +23,10 @@ public class GroupDto implements Serializable {
     public static final class AttributeName {
         private AttributeName() {
         }
-
         public static final String ID = "id";
         public static final String GROUP_NAME = "groupName";
         public static final String GROUP_PERMISSIONS = "groupPermissions";
-
     }
-
     private String id;
 
     @NotEmpty(message = "Group name should not be empty")
@@ -41,6 +38,4 @@ public class GroupDto implements Serializable {
     private List<GroupPermissionDto> groupPermissions = new ArrayList<>();
 
     boolean isActive;
-
-
 }

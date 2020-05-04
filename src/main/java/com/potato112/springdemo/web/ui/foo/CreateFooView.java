@@ -19,16 +19,13 @@ import org.springframework.security.access.annotation.Secured;
 
 
 @Route(value = CreateFooView.ROUTE,  layout = MainView.class)
-@Secured({
-        SysView.FooBusinessArea.FOO_OVERVIEW_VIEW,
-        SysView.AdministrationArea.USER_VIEW
-})
+@Secured(value = SysView.FooBusinessArea.FOO_OVERVIEW_VIEW)
 public class CreateFooView extends SysPage implements BeforeLeaveObserver {
 
     static final String ROUTE = "foo/create";
     public static final String VIEW_NAME = SysView.FooBusinessArea.FOO_OVERVIEW_VIEW;
-
     private static final Class<OverviewFooView> BACK_NAVIGATION_TARGET = OverviewFooView.class;
+
     private static final Class<EditFooView> EDIT_VIEW = EditFooView.class;
 
     private final BinderWithValueChangeListener<FooFormDetailsVO> binder;
@@ -48,11 +45,6 @@ public class CreateFooView extends SysPage implements BeforeLeaveObserver {
 
         this.button = new Button("test button");
         create();
-    }
-
-    private void create() {
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.add(button);
     }
 
     @Override
@@ -77,6 +69,11 @@ public class CreateFooView extends SysPage implements BeforeLeaveObserver {
         }
     }
 
+    private void create() {
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.add(button);
+    }
+
     private boolean isEditView(Class<?> navigationTarget) {
 
         return navigationTarget.isAssignableFrom(EDIT_VIEW);
@@ -86,6 +83,4 @@ public class CreateFooView extends SysPage implements BeforeLeaveObserver {
 
         UI.getCurrent().navigate(BACK_NAVIGATION_TARGET);
     }
-
-
 }

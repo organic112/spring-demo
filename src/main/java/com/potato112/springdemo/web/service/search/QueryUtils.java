@@ -1,29 +1,31 @@
 package com.potato112.springdemo.web.service.search;
 
-import com.potato112.springdemo.web.service.OffsetSearchDto;
+import com.potato112.springdemo.web.service.search.model.OffsetSearchDto;
 import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.data.provider.QuerySortOrder;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Provides
+ */
 public class QueryUtils {
-
 
     private QueryUtils() {
     }
 
-    public static OffsetSearchDto buildSearchVo(Query<?, ?> query, Map<String, String> filteringParams) {
+    public static OffsetSearchDto buildSearchDto(Query<?, ?> query, Map<String, String> filteringParams) {
 
-        return buildSearchVo(query.getOffset(), query.getLimit(), query.getSortOrders(), filteringParams);
+        return buildSearchDto(query.getOffset(), query.getLimit(), query.getSortOrders(), filteringParams);
     }
 
-    public static OffsetSearchDto buildSearchVoForCountQuery(Query<?, ?> query, Map<String, String> filteringParams) {
+    public static OffsetSearchDto buildSearchDtoForCountQuery(Query<?, ?> query, Map<String, String> filteringParams) {
 
-        return buildSearchVo(0, 1, query.getSortOrders(), filteringParams);
+        return buildSearchDto(0, 1, query.getSortOrders(), filteringParams);
     }
 
-    private static OffsetSearchDto buildSearchVo(int offset, int limit, List<QuerySortOrder> sortOrders, Map<String, String> filteringParams) {
+    private static OffsetSearchDto buildSearchDto(int offset, int limit, List<QuerySortOrder> sortOrders, Map<String, String> filteringParams) {
 
         OffsetSearchDto.SearchVoBuilder builder = OffsetSearchDto.builder();
         builder.part(offset, limit);

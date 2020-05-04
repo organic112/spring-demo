@@ -1,4 +1,4 @@
-package com.potato112.springdemo.web.ui.common;
+package com.potato112.springdemo.web.ui.common.action;
 
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 

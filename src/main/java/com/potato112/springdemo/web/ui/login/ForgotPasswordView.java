@@ -81,6 +81,4 @@ public class ForgotPasswordView extends AbstractLoginView implements BeforeEnter
             beforeEnterEvent.forwardTo(LandingPageExampleView.class);
         }
     }
-
-
 }

@@ -40,5 +40,4 @@ public enum Roles {
         }
         return Optional.empty();
     }
-
 }

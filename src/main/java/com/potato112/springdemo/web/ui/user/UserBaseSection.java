@@ -1,7 +1,7 @@
 package com.potato112.springdemo.web.ui.user;
 
-import com.potato112.springdemo.web.service.user.UserStatus;
-import com.potato112.springdemo.web.service.user.UserDto;
+import com.potato112.springdemo.web.service.user.model.UserStatus;
+import com.potato112.springdemo.web.service.user.model.UserDto;
 import com.potato112.springdemo.web.ui.factories.SysCheckBoxFactory;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;

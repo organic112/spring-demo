@@ -1,6 +1,6 @@
 package com.potato112.springdemo.conf;
 
-import com.potato112.springdemo.web.service.user.UserDetailsVO;
+import com.potato112.springdemo.web.service.user.model.UserDetailsDto;
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
 import com.potato112.springdemo.web.service.security.WebSecurityService;
 import feign.RequestInterceptor;
@@ -60,10 +60,10 @@ public class ClientConfiguration {
             if (!requestTemplate.url().contains("/login/")) {
 
                 UserDetailsAuthority user = webSecurityService.getUser();
-                UserDetailsVO userDetailsVO = user.getUserDetailsVO();
+                UserDetailsDto userDetailsDto = user.getUserDetailsDto();
 
                 // FIXME ! check this if this affects routing (foo = group)
-                String userFooId = userDetailsVO.getSelectedOrganizationId();
+                String userFooId = userDetailsDto.getSelectedOrganizationId();
                 requestTemplate.header(USER_FOO_CONTEXT_HEADER, userFooId);
 
                 log.info("Echo02 request interceptor (request headers setup)");

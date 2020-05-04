@@ -1,4 +1,4 @@
-package com.potato112.springdemo.web.ui.common;
+package com.potato112.springdemo.web.ui.common.grid;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;

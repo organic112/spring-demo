@@ -1,4 +1,4 @@
-package com.potato112.springdemo.web.ui.common;
+package com.potato112.springdemo.web.ui.common.exceptions;
 
 import com.potato112.springdemo.common.ErrorResult;
 import lombok.Data;

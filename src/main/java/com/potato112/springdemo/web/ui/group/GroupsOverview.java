@@ -4,12 +4,12 @@ package com.potato112.springdemo.web.ui.group;
 import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.form.filters.FilterKey;
 import com.potato112.springdemo.web.form.filters.FilteringHelper;
-import com.potato112.springdemo.web.service.group.GroupOverviewResponseDto;
-import com.potato112.springdemo.web.service.group.GroupService;
+import com.potato112.springdemo.web.service.group.model.GroupOverviewResponseDto;
+import com.potato112.springdemo.web.service.group.model.GroupService;
 import com.potato112.springdemo.web.service.security.UserAuthService;
-import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
+import com.potato112.springdemo.web.service.security.model.UserAuthorityDto;
 import com.potato112.springdemo.web.ui.common.SysPage;
-import com.potato112.springdemo.web.ui.common.SysUtilActionBar;
+import com.potato112.springdemo.web.ui.common.action.SysUtilActionBar;
 import com.potato112.springdemo.web.ui.constants.SysView;
 import com.potato112.springdemo.web.ui.factories.GroupGridFactory;
 import com.potato112.springdemo.web.ui.factories.SysButtonFactory;
@@ -30,40 +30,36 @@ import java.util.stream.Collectors;
 @Secured(value = GroupsOverview.VIEW_NAME)
 public class GroupsOverview extends SysPage {
 
-
     public static final String ROUTE = "group";
     public static final String VIEW_NAME = SysView.AdministrationArea.GROUP_VIEW; // change to GROUP_VIEW
 
     private final transient GroupService groupService;
 
     private final Grid<GroupOverviewResponseDto> groupsGrid;
-    private Set<String> selectedGridRowIds;
-
     private Map<String, String> filters;
+    private Set<String> selectedGridRowIds;
 
     @Override
     protected String getViewName() {
         return GroupsOverview.VIEW_NAME;
     }
 
-
     public GroupsOverview(GroupService groupService, UserAuthService userAuthService, FilteringHelper filteringHelper) {
-
         this.userAuthService = userAuthService;
-        UserAuthorityVo authorityVo = getUserCUDAuthorization();
+        UserAuthorityDto authorityVo = getUserCUDAuthorization();
 
         this.groupService = groupService;
-        this.filters = filteringHelper.loadFilters(FilterKey.GROUP_FILTERS);
-        this.groupsGrid = new GroupGridFactory(this.groupService, authorityVo, filters)
-                .create();
 
+        this.filters = filteringHelper.loadFilters(FilterKey.GROUP_FILTERS);
+        this.groupsGrid = new GroupGridFactory(this.groupService, authorityVo, filters).create();
         this.groupsGrid.addSelectionListener(this::getSelectedRowIds);
+
         this.selectedGridRowIds = new HashSet<>();
 
         SysButtonFactory buttonFactory = new SysButtonFactory();
         Button deleteButton = buttonFactory.createDeleteButton(this::deleteSelectedGroups);
-
         Button addButton = buttonFactory.createNavigationToCreateButton(CreateGroupView.class); //fixme create group view
+
         SysUtilActionBar actionBar = new SysUtilActionBar();
         actionBar.addItem(addButton);
         actionBar.addItem(deleteButton);

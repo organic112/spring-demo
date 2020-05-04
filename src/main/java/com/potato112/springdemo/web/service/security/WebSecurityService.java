@@ -31,13 +31,13 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public class WebSecurityService {
 
+    private static int MAX_NUMBER_SECURITY_NAMES_PER_VIEW = 1;
+
     private UserAuthService userAuthService;
 
     /**
      * Check if user is authenticated (logged in)
      * Note: AnonymousAuthenticationToken has to be ignored (it is always created)
-     *
-     * @return
      */
     public boolean isUserLoggedIn() {
         Authentication authentication = userAuthService.getAuthentication();
@@ -80,13 +80,23 @@ public class WebSecurityService {
             return true;
         }
 
-
-
         final List<String> securedPageViewNames = Arrays.asList(secured.value());
+        validateSecurityTag(securedPageViewNames);
+
         boolean isAccessGranted = isAccessGranted(securedPageViewNames);
 
         log.info("Echo02 Check is framework internal request:" + isAccessGranted);
         return isAccessGranted;
+    }
+
+    /**
+     * @Secured annotation on secured Page view should contain no more than 1 security tag.
+     * (this is
+     */
+    private void validateSecurityTag(List<String> values) {
+        if (values.size() > MAX_NUMBER_SECURITY_NAMES_PER_VIEW) {
+            throw new IllegalArgumentException("Security annotation contains more than 1 security tag.");
+        }
     }
 
     public boolean isAccessGranted(List<String> securedPageViewNames) {

@@ -1,4 +1,4 @@
-package com.potato112.springdemo.web.service;
+package com.potato112.springdemo.web.service.search.model;
 
 import lombok.Getter;
 
@@ -72,9 +72,5 @@ public class OffsetSearchDto {
             ret.sortOrder = this.sortOrder;
             return ret;
         }
-
-
-
-
     }
 }

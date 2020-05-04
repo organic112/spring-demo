@@ -1,6 +1,6 @@
 package com.potato112.springdemo.web.ui.user;
 
-import com.potato112.springdemo.web.service.user.UserStatus;
+import com.potato112.springdemo.web.service.user.model.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
 

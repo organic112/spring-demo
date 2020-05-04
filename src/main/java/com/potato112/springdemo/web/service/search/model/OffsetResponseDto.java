@@ -1,6 +1,5 @@
-package com.potato112.springdemo.web.service;
+package com.potato112.springdemo.web.service.search.model;
 
-import com.potato112.springdemo.web.service.search.OffsetInfoVo;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -13,5 +12,5 @@ import java.util.List;
 public class OffsetResponseDto<T> {
 
     private List<T> content;
-    private OffsetInfoVo offsetInfo;
+    private OffsetInfoDto offsetInfo;
 }

@@ -1,14 +1,11 @@
-package com.potato112.springdemo.web.ui;
+package com.potato112.springdemo.web.ui.common.dialogs;
 
-import com.google.common.cache.RemovalListener;
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
-import com.potato112.springdemo.web.service.group.GroupPermissionDto;
-import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
+import com.potato112.springdemo.web.service.group.model.GroupPermissionDto;
+import com.potato112.springdemo.web.ui.common.action.DefaultConfirmAction;
 import com.potato112.springdemo.web.ui.constants.ViewName;
 import com.potato112.springdemo.web.ui.factories.SysButtonFactory;
-import com.potato112.springdemo.web.ui.group.GroupDto;
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
+import com.potato112.springdemo.web.service.group.model.GroupDto;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -17,7 +14,6 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.data.renderer.ClickableRenderer;
 
 import java.util.EnumSet;
 

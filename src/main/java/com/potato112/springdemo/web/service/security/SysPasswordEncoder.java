@@ -14,11 +14,10 @@ import java.security.GeneralSecurityException;
 @Slf4j
 public class SysPasswordEncoder implements PasswordEncoder {
 
-
     @Override
     public String encode(CharSequence rawPassword) {
 
-        log.info("PASS01 encode raw password:" + rawPassword);
+        log.info("PASS01 encode raw password:" + rawPassword);  // FIXME REMOVE!
 
         if (StringUtils.isBlank(rawPassword)) {
             return null;
@@ -30,7 +29,7 @@ public class SysPasswordEncoder implements PasswordEncoder {
 
             String passKey = passwordHash.createPasswordKey(passToChar, saltToByte, 100);
 
-            log.info("PASS02 encoded to key:" + passKey);
+            log.info("PASS02 encoded to key:" + passKey); // FIXME REMOVE!
 
             return passKey;
         } catch (GeneralSecurityException e) {
@@ -46,5 +45,4 @@ public class SysPasswordEncoder implements PasswordEncoder {
         String encoded = encode(rawPassword);
         return encoded.equalsIgnoreCase(encodedPassword);
     }
-
 }

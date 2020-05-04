@@ -1,6 +1,6 @@
 package com.potato112.springdemo.web.service.security.model;
 
-import com.potato112.springdemo.web.service.group.GroupPermissionDto;
+import com.potato112.springdemo.web.service.group.model.GroupPermissionDto;
 import org.springframework.security.core.GrantedAuthority;
 
 
@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
  * - every group can have multiple Authorities
  * - user can have multiple groups
  */
-public class UserAuthorityVo implements GrantedAuthority {
+public class UserAuthorityDto implements GrantedAuthority {
 
     private GroupPermissionDto groupPermissionDto;
 
@@ -17,11 +17,10 @@ public class UserAuthorityVo implements GrantedAuthority {
     private boolean canUpdate;
     private boolean canDelete;
 
-
-    public UserAuthorityVo() {
+    public UserAuthorityDto() {
     }
 
-    public UserAuthorityVo(GroupPermissionDto groupPermissionsVO) {
+    public UserAuthorityDto(GroupPermissionDto groupPermissionsVO) {
         this.groupPermissionDto = groupPermissionsVO;
         canCreate = groupPermissionsVO.isCanCreate();
         canUpdate = groupPermissionsVO.isCanUpdate();

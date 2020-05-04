@@ -1,13 +1,13 @@
 package com.potato112.springdemo.web.ui.factories;
 
 import com.potato112.springdemo.web.service.search.QueryUtils;
-import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
+import com.potato112.springdemo.web.service.security.model.UserAuthorityDto;
 
-import com.potato112.springdemo.web.service.user.UsersService;
-import com.potato112.springdemo.web.service.user.UserDto;
-import com.potato112.springdemo.web.ui.common.SortingHelper;
-import com.potato112.springdemo.web.ui.common.SortingKey;
-import com.potato112.springdemo.web.ui.common.SysGridHelper;
+import com.potato112.springdemo.web.service.user.model.UsersService;
+import com.potato112.springdemo.web.service.user.model.UserDto;
+import com.potato112.springdemo.web.ui.common.grid.SortingHelper;
+import com.potato112.springdemo.web.ui.common.grid.SortingKey;
+import com.potato112.springdemo.web.ui.common.grid.SysGridHelper;
 import com.potato112.springdemo.web.ui.user.EditUserView;
 import com.potato112.springdemo.web.ui.user.UserOverviewResponseDto;
 import com.vaadin.flow.component.UI;
@@ -23,12 +23,12 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
     private static final SortingKey SORTING_KEY = SortingKey.USER_SORTING;
 
     private UsersService usersService;
-    private UserAuthorityVo userAuthorityVo;
+    private UserAuthorityDto userAuthorityDto;
     private Map<String, String> filters;
 
-    public UserGridFactory(UsersService usersService, UserAuthorityVo userAuthorityVo, Map<String, String> filters) {
+    public UserGridFactory(UsersService usersService, UserAuthorityDto userAuthorityDto, Map<String, String> filters) {
         this.usersService = usersService;
-        this.userAuthorityVo = userAuthorityVo;
+        this.userAuthorityDto = userAuthorityDto;
         this.filters = filters;
     }
 
@@ -43,28 +43,24 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
         });  // FIXME empty?
 
         buildColumns(userGrid);
-        //UserDetailsAuthority userDetailsAuthority = securityService.getUser();
-        //UserGroupVO userGroup = userDetailsAuthority.getAuthorities().g
-        //filters.put("userGroupId", userGroup.getId());
+        // UserDetailsAuthority userDetailsAuthority = securityService.getUser();
+        // UserGroupVO userGroup = userDetailsAuthority.getAuthorities().g
+        // filters.put("userGroupId", userGroup.getId());
 
         sortingHelper.loadSorting(userGrid, SortingKey.USER_SORTING);
 
         CallbackDataProvider<UserOverviewResponseDto, Map<String, String>> provider = DataProvider.fromFilteringCallbacks(
-                query -> usersService.getUser(QueryUtils.buildSearchVo(query, filters)).stream(),
-                query -> usersService.count(QueryUtils.buildSearchVoForCountQuery(query, filters))
+                query -> usersService.getUsers(QueryUtils.buildSearchDto(query, filters)).stream(),
+                query -> usersService.count(QueryUtils.buildSearchDtoForCountQuery(query, filters))
         );
 
 /*        Grid.Column<UserOverviewResponseDto> userGroupsColumn = userGrid.addComponentColumn(gropuDto -> {
-
             List<String> groupNames = gropuDto.getUserGroups();
             return SysGridCellListItemFactory.create(groupNames);
         });
-
         userGroupsColumn.setKey(UserVo.AttributeName.USER_GROUPS);
-        userGroupsColumn.setSortable(false);*/
-        //userGroupsColumn.setHeader(headerFactory.createHeader("Group permissions"));
-
-
+        userGroupsColumn.setSortable(false);
+        userGroupsColumn.setHeader(headerFactory.createHeader("Group permissions"));*/
 
         userGrid.setPageSize(10);
         userGrid.setDataProvider(provider);
@@ -103,7 +99,7 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
         lockedColumn.setHeader(headerFactory.createHeader("Locked"));
 
         if (getUserEditPermission()) {
-            new CommonGridColumnFactory(userAuthorityVo).addEditRowActionColumn(userGrid, this::navigateToEditView);
+            new CommonGridColumnFactory(userAuthorityDto).addEditRowActionColumn(userGrid, this::navigateToEditView);
         }
 
         userGrid.setSortableColumns(UserDto.AttributeName.EMAIL, UserDto.AttributeName.FIRST_NAME, UserDto.AttributeName.LAST_NAME,
@@ -111,13 +107,10 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
     }
 
     private void navigateToEditView(UserOverviewResponseDto user) {
-
-
         UI.getCurrent().navigate(EditUserView.class, user.getId());
     }
 
     boolean getUserEditPermission() {
-        return null != userAuthorityVo && userAuthorityVo.canUpdate();
+        return null != userAuthorityDto && userAuthorityDto.canUpdate();
     }
-
 }

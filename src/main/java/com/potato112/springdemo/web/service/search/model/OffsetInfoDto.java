@@ -1,4 +1,4 @@
-package com.potato112.springdemo.web.service.search;
+package com.potato112.springdemo.web.service.search.model;
 
 
 import lombok.EqualsAndHashCode;
@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class OffsetInfoVo {
+public class OffsetInfoDto {
 
     private long offset;
     private long limit;

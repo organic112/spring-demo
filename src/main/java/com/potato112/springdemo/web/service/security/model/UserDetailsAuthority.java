@@ -1,8 +1,8 @@
 package com.potato112.springdemo.web.service.security.model;
 
-import com.potato112.springdemo.web.service.group.GroupPermissionDto;
-import com.potato112.springdemo.web.service.user.UserDetailsVO;
-import com.potato112.springdemo.web.service.group.UserGroupVO;
+import com.potato112.springdemo.web.service.group.model.GroupPermissionDto;
+import com.potato112.springdemo.web.service.user.model.UserDetailsDto;
+import com.potato112.springdemo.web.service.group.model.UserGroupDto;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,12 +17,11 @@ import java.util.stream.Collectors;
 @Data
 public class UserDetailsAuthority implements UserDetails {
 
-    private UserDetailsVO userDetailsVO;
+    private UserDetailsDto userDetailsDto;
     private boolean accountNotExpired;
     private boolean accountNotLocked;
     private boolean credentialsNotExpired;
     private boolean enabled;
-
 
     /**
      * Returns list of authorities granted with Roles from user groups.
@@ -30,24 +29,24 @@ public class UserDetailsAuthority implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        List<GroupPermissionDto> allUserGroupPermissions = userDetailsVO.getUserGroups().stream()
-                .map(UserGroupVO::getGroupPermissions)
+        List<GroupPermissionDto> allUserGroupPermissions = userDetailsDto.getUserGroups().stream()
+                .map(UserGroupDto::getGroupPermissions)
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
         return allUserGroupPermissions.stream()
-                .map(groupPermissionDto -> new UserAuthorityVo(groupPermissionDto))
+                .map(groupPermissionDto -> new UserAuthorityDto(groupPermissionDto))
                 .collect(Collectors.toList());
     }
 
     @Override
     public String getPassword() {
-        return userDetailsVO.getPassword();
+        return userDetailsDto.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return userDetailsVO.getEmail();
+        return userDetailsDto.getEmail();
     }
 
     @Override

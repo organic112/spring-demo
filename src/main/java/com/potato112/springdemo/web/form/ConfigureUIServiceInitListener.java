@@ -28,7 +28,6 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     public void serviceInit(ServiceInitEvent event) {
 
         log.info("XX01 event context: " + event.getSource().getContext().toString());
-                // event in vaadin servlet context
 
         event.getSource().addUIInitListener(uiEvent -> {
             final UI ui = uiEvent.getUI();

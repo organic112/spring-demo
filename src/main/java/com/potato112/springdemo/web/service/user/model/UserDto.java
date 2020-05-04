@@ -1,4 +1,4 @@
-package com.potato112.springdemo.web.service.user;
+package com.potato112.springdemo.web.service.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -32,8 +32,6 @@ public class UserDto implements Serializable {
         public static final String PHONE = "phone";
         public static final String LOCKED = "locked";
     }
-
-
     private String id;
 
     @Email(message = "provide valid email")

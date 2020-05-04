@@ -1,4 +1,4 @@
-package com.potato112.springdemo.web.service.user;
+package com.potato112.springdemo.web.service.user.model;
 
 import lombok.Getter;
 

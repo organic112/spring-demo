@@ -1,15 +1,15 @@
 package com.potato112.springdemo.web.ui.factories;
 
-import com.potato112.springdemo.web.service.group.GroupOverviewResponseDto;
-import com.potato112.springdemo.web.service.group.GroupPermissionDto;
-import com.potato112.springdemo.web.service.group.GroupService;
+import com.potato112.springdemo.web.service.group.model.GroupOverviewResponseDto;
+import com.potato112.springdemo.web.service.group.model.GroupPermissionDto;
+import com.potato112.springdemo.web.service.group.model.GroupService;
 import com.potato112.springdemo.web.service.search.QueryUtils;
-import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
-import com.potato112.springdemo.web.service.user.UserDto;
-import com.potato112.springdemo.web.ui.common.SysGridHelper;
+import com.potato112.springdemo.web.service.security.model.UserAuthorityDto;
+import com.potato112.springdemo.web.service.user.model.UserDto;
+import com.potato112.springdemo.web.ui.common.grid.SysGridHelper;
 import com.potato112.springdemo.web.ui.constants.ViewName;
 import com.potato112.springdemo.web.ui.group.EditGroupView;
-import com.potato112.springdemo.web.ui.group.GroupDto;
+import com.potato112.springdemo.web.service.group.model.GroupDto;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
@@ -22,16 +22,14 @@ import java.util.stream.Collectors;
 public class GroupGridFactory implements GridFactory<GroupOverviewResponseDto> {
 
     private GroupService groupService;
-    private UserAuthorityVo userAuthorityVo;
+    private UserAuthorityDto userAuthorityDto;
     private Map<String, String> filters;
 
 
-    public GroupGridFactory(GroupService groupService, UserAuthorityVo userAuthorityVo, Map<String, String> filters) {
+    public GroupGridFactory(GroupService groupService, UserAuthorityDto userAuthorityDto, Map<String, String> filters) {
         this.groupService = groupService;
-        this.userAuthorityVo = userAuthorityVo;
+        this.userAuthorityDto = userAuthorityDto;
         this.filters = filters;
-
-
     }
 
     @Override
@@ -41,8 +39,8 @@ public class GroupGridFactory implements GridFactory<GroupOverviewResponseDto> {
         SysGridHelper.initializeGridStyle(groupGrid);
 
         CallbackDataProvider<GroupOverviewResponseDto, Map<String, String>> dataProvider = DataProvider.fromFilteringCallbacks(
-                query -> groupService.getGroups(QueryUtils.buildSearchVo(query, filters)).stream(),
-                query -> groupService.count(QueryUtils.buildSearchVoForCountQuery(query, filters))
+                query -> groupService.getGroups(QueryUtils.buildSearchDto(query, filters)).stream(),
+                query -> groupService.count(QueryUtils.buildSearchDtoForCountQuery(query, filters))
         );
         groupGrid.setDataProvider(dataProvider);
         buildColumns(groupGrid);
@@ -72,7 +70,7 @@ public class GroupGridFactory implements GridFactory<GroupOverviewResponseDto> {
 
 
         if (getUserEditPermission()) {
-            new CommonGridColumnFactory(userAuthorityVo).addEditRowActionColumn(groupsGrid, this::navigateToEditView);
+            new CommonGridColumnFactory(userAuthorityDto).addEditRowActionColumn(groupsGrid, this::navigateToEditView);
         }
     }
 
@@ -82,6 +80,6 @@ public class GroupGridFactory implements GridFactory<GroupOverviewResponseDto> {
     }
 
     boolean getUserEditPermission() {
-        return null != userAuthorityVo && userAuthorityVo.canUpdate();
+        return null != userAuthorityDto && userAuthorityDto.canUpdate();
     }
 }

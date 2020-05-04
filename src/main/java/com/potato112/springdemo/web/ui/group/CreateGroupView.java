@@ -1,15 +1,15 @@
 package com.potato112.springdemo.web.ui.group;
 
-
 import com.potato112.springdemo.SysUINotificationFactory;
 import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 import com.potato112.springdemo.web.form.listeners.DefaultLeaveFormAction;
-import com.potato112.springdemo.web.service.group.GroupService;
+import com.potato112.springdemo.web.service.group.model.GroupDto;
+import com.potato112.springdemo.web.service.group.model.GroupService;
 import com.potato112.springdemo.web.service.security.UserAuthService;
-import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
-import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
-import com.potato112.springdemo.web.ui.common.SysMainActionBar;
+import com.potato112.springdemo.web.service.security.model.UserAuthorityDto;
+import com.potato112.springdemo.web.ui.common.action.DefaultConfirmAction;
+import com.potato112.springdemo.web.ui.common.action.SysMainActionBar;
 import com.potato112.springdemo.web.ui.common.SysPage;
 import com.potato112.springdemo.web.ui.constants.SysView;
 import com.potato112.springdemo.web.ui.user.EditUserView;
@@ -25,13 +25,14 @@ public class CreateGroupView extends SysPage implements BeforeLeaveObserver {
     static final String ROUTE = "group/create";
     public static final String VIEW_NAME = SysView.AdministrationArea.GROUP_VIEW;
 
-    private final BinderWithValueChangeListener<GroupDto> binder;
     private final transient GroupService groupService;
-    private UserAuthorityVo authorityVo;
 
-    DefaultConfirmAction<GroupDto, GroupDto> saveAction;
+    private final BinderWithValueChangeListener<GroupDto> binder;
+    private UserAuthorityDto authorityVo;
 
     private GroupForm groupForm;
+
+    DefaultConfirmAction<GroupDto, GroupDto> saveAction;
     private Button saveButton;
 
     public CreateGroupView(GroupService groupService, UserAuthService userAuthService ) {
@@ -46,13 +47,6 @@ public class CreateGroupView extends SysPage implements BeforeLeaveObserver {
         saveAction = new DefaultConfirmAction<>(binder, groupService::update, this::confirmAction);
 
         configureGroupForm();
-    }
-
-    private void confirmAction(GroupDto updatedUser) {
-        this.binder.setBean(updatedUser);
-        //this.userForm.setUpdatedUserGroups(updatedUser);  FIXME
-        this.groupForm.resetGridIsChanged();
-        SysUINotificationFactory.showSuccess("Group successfully updated.");
     }
 
     @Override
@@ -72,6 +66,13 @@ public class CreateGroupView extends SysPage implements BeforeLeaveObserver {
                     () -> { });
             cancelAction.run();
         }
+    }
+
+    private void confirmAction(GroupDto updatedUser) {
+        this.binder.setBean(updatedUser);
+        //this.userForm.setUpdatedUserGroups(updatedUser);  FIXME
+        this.groupForm.resetGridIsChanged();
+        SysUINotificationFactory.showSuccess("Group successfully updated.");
     }
 
     private void configureGroupForm() {

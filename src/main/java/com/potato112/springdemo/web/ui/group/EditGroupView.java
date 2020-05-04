@@ -4,12 +4,13 @@ import com.potato112.springdemo.SysUINotificationFactory;
 import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 import com.potato112.springdemo.web.form.listeners.DefaultLeaveFormAction;
-import com.potato112.springdemo.web.service.group.GroupService;
+import com.potato112.springdemo.web.service.group.model.GroupDto;
+import com.potato112.springdemo.web.service.group.model.GroupService;
 import com.potato112.springdemo.web.service.security.UserAuthService;
-import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
-import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
+import com.potato112.springdemo.web.service.security.model.UserAuthorityDto;
+import com.potato112.springdemo.web.ui.common.action.DefaultConfirmAction;
 import com.potato112.springdemo.web.ui.common.SysPage;
-import com.potato112.springdemo.web.ui.common.SysUtilActionBar;
+import com.potato112.springdemo.web.ui.common.action.SysUtilActionBar;
 import com.potato112.springdemo.web.ui.constants.SysView;
 import com.potato112.springdemo.web.ui.factories.SysButtonFactory;
 import com.vaadin.flow.component.button.Button;
@@ -23,7 +24,6 @@ public class EditGroupView extends SysPage implements HasUrlParameter<String>, B
 
     public static final String ROUTE = "group/edit";
     public static final String VIEW_NAME = SysView.AdministrationArea.GROUP_VIEW;
-
     public static final Class<GroupsOverview> BACK_NAVIGATION_TARGET = GroupsOverview.class;
 
     private final BinderWithValueChangeListener<GroupDto> binder;
@@ -31,7 +31,6 @@ public class EditGroupView extends SysPage implements HasUrlParameter<String>, B
     private GroupService groupService;
 
     DefaultConfirmAction<GroupDto, GroupDto> saveAction;
-
 
     private Button saveButton;
     private GroupForm groupForm;
@@ -41,7 +40,6 @@ public class EditGroupView extends SysPage implements HasUrlParameter<String>, B
 
         this.groupService = groupService;
         this.binder = new BinderWithValueChangeListener<>(GroupDto.class);
-
     }
 
     @Override
@@ -82,7 +80,7 @@ public class EditGroupView extends SysPage implements HasUrlParameter<String>, B
         SysUtilActionBar mainActionBar = createActionBar();
         this.add(mainActionBar);
 
-        UserAuthorityVo authorityVo = getUserCUDAuthorization();
+        UserAuthorityDto authorityVo = getUserCUDAuthorization();
         groupForm = new GroupForm(binder, authorityVo, saveAction);
         this.setContent(groupForm);
     }

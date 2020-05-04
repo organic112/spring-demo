@@ -21,7 +21,6 @@ public class CustomRequestCache extends HttpSessionRequestCache {
         logger.info("response status:" + response.getStatus());
         logger.info("response buffer size:" + response.getBufferSize());
 
-
         if (!WebSecurityService.isFrameworkInternalRequest(request)) {
             super.saveRequest(request, response);
         }

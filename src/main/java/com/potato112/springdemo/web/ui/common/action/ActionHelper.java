@@ -1,6 +1,6 @@
-package com.potato112.springdemo.web.ui.common;
+package com.potato112.springdemo.web.ui.common.action;
 
-import com.potato112.springdemo.web.ui.common.SysValidationException;
+import com.potato112.springdemo.web.ui.common.exceptions.SysValidationException;
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 import com.vaadin.flow.data.binder.BinderValidationStatus;
 import com.vaadin.flow.data.binder.BindingValidationStatus;

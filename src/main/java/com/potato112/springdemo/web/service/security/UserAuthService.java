@@ -1,7 +1,7 @@
 package com.potato112.springdemo.web.service.security;
 
 
-import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
+import com.potato112.springdemo.web.service.security.model.UserAuthorityDto;
 import com.potato112.springdemo.web.ui.login.LoginView;
 import com.vaadin.flow.component.UI;
 import org.springframework.security.core.Authentication;
@@ -19,16 +19,16 @@ import java.util.Optional;
 @Service
 public class UserAuthService {
 
-    public List<UserAuthorityVo> getAuthorities() {
+    public List<UserAuthorityDto> getAuthorities() {
 
         Authentication userAuth = getAuthentication();
         Collection<? extends GrantedAuthority> authorities = userAuth.getAuthorities();
-        return (List<UserAuthorityVo>) authorities;
+        return (List<UserAuthorityDto>) authorities;
     }
 
-    public Optional<UserAuthorityVo> getGrantedAuthorityByViewName(String viewName){
+    public Optional<UserAuthorityDto> getGrantedAuthorityByViewName(String viewName){
 
-        List<UserAuthorityVo> groupsAuthorities =   getAuthorities();
+        List<UserAuthorityDto> groupsAuthorities =   getAuthorities();
         return groupsAuthorities.stream()
                 .filter(auth -> auth.getPermittedViewName().equals(viewName))
                 .findFirst();

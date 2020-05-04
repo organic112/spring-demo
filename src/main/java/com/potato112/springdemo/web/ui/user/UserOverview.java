@@ -1,10 +1,10 @@
 package com.potato112.springdemo.web.ui.user;
 
 import com.potato112.springdemo.web.service.security.UserAuthService;
-import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
-import com.potato112.springdemo.web.ui.common.SysUtilActionBar;
+import com.potato112.springdemo.web.service.security.model.UserAuthorityDto;
+import com.potato112.springdemo.web.ui.common.action.SysUtilActionBar;
 import com.potato112.springdemo.web.ui.constants.SysView;
-import com.potato112.springdemo.web.service.user.UsersService;
+import com.potato112.springdemo.web.service.user.model.UsersService;
 import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.ui.factories.SysButtonFactory;
 import com.potato112.springdemo.web.ui.common.SysPage;
@@ -31,31 +31,30 @@ public class UserOverview extends SysPage {
     public static final String ROUTE = "user";
     public static final String VIEW_NAME = SysView.AdministrationArea.USER_VIEW;
 
+    // services
     private final transient UsersService usersService;
+
+    // grid
     private final Grid<UserOverviewResponseDto> usersGrid;
     private Set<String> selectedUsersIdRows;
+    private final Map<String, String> filters;     // search - filter map
 
     @Override
     protected String getViewName(){
         return UserOverview.VIEW_NAME;
     }
 
-    // search
-    // map filters
-    private final Map<String, String> filters;
-
     public UserOverview(UsersService usersService, UserAuthService userAuthService, FilteringHelper filteringHelper) {
 
         this.userAuthService = userAuthService;
-        UserAuthorityVo authorityVo = getUserCUDAuthorization();
+        UserAuthorityDto authorityVo = getUserCUDAuthorization();
 
         this.usersService = usersService;
+
         this.filters = filteringHelper.loadFilters(FilterKey.USER_FILTERS);
         this.usersGrid = new UserGridFactory(this.usersService, authorityVo, filters).create();
         this.usersGrid.addSelectionListener(this::getSelectedUserIds);
         this.selectedUsersIdRows = new HashSet<>();
-
-        //this.setHeader();
 
         SysButtonFactory buttonFactory = new SysButtonFactory();
         Button deleteButton = buttonFactory.createDeleteButton(this::deleteSelectedUsers);

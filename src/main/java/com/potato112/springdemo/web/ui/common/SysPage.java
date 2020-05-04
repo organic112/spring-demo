@@ -1,12 +1,11 @@
 package com.potato112.springdemo.web.ui.common;
 
 import com.potato112.springdemo.web.service.security.UserAuthService;
-import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
+import com.potato112.springdemo.web.service.security.model.UserAuthorityDto;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,7 +13,6 @@ import java.util.Optional;
 
 @Slf4j
 @Tag("sys-page")
-//@AllArgsConstructor
 public abstract class SysPage extends Div {
 
     protected UserAuthService userAuthService;
@@ -30,24 +28,6 @@ public abstract class SysPage extends Div {
     private Component content;
     @Getter
     private Component footer;
-
-    /**
-     * Checks user CRUD (CUD) permissions for current ViewName
-     * IF no CUD permissions fetched sets all CUD permissions to false (read only)
-     */
-    protected UserAuthorityVo getUserCUDAuthorization() {
-        Optional<UserAuthorityVo> userAuthorityOp = userAuthService.getGrantedAuthorityByViewName(getViewName());
-        System.out.println("INIT01 USER AUTHORITY INITIALIZATION EXISTS:" + userAuthorityOp.isPresent());
-        if (!userAuthorityOp.isPresent()) {
-            log.info("User authority not found for view name:" + getViewName());
-            userAuthService.invalidateUserSession();
-            return null;
-        }
-        return userAuthorityOp.get();
-    }
-
-    // provides view name for user access authorization
-    protected abstract String getViewName();
 
     // default constructor without injections should be provided
     protected SysPage() {
@@ -69,6 +49,25 @@ public abstract class SysPage extends Div {
         blankPage.add(footerContainer);
 
         this.add(blankPage);
+    }
+
+    // provides view name for user access authorization
+    protected abstract String getViewName();
+
+    /**
+     * Checks user CRUD (CUD) permissions for current ViewName
+     * IF no CUD permissions fetched sets all CUD permissions to false (read only)
+     */
+    protected UserAuthorityDto getUserCUDAuthorization() {
+
+        Optional<UserAuthorityDto> userAuthorityOp = userAuthService.getGrantedAuthorityByViewName(getViewName());
+        System.out.println("INIT01 USER AUTHORITY INITIALIZATION EXISTS:" + userAuthorityOp.isPresent());
+        if (!userAuthorityOp.isPresent()) {
+            log.info("User authority not found for view name:" + getViewName());
+            userAuthService.invalidateUserSession();
+            return null;
+        }
+        return userAuthorityOp.get();
     }
 
     protected void setHeader(Component newHeader) {

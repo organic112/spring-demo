@@ -26,7 +26,6 @@ public class SysNotification extends Notification {
 
     private Div notificationContainer = new Div();
 
-
     public SysNotification(String header, Component text, Variant variant) {
 
         this(variant);

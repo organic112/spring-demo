@@ -46,5 +46,4 @@ public class FilteringHelper implements Serializable {
             this.setFiltersInSession(filterKey, flattenedParameters);
         }
     }
-
 }

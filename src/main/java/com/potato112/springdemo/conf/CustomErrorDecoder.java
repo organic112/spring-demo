@@ -2,7 +2,7 @@ package com.potato112.springdemo.conf;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.potato112.springdemo.common.ErrorResult;
-import com.potato112.springdemo.web.ui.common.SysValidationException;
+import com.potato112.springdemo.web.ui.common.exceptions.SysValidationException;
 import feign.FeignException;
 import feign.Response;
 import feign.codec.ErrorDecoder;

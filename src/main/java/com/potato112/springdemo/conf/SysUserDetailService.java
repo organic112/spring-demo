@@ -2,7 +2,7 @@ package com.potato112.springdemo.conf;
 
 
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
-import com.potato112.springdemo.web.service.user.UsersService;
+import com.potato112.springdemo.web.service.user.model.UsersService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,9 +40,11 @@ public class SysUserDetailService implements UserDetailsService, UserDetailsPass
 
         UserDetailsAuthority userByName = usersService.getUserByName(userName);
 
+        System.out.println("user details fetched: " + userByName.getPassword());
+
         if (null == userByName) {
             throw new UsernameNotFoundException("User not found");
         }
-        return usersService.getUserByName(userName);
+        return userByName;
     }
 }

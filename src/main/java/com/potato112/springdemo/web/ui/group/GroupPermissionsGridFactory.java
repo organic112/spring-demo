@@ -1,15 +1,15 @@
 package com.potato112.springdemo.web.ui.group;
 
-import com.potato112.springdemo.web.service.group.GroupPermissionDto;
-import com.potato112.springdemo.web.service.security.model.UserAuthorityVo;
-import com.potato112.springdemo.web.ui.LookupWindow;
-import com.potato112.springdemo.web.ui.common.DefaultConfirmAction;
-import com.potato112.springdemo.web.ui.common.SysGridHelper;
+import com.potato112.springdemo.web.service.group.model.GroupDto;
+import com.potato112.springdemo.web.service.group.model.GroupPermissionDto;
+import com.potato112.springdemo.web.service.security.model.UserAuthorityDto;
+import com.potato112.springdemo.web.ui.common.action.DefaultConfirmAction;
+import com.potato112.springdemo.web.ui.common.dialogs.LookupWindow;
+import com.potato112.springdemo.web.ui.common.grid.SysGridHelper;
 import com.potato112.springdemo.web.ui.factories.CommonGridColumnFactory;
 import com.potato112.springdemo.web.ui.factories.GridFactory;
 import com.potato112.springdemo.web.ui.factories.SysButtonFactory;
 import com.potato112.springdemo.web.ui.factories.SysGridHeaderFactory;
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
@@ -19,8 +19,8 @@ import java.util.List;
 public class GroupPermissionsGridFactory implements GridFactory<GroupPermissionDto> {
 
     private Grid<GroupPermissionDto> groupPermissionsGrid;
-   // private BinderWithValueChangeListener<GroupPermissionDto> groupPermissionBinder;
-    UserAuthorityVo authorityVo;
+    // private BinderWithValueChangeListener<GroupPermissionDto> groupPermissionBinder;
+    private UserAuthorityDto authorityVo;
 
     private Button addButton;
     private Button saveButton;
@@ -29,15 +29,14 @@ public class GroupPermissionsGridFactory implements GridFactory<GroupPermissionD
 
     private LookupWindow lookupWindow;
 
-    DefaultConfirmAction<GroupDto, GroupDto> saveAction;
+    private DefaultConfirmAction<GroupDto, GroupDto> saveAction;
 
     /**
      * Wraps grid of current group permission
      */
-    public GroupPermissionsGridFactory(GroupDto bean, UserAuthorityVo authorityVo) {
+    public GroupPermissionsGridFactory(GroupDto bean, UserAuthorityDto authorityVo) {
 
-       // this.confirmUpdateEvent = confirmUpdateEvent;
-
+        // this.confirmUpdateEvent = confirmUpdateEvent;
         this.authorityVo = authorityVo;
 
         if (null == bean) {
@@ -86,14 +85,13 @@ public class GroupPermissionsGridFactory implements GridFactory<GroupPermissionD
         actionColumn.setSortable(false).setFlexGrow(0).setWidth("150px").setTextAlign(ColumnTextAlign.CENTER);
         return actionColumn;
     }
-    private void openEditLookupWindow(GroupPermissionDto groupPermissionDto ) {
 
+    private void openEditLookupWindow(GroupPermissionDto groupPermissionDto) {
         this.lookupWindow = new LookupWindow(groupPermissionDto, groupPermissionsGrid, saveAction);
         lookupWindow.open();
     }
 
     public Button createAddGroupPermissionsButton() {
-
         this.addButton = new SysButtonFactory().createSecondaryButton("ADD PERMISSION");
         this.addButton.addClickListener(event -> addGroupPermissionToGrid());
         return this.addButton;
@@ -101,11 +99,9 @@ public class GroupPermissionsGridFactory implements GridFactory<GroupPermissionD
 
     private void addGroupPermissionToGrid() {
         System.out.println("TODO ADD group permission logic...");
-
     }
 
-    public void setSaveAction(DefaultConfirmAction<GroupDto, GroupDto> saveAction){
-         this.saveAction = saveAction;
+    public void setSaveAction(DefaultConfirmAction<GroupDto, GroupDto> saveAction) {
+        this.saveAction = saveAction;
     }
-
 }

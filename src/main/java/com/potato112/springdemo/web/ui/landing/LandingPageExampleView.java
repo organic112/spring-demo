@@ -59,6 +59,5 @@ public class LandingPageExampleView extends SysPage implements BeforeEnterObserv
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
 
         System.out.println("Landing page BEFORE ENTER event" + beforeEnterEvent.getLocation().getPath());
-
     }
 }

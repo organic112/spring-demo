@@ -1,4 +1,4 @@
-package com.potato112.springdemo.web.ui.common;
+package com.potato112.springdemo.web.ui.common.action;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;

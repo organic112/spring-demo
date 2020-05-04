@@ -1,4 +1,4 @@
-package com.potato112.springdemo.web.service.group;
+package com.potato112.springdemo.web.service.group.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,5 +16,4 @@ public class GroupOverviewResponseDto {
     String id;
     private String groupName;
     private List<GroupPermissionDto> groupPermissions = new ArrayList<>();
-
 }

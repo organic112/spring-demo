@@ -12,5 +12,4 @@ import java.util.Map;
 public class UserFormParametersDto implements Serializable {
 
     private Map<GroupType, List<ViewName>> availableRolesPerType;
-
 }

@@ -5,10 +5,6 @@ import com.vaadin.flow.component.Text;
 
 public class SysUINotificationFactory {
 
-
-    private SysUINotificationFactory() {
-    }
-
     public static void showSuccess(String message) {
         SysNotification notification = new SysNotification(message, SysNotification.Variant.SUCCESS);
         notification.open();
@@ -33,5 +29,4 @@ public class SysUINotificationFactory {
         SysNotification notification = new SysNotification(message, details, SysNotification.Variant.WARN);
         notification.open();
     }
-
 }

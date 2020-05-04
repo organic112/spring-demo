@@ -14,5 +14,4 @@ public class CountryVO implements Serializable {
     private String id;
     @NotEmpty(message = "Country name cannot be empty")
     private String name;
-
 }
