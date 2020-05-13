@@ -10,6 +10,22 @@
         FROM `demo-db`.rental_car car
         WHERE car.BRAND IN ( :brandNames )
     </query>
+    <query id ="insert.rentalCar">
+        INSERT INTO `demo-db`.rental_car (
+        car_id,
+        brand,
+        color,
+        payloadkg,
+        price_per_hour
+        ) VALUES (
+        TO_BASE64(UUID()),
+        ?,
+        ?,
+        ?,
+        ?
+        )
+    </query>
+
     <query id ="select.rentalCars.withoutSchemaInQuery">
         SELECT
         car.car_id,
