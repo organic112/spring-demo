@@ -1,7 +1,10 @@
 package com.potato112.springdemo.web.ui.common.action;
 
+import com.potato112.springdemo.SysUINotificationFactory;
+import com.potato112.springdemo.web.ValidationMessageUtil;
 import com.potato112.springdemo.web.ui.common.exceptions.SysValidationException;
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.data.binder.BinderValidationStatus;
 import com.vaadin.flow.data.binder.BindingValidationStatus;
 
@@ -27,8 +30,10 @@ public class ActionHelper<BEAN_TYPE, CONFIRM_RESULT_TYPE> {
 
         BinderValidationStatus formValidation = binder.validate();
         if (!formValidation.isOk()) {
+
             List<BindingValidationStatus<?>> fieldValidationErrors = formValidation.getFieldValidationErrors();
-            //Component detailedMessage = fixme (notification)
+            Component detailedMassage = ValidationMessageUtil.crateNotificationContent(fieldValidationErrors);
+            SysUINotificationFactory.showWarn("Validation failed, provide correct data.", detailedMassage);
             return false;
         }
         return true;
@@ -40,8 +45,9 @@ public class ActionHelper<BEAN_TYPE, CONFIRM_RESULT_TYPE> {
             CONFIRM_RESULT_TYPE actionResult = confirmAction.apply(bean);
             postConfirmAction.accept(actionResult);
         } catch (SysValidationException e) {
+
             System.out.println("NOTIFICATION" + e.getResult());
-            // show notification
+            new ValidationMessageUtil(binder).showMessage(e.getResult());
         }
     }
 }

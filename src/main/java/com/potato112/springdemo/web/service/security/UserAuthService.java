@@ -26,19 +26,20 @@ public class UserAuthService {
         return (List<UserAuthorityDto>) authorities;
     }
 
-    public Optional<UserAuthorityDto> getGrantedAuthorityByViewName(String viewName){
+    public Optional<UserAuthorityDto> getGrantedAuthorityByViewName(String viewName) {
 
-        List<UserAuthorityDto> groupsAuthorities =   getAuthorities();
+        List<UserAuthorityDto> groupsAuthorities = getAuthorities();
         return groupsAuthorities.stream()
                 .filter(auth -> auth.getPermittedViewName().equals(viewName))
                 .findFirst();
     }
 
-    public String getUserName(){
+    public String getUserName() {
         return getAuthentication().getName();
     }
 
     public Authentication getAuthentication() {
+
         final Authentication userAuth = SecurityContextHolder.getContext().getAuthentication();
         return userAuth;
     }
@@ -46,7 +47,7 @@ public class UserAuthService {
     /**
      * Logout operation
      */
-    public void invalidateUserSession(){
+    public void invalidateUserSession() {
         UI.getCurrent().getSession().getSession().invalidate();
         UI.getCurrent().navigate(LoginView.class);
         UI.getCurrent().getPage().reload();
