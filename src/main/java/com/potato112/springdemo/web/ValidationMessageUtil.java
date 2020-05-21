@@ -69,11 +69,18 @@ public class ValidationMessageUtil {
         return notificationContent;
     }
 
-    // FIXME check usability for other sys DTO's
+    // FIXME check usability for other sys DTO's (
     private void showNotValidFields(Map<String, String> validationErrors) {
+
+        System.out.println("ECHO_Z01 used Validation message Util");
+
         validationErrors.entrySet().stream().forEach(errorEntry -> {
+
             String propertyId = errorEntry.getKey();
             Optional<Binder.Binding<UserDto, ?>> bindingOptional = binder.getBinding(propertyId);
+
+            log.info("ErrorKey: " + errorEntry.getKey() + " propertyId: " + propertyId);
+
             if (bindingOptional.isPresent()) {
                 Binder.Binding<UserDto, ?> binding = bindingOptional.get();
                 HasValue<?, ?> field = binding.getField();
@@ -81,14 +88,15 @@ public class ValidationMessageUtil {
                 if (field instanceof HasValidation) {
                     ((HasValidation) field).setErrorMessage(errorEntry.getValue());
                     ((HasValidation) field).setInvalid(true);
+
+                    log.info("Has validation logic, message: " + errorEntry.getValue());
+
                 } else {
-                    log.info("failed to show validation message! " + propertyId + " " + field.getClass().getSimpleName());
+                    log.info("Failed to show validation message! " + propertyId + " " + field.getClass().getSimpleName());
                 }
             } else {
-                log.info("no binding property! " + propertyId);
+                log.info("No binding property! " + propertyId);
             }
         });
     }
-
-
 }
