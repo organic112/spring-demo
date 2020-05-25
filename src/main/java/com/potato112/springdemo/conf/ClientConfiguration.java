@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
 public class ClientConfiguration {
 
-    private static final String USER_FOO_CONTEXT_HEADER = "UserFooContext";
+    private static final String USER_LOGIN_CONTEXT_HEADER = "UserLoginContext";
 
     @Value("${spring.security.user.name}")
     private String techUser;
@@ -56,15 +56,16 @@ public class ClientConfiguration {
             requestTemplate.header(HttpHeaders.AUTHORIZATION, authHeader);
             requestTemplate.header(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());
 
-            // add user organization header for requests not related to "/login/"
+            // Add user login header for requests not related to "/login/"
+            // In request scope backend service has info about 'request triggering user'
             if (!requestTemplate.url().contains("/login/")) {
 
                 UserDetailsAuthority user = webSecurityService.getUser();
                 UserDetailsDto userDetailsDto = user.getUserDetailsDto();
 
                 // FIXME ! check this if this affects routing (foo = group)
-                String userFooId = userDetailsDto.getSelectedOrganizationId();
-                requestTemplate.header(USER_FOO_CONTEXT_HEADER, userFooId);
+                String userLogin = userDetailsDto.getEmail();
+                requestTemplate.header(USER_LOGIN_CONTEXT_HEADER, userLogin);
 
                 log.info("Echo02 request interceptor (request headers setup)");
             }

@@ -18,6 +18,6 @@ public class UserDetailsDto {
     private String lastName;
     private String email;
     private String password;
-    private String selectedOrganizationId;
+    //private String selectedOrganizationId;
     private List<UserGroupDto> userGroups = new ArrayList<>();
 }
