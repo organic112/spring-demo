@@ -1,8 +1,8 @@
 package com.potato112.springdemo.web.service.security.model;
 
+import com.potato112.springdemo.web.service.group.model.GroupDto;
 import com.potato112.springdemo.web.service.group.model.GroupPermissionDto;
 import com.potato112.springdemo.web.service.user.model.UserDetailsDto;
-import com.potato112.springdemo.web.service.group.model.UserGroupDto;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +30,7 @@ public class UserDetailsAuthority implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         List<GroupPermissionDto> allUserGroupPermissions = userDetailsDto.getUserGroups().stream()
-                .map(UserGroupDto::getGroupPermissions)
+                .map(GroupDto::getGroupPermissions)
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 

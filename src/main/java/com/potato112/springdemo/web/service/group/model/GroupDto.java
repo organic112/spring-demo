@@ -1,7 +1,6 @@
 package com.potato112.springdemo.web.service.group.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.potato112.springdemo.web.service.group.model.GroupPermissionDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GroupDto implements Serializable {
+public class GroupDto extends BaseEntityDto implements Serializable {
 
     public static final class AttributeName {
         private AttributeName() {

@@ -39,12 +39,11 @@ public class SysUserDetailService implements UserDetailsService, UserDetailsPass
         }
 
         UserDetailsAuthority userByName = usersService.getUserByName(userName);
-
-        System.out.println("user details fetched: " + userByName.getPassword());
-
         if (null == userByName) {
             throw new UsernameNotFoundException("User not found");
         }
+
+        System.out.println("user details fetched: " + userByName.getPassword());
         return userByName;
     }
 }

@@ -51,6 +51,7 @@ public class GroupServiceRestImpl implements GroupService {
     @Override
     public GroupDto update(GroupDto groupDto) {
         System.out.println("try update group" + groupDto.getId());
+        System.out.println("try update group create user:" + groupDto.getCreateUser());
         return this.jsonGroupClient.update(groupDto);
     }
 

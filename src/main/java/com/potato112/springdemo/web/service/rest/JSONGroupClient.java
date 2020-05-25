@@ -2,7 +2,7 @@ package com.potato112.springdemo.web.service.rest;
 
 import com.potato112.springdemo.conf.ClientConfiguration;
 import com.potato112.springdemo.web.service.search.model.OffsetResponseDto;
-import com.potato112.springdemo.web.service.group.model.UserGroupDto;
+//import com.potato112.springdemo.web.service.group.model.UserGroupDto;
 import com.potato112.springdemo.web.service.group.model.GroupOverviewResponseDto;
 import com.potato112.springdemo.web.service.group.model.GroupDto;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -19,7 +19,7 @@ public interface JSONGroupClient {
     GroupDto getGroupById(@PathVariable("groupId") String id);
 
     @GetMapping(value = "/api/v1/group/name/{groupname}", produces = MediaType.APPLICATION_JSON_VALUE)
-    UserGroupDto getGroupByName(@PathVariable("groupname") String groupName);
+    GroupDto getGroupByName(@PathVariable("groupname") String groupName);
 
     @GetMapping(value = "/api/v1/group", produces = MediaType.APPLICATION_JSON_VALUE)
     OffsetResponseDto<GroupOverviewResponseDto> getGroups(@SpringQueryMap Map<String, String> params);

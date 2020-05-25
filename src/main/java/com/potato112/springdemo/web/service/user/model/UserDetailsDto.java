@@ -1,6 +1,6 @@
 package com.potato112.springdemo.web.service.user.model;
 
-import com.potato112.springdemo.web.service.group.model.UserGroupDto;
+import com.potato112.springdemo.web.service.group.model.GroupDto;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +18,5 @@ public class UserDetailsDto {
     private String lastName;
     private String email;
     private String password;
-    //private String selectedOrganizationId;
-    private List<UserGroupDto> userGroups = new ArrayList<>();
+    private List<GroupDto> userGroups = new ArrayList<>();
 }
