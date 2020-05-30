@@ -53,5 +53,4 @@ public class SysNotification extends Notification {
         this.setPosition(Notification.Position.TOP_CENTER);
         this.addThemeVariants(variant.getLumoVariant());
     }
-
 }

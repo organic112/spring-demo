@@ -25,7 +25,6 @@ public class CustomErrorDecoder implements ErrorDecoder {
             } catch (Exception e) {
                 return FeignException.errorStatus(methodKey, response);
             }
-
             return new SysValidationException(responseData);
         }
         return FeignException.errorStatus(methodKey, response);

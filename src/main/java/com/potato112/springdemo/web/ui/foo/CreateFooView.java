@@ -1,14 +1,12 @@
 package com.potato112.springdemo.web.ui.foo;
 
-import com.potato112.springdemo.crud.jdbc.services.JdbcDocLockDao;
-import com.potato112.springdemo.crud.jdbc.services.RentalCarDAO;
 import com.potato112.springdemo.web.MainView;
-import com.potato112.springdemo.web.ui.common.SysPage;
-import com.potato112.springdemo.web.ui.constants.SysView;
-import com.potato112.springdemo.web.service.security.WebSecurityService;
 import com.potato112.springdemo.web.form.listeners.BinderWithValueChangeListener;
 import com.potato112.springdemo.web.form.listeners.DefaultLeaveFormAction;
 import com.potato112.springdemo.web.form.vo.FooFormDetailsVO;
+import com.potato112.springdemo.web.service.security.WebSecurityService;
+import com.potato112.springdemo.web.ui.common.SysPage;
+import com.potato112.springdemo.web.ui.constants.SysView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -31,15 +29,12 @@ public class CreateFooView extends SysPage implements BeforeLeaveObserver {
     private final BinderWithValueChangeListener<FooFormDetailsVO> binder;
 
     private WebSecurityService webSecurityService;
-    private RentalCarDAO rentalCarDAO;
-    private JdbcDocLockDao jdbcDocLockDao;
+
     private Button button;
 
-    public CreateFooView(WebSecurityService webSecurityService, RentalCarDAO rentalCarDAO, JdbcDocLockDao jdbcDocLockDao) {
+    public CreateFooView(WebSecurityService webSecurityService) {
 
         this.webSecurityService = webSecurityService;
-        this.rentalCarDAO = rentalCarDAO;
-        this.jdbcDocLockDao = jdbcDocLockDao;
 
         binder = new BinderWithValueChangeListener<>(FooFormDetailsVO.class);
 

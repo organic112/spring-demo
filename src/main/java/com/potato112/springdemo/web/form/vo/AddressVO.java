@@ -30,5 +30,4 @@ public class AddressVO implements Serializable {
     private String zip;
     @NotEmpty(message = "country should not be empty")
     private CountryVO country;
-
 }

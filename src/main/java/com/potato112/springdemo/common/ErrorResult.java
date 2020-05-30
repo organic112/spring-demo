@@ -12,5 +12,4 @@ public class ErrorResult implements Serializable {
 
     private String mainMessage;
     private Map<String, String> validationError;
-
 }

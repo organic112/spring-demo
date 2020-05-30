@@ -1,5 +1,6 @@
 package com.potato112.springdemo.conf;
 
+import com.potato112.springdemo.web.service.SysUserDetailService;
 import com.potato112.springdemo.web.ui.constants.SysView;
 
 import com.potato112.springdemo.web.service.security.WebSecurityService;
@@ -30,7 +31,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
-
         auth.authenticationProvider(authProvider());
     }
 
@@ -38,7 +38,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationProvider authProvider() {
 
         log.info("Echo03 auth provider");
-
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(sysUserDetailService);
         authProvider.setPasswordEncoder(new SysPasswordEncoder());
@@ -72,7 +71,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
 
         log.info("Echo02 security bypass configuration");
-
         web.ignoring().antMatchers(
                 "/VAADIN/build/**", "/VAADIN/static/**", "/VAADIN/config/**",
                 "/manifest.webmanifest",

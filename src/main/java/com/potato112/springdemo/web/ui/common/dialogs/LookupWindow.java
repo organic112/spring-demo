@@ -23,7 +23,6 @@ import java.util.EnumSet;
  */
 public class LookupWindow extends Dialog {
 
-
     private BinderWithValueChangeListener<GroupPermissionDto> binder = new BinderWithValueChangeListener<>(GroupPermissionDto.class);
 
     public LookupWindow(GroupPermissionDto groupPermissionDto, Grid<GroupPermissionDto> grid, DefaultConfirmAction<GroupDto, GroupDto> saveAction) {

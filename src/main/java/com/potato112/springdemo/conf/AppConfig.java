@@ -1,14 +1,11 @@
 package com.potato112.springdemo.conf;
 
-import com.potato112.springdemo.jms.bulkaction.BulkActionExecutor;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -18,15 +15,11 @@ import java.util.List;
 
 @Configuration
 @EnableAsync
-@EnableJms
 @EnableWebSecurity
 @ComponentScan({"com.potato112.springdemo"})
 public class AppConfig implements CommandLineRunner {
 
     private GlobalProperties globalProperties;
-
-    @Autowired
-    private BulkActionExecutor bulkActionExecutor;
 
     public AppConfig(GlobalProperties globalProperties) {
         this.globalProperties = globalProperties;
@@ -37,7 +30,6 @@ public class AppConfig implements CommandLineRunner {
      */
     @PostConstruct
     public void init() {
-
     }
 
     /**
@@ -55,11 +47,6 @@ public class AppConfig implements CommandLineRunner {
             arg1 = arguments.get(0);
             arg2 = arguments.get(1);
         }
-
-        String liveConfigurationProperties;
-        String authProps;
-        String appWorkingDirectory;
-
         if (arguments.size() == 2) {
 
             System.out.println("arg1:" + arg1);
@@ -72,8 +59,6 @@ public class AppConfig implements CommandLineRunner {
             // no args for unit tests just start Spring context
             System.out.println("no args passed to application");
             System.out.println("RUNNING SPRING INTEGRATION TESTS MODE...");
-
-            // bulkActionExecutor.executeBulkAction();
         }
     }
 }

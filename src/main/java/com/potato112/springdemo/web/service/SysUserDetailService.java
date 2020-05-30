@@ -1,4 +1,4 @@
-package com.potato112.springdemo.conf;
+package com.potato112.springdemo.web.service;
 
 
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class SysUserDetailService implements UserDetailsService, UserDetailsPasswordService {
-
 
     private UsersService usersService;
 
