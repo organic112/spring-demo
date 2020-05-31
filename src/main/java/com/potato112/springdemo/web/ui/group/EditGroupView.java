@@ -99,9 +99,9 @@ public class EditGroupView extends SysPage implements HasUrlParameter<String>, B
     }
 
     private void confirmAction(GroupDto updatedUser) {
-        this.binder.setBean(updatedUser);
+        //this.binder.setBean(updatedUser);
         //this.userForm.setUpdatedUserGroups(updatedUser);  FIXME
-        this.groupForm.resetGridIsChanged();
+        //this.groupForm.resetGridIsChanged();
         SysUINotificationFactory.showSuccess("Group successfully updated.");
     }
 
