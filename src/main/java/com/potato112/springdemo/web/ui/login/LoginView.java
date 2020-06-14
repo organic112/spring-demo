@@ -4,6 +4,7 @@ import com.potato112.springdemo.web.ui.landing.LandingPageExampleView;
 import com.potato112.springdemo.web.service.security.WebSecurityService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.login.AbstractLogin;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
@@ -22,6 +23,7 @@ import java.util.Map;
  *  - when forgot password -> forgot password form
  */
 @Slf4j
+@Tag("sa-login-view")
 @Route(value = LoginView.ROUTE)
 @PageTitle("Login")
 public class LoginView extends AbstractLoginView implements BeforeEnterObserver, BeforeLeaveObserver {
@@ -38,12 +40,20 @@ public class LoginView extends AbstractLoginView implements BeforeEnterObserver,
     Component buildMainComponent() {
 
         log.info("Echo01 Create login form with LoginI18n");
+
         loginForm = new LoginForm();
         LoginI18n loginMessages = getLoginI18n();
         loginForm.setI18n(loginMessages);
         loginForm.setAction("login");
+
+        setElementsUIID();
+
         loginForm.addForgotPasswordListener(getForgotPasswordEventComponentEventListener());
         return loginForm;
+    }
+
+    private void setElementsUIID() {
+
     }
 
     @Override

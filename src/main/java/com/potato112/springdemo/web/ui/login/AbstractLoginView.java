@@ -23,6 +23,7 @@ public abstract class AbstractLoginView extends AppLayout implements PageConfigu
     private void buildCenterLayout() {
 
         centerLayout = new HorizontalLayout();
+        centerLayout.setId("loginLayout");
 
         Component mainComponent = buildMainComponent();
         centerLayout.add(mainComponent);
