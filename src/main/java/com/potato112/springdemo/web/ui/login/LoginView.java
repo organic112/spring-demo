@@ -1,5 +1,6 @@
 package com.potato112.springdemo.web.ui.login;
 
+import com.potato112.springdemo.web.ui.foo.OverviewFooView;
 import com.potato112.springdemo.web.ui.landing.LandingPageExampleView;
 import com.potato112.springdemo.web.service.security.WebSecurityService;
 import com.vaadin.flow.component.Component;
@@ -26,7 +27,9 @@ import java.util.Map;
 @Tag("sa-login-view")
 @Route(value = LoginView.ROUTE)
 @PageTitle("Login")
-public class LoginView extends AbstractLoginView implements BeforeEnterObserver, BeforeLeaveObserver {
+public class LoginView extends AbstractLoginView implements BeforeEnterObserver  //, BeforeLeaveObserver
+
+{
 
     public static final String ROUTE = "login";
     private LoginForm loginForm;
@@ -45,16 +48,10 @@ public class LoginView extends AbstractLoginView implements BeforeEnterObserver,
         LoginI18n loginMessages = getLoginI18n();
         loginForm.setI18n(loginMessages);
         loginForm.setAction("login");
-
-        setElementsUIID();
-
         loginForm.addForgotPasswordListener(getForgotPasswordEventComponentEventListener());
         return loginForm;
     }
 
-    private void setElementsUIID() {
-
-    }
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
@@ -64,6 +61,7 @@ public class LoginView extends AbstractLoginView implements BeforeEnterObserver,
 
             log.info("LV02 User logged in forwarded to initial site...");
             beforeEnterEvent.forwardTo(LandingPageExampleView.class);
+            //beforeEnterEvent.forwardTo(OverviewFooView.class);
         }
 
         Location location = beforeEnterEvent.getLocation();
@@ -111,14 +109,17 @@ public class LoginView extends AbstractLoginView implements BeforeEnterObserver,
         return loginMessages;
     }
 
-    @Override
+/*    @Override
     public void beforeLeave(BeforeLeaveEvent beforeLeaveEvent) {
 
         log.info("LV03 LOGIN VIEW BEFORE LEAVE OBSERVER");
         if (webSecurityService.isUserLoggedIn()) {
 
             log.info("LV04 LOGIN VIEW BEFORE LEAVE User logged-in, reroute to initial site...");
-            beforeLeaveEvent.forwardTo(LandingPageExampleView.ROUTE);
+
+            //beforeLeaveEvent.forwardTo(LandingPageExampleView.ROUTE);
+            beforeLeaveEvent.forwardTo(LandingPageExampleView.class);
+            //beforeLeaveEvent.forwardTo(OverviewFooView.class);
         }
-    }
+    }*/
 }

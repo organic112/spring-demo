@@ -5,7 +5,8 @@ import java.util.Optional;
 public enum ViewName {
     USER_VIEW("User view"),
     GROUP_VIEW("Group view"),
-    FOO_OVERVIEW_VIEW("Foo Overview");
+    FOO_OVERVIEW_VIEW("Foo Overview"),
+    DEFAULT_AUTHORIZED_VIEW("DEFAULT_AUTHORIZED_VIEW");
 
     private String viewName;
 

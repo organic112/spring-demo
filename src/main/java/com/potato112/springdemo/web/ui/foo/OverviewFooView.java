@@ -60,9 +60,7 @@ public class OverviewFooView extends SysPage implements HasUrlParameter<String> 
         VerticalLayout layout = new VerticalLayout();
         layout.add(label);
         layout.add(button);
-
         content.add(layout);
-
         this.setContent(content);
     }
 

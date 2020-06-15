@@ -15,12 +15,13 @@ import java.util.Optional;
 @Tag("sys-page")
 public abstract class SysPage extends Div {
 
-    protected UserAuthService userAuthService;
-
+    private static String SYS_CAPTION = "sys-header-caption"; // added to every page, used as identifier in UI tests
     private Div blankPage;
     private Div headerContainer;
     private Div contentContainer;
     private Div footerContainer;
+
+    protected UserAuthService userAuthService;
 
     @Getter
     private Component header;
@@ -38,6 +39,7 @@ public abstract class SysPage extends Div {
         this.add(topBar);
 
         this.headerContainer = new Div();
+        headerContainer.setId(SYS_CAPTION);
         topBar.add(headerContainer);
 
         // TODO add some action bar / customized menu etc.

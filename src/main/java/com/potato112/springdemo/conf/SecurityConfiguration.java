@@ -77,6 +77,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "*images/**",
                 "/img/**",
                 "/icons/**",
+                "/offline.html",
                 "/webjars/**",
                 "/img/**",
                 "/sw.js",
