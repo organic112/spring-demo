@@ -24,6 +24,8 @@ public interface UsersService {
 
     UserFormParametersDto getUserFromParameters();
 
+    void resetPassword(String emailAddress);
+
    /* TODO service other methods
     String create(UserVO userVO);
     UserVO update(UserVO userVO);

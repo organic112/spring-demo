@@ -68,6 +68,11 @@ public class UserServiceRestImpl implements UsersService {
         return this.jsonUserClient.getUserParameters();
     }
 
+    @Override
+    public void resetPassword(String emailAddress) {
+        this.jsonUserClient.resetPassword(emailAddress);
+    }
+
     private OffsetResponseDto<UserOverviewResponseDto> getForSearch(OffsetSearchDto searchVo) {
         return this.jsonUserClient.getUsers(searchVo.toParamMap());
     }

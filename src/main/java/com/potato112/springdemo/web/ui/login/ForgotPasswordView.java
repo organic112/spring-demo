@@ -1,12 +1,14 @@
 package com.potato112.springdemo.web.ui.login;
 
 import com.potato112.springdemo.web.service.security.WebSecurityService;
+import com.potato112.springdemo.web.service.user.model.UsersService;
 import com.potato112.springdemo.web.ui.landing.LandingPageExampleView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -17,17 +19,16 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 
+
 @Route(value = ForgotPasswordView.ROUTE)
 public class ForgotPasswordView extends AbstractLoginView implements BeforeEnterObserver {
 
-    private final WebSecurityService webSecurityService;
     public static final String ROUTE = "forgot-password";
+    private final WebSecurityService webSecurityService;
+    private UsersService userService;
 
-    // TODO implement UserService
-    // private static final UserService userService;
-
-    public ForgotPasswordView(WebSecurityService webSecurityService) {
-        //this.userService = userService;
+    public ForgotPasswordView(WebSecurityService webSecurityService, UsersService userService ) {
+        this.userService = userService;
         this.webSecurityService = webSecurityService;
     }
 
@@ -53,9 +54,9 @@ public class ForgotPasswordView extends AbstractLoginView implements BeforeEnter
             if (userNameTextField.isEmpty() || error) {
                 userNameTextField.setInvalid(true);
             } else {
-                // userservice.resetPassword(userNameTextField.getValue());
+                userService.resetPassword(userNameTextField.getValue());
                 getUI().ifPresent(ui -> ui.navigate(LoginView.ROUTE));
-                // todo Show notification
+                Notification.show("Recovery mail send, check mailbox.", 5000, Notification.Position.TOP_CENTER);
             }
         });
 
@@ -76,7 +77,6 @@ public class ForgotPasswordView extends AbstractLoginView implements BeforeEnter
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-
         if (webSecurityService.isUserLoggedIn()) {
             beforeEnterEvent.forwardTo(LandingPageExampleView.class);
         }

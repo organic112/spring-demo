@@ -28,7 +28,6 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     public void serviceInit(ServiceInitEvent event) {
 
         log.info("XX01 event context: " + event.getSource().getContext().toString());
-
         event.getSource().addUIInitListener(uiEvent -> {
             final UI ui = uiEvent.getUI();
             ui.getPage().retrieveExtendedClientDetails(
@@ -60,8 +59,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
             log.info("XX03 before enter listener! Access to not granted!");
             if (webSecurityService.isUserLoggedIn()) {
 
-                log.info("XX04 before enter listener! logged but acccess not granted, reroute to error");
-
+                log.info("XX04 before enter listener! logged but access not granted, reroute to error");
                 event.rerouteToError(NotFoundException.class);
             } else {
                 log.info("XX05 before enter listener! User not logged in,  reroute to login page");

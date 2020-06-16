@@ -34,4 +34,8 @@ public interface JSONUserClient {
 
     @GetMapping(value = "/api/v1/user/create-parameters", produces = MediaType.APPLICATION_JSON_VALUE)
     UserFormParametersDto getUserParameters();
+
+    @PostMapping(value = "/api/v1/user/login/resetPassword", produces = MediaType.APPLICATION_JSON_VALUE)
+    UserDto resetPassword(@RequestBody String emailAddress);
+
 }

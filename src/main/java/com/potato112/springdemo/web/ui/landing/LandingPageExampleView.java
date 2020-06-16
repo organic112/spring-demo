@@ -2,7 +2,6 @@ package com.potato112.springdemo.web.ui.landing;
 
 import com.potato112.springdemo.web.MainView;
 import com.potato112.springdemo.web.ui.common.SysPage;
-import com.potato112.springdemo.web.ui.login.ForgotPasswordView;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
@@ -18,7 +17,6 @@ import org.springframework.security.access.annotation.Secured;
 import javax.annotation.PostConstruct;
 
 
-
 @PWA(name = "Sys Custom", shortName = "SC")
 @Route(value = LandingPageExampleView.ROUTE, layout = MainView.class)
 @Secured(value = LandingPageExampleView.VIEW_NAME)
@@ -31,30 +29,14 @@ public class LandingPageExampleView extends SysPage implements BeforeEnterObserv
 
     @PostConstruct
     public void init() {
-        Div content = new Div();
-        Button button = new Button("Loading page button");
-        button.setId("LoadingPageButton_id");
-        button.setIcon(VaadinIcon.USER.create());
-        Label label = new Label("Landing Page example");
-
-        button.addClickListener((ComponentEventListener<ClickEvent<Button>>) buttonClickEvent -> System.out.println("button clicked"));
-
-        Button button2 = new Button("redirect to sys links");
-        button2.setId("RedirectToLinks_id");
-        button2.setIcon(VaadinIcon.USER.create());
-
-        button2.addClickListener((ComponentEventListener<ClickEvent<Button>>) buttonClickEvent -> {
-            getUI().ifPresent(ui -> ui.getPage().setLocation("not_existing_page"));
-        });
-
-        VerticalLayout layout = new VerticalLayout();
-        layout.add(label);
-        layout.add(button);
-        layout.add(button2);
-
-        content.add(layout);
-
-        this.setContent(content);
+        Div pageContent = new Div();
+        Label landingPage = new Label("Default Landing Page for authorized users");
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.add(getExampleButton());
+        verticalLayout.add(getLinksButton());
+        verticalLayout.add(landingPage);
+        pageContent.add(verticalLayout);
+        this.setContent(pageContent);
     }
 
     @Override
@@ -66,5 +48,23 @@ public class LandingPageExampleView extends SysPage implements BeforeEnterObserv
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
 
         System.out.println("Landing page BEFORE ENTER event" + beforeEnterEvent.getLocation().getPath());
+    }
+
+    private Button getExampleButton(){
+        Button button = new Button("Loading page button");
+        button.setId("LoadingPageButton_id");
+        button.setIcon(VaadinIcon.USER.create());
+        button.addClickListener((ComponentEventListener<ClickEvent<Button>>) buttonClickEvent -> System.out.println("button clicked"));
+        return button;
+    }
+
+    private Button getLinksButton(){
+        Button button = new Button("Redirect to sys links");
+        button.setId("RedirectToLinks_id");
+        button.setIcon(VaadinIcon.USER.create());
+        button.addClickListener((ComponentEventListener<ClickEvent<Button>>) buttonClickEvent -> {
+            getUI().ifPresent(ui -> ui.getPage().setLocation("not_existing_page"));
+        });
+        return button;
     }
 }
