@@ -1,10 +1,12 @@
 package com.potato112.springdemo.web;
 
 import com.potato112.springdemo.web.service.security.UserAuthService;
+import com.potato112.springdemo.web.service.security.WebSecurityService;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.InitialPageSettings;
@@ -20,25 +22,27 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
 
     private Div contentContainer = new Div();
 
-    public MainView(UserAuthService userAuthService) {
+    public MainView(UserAuthService userAuthService, WebSecurityService webSecurityService) {
 
         this.setSpacing(false);
+        Label topLabel = new Label("MAIN VIEW LAYOUT, below routed content:");
+        add(topLabel);
 
-        log.info("Echo01 Create MainView...");
-        Label mainViewLayoutTop = new Label("MAIN VIEW LAYOUT, below routed content:");
-        add(mainViewLayoutTop);
+        HorizontalLayout sideMenu = new SysSideMenuLayout(webSecurityService);
+        add(sideMenu);
+        this.expand(sideMenu);
 
         Div mainContentWindow = new Div();
         Div div = new Div();
         div.add(contentContainer);
+
         mainContentWindow.add(div);
-        add(mainContentWindow);
+        sideMenu.add(mainContentWindow);
+        sideMenu.expand(mainContentWindow);
 
-        Label mainViewLayoutLabel = new Label("mainViewLayoutLabel");
+        Label mainViewLayoutLabel = new Label("MAIN VIEW BOTTOM LABEL");
         Button logoutButton = new Button("LOGOUT");
-
         logoutButton.addClickListener(buttonClickEvent -> {
-
             userAuthService.invalidateUserSession();
 /*
             UI.getCurrent().getSession().getSession().invalidate();
@@ -63,6 +67,8 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
 
     @Override
     public void configurePage(InitialPageSettings initialPageSettings) {
+
+        //new CommonPageConfiguratio().
         log.info("Echo05 configure page...");
     }
 }
