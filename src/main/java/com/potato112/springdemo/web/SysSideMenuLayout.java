@@ -32,6 +32,7 @@ public class SysSideMenuLayout extends HorizontalLayout implements AfterNavigati
     public SysSideMenuLayout(WebSecurityService webSecurityService) {
 
         this.navigationTabs = new Tabs();
+        navigationTabs.setClassName("sidebar-menu-items-container");
         navigationTabs.setOrientation(Tabs.Orientation.VERTICAL);
         navigationTabs.setAutoselect(false);
 
@@ -47,8 +48,10 @@ public class SysSideMenuLayout extends HorizontalLayout implements AfterNavigati
     private Div buildSideMenu(WebSecurityService webSecurityService) {
 
         Div sideMenuWindow = new Div();
+        sideMenuWindow.setClassName("sidebar-menu-window");
 
         VerticalLayout sideMenuBar = new VerticalLayout();
+        sideMenuBar.setClassName("sidebar-menu");
         sideMenuBar.add(this.navigationTabs);
 
         SideMenuItemFactory itemFactory = new SideMenuItemFactory();

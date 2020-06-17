@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ConfigurationProperties("app")
-@PropertySource("classpath:global.properties")
+@PropertySource("classpath:META-INF.resources/global.properties")
 public class GlobalProperties {
     private String apiUrlValue;
     public String getApiUrlValue() {

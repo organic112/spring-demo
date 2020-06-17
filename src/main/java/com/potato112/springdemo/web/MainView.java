@@ -4,6 +4,7 @@ import com.potato112.springdemo.web.service.security.UserAuthService;
 import com.potato112.springdemo.web.service.security.WebSecurityService;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -18,6 +19,7 @@ import java.util.Objects;
 
 
 @Slf4j
+@CssImport("./styles/shared-styles.css")
 public class MainView extends VerticalLayout implements RouterLayout, PageConfigurator {
 
     private Div contentContainer = new Div();

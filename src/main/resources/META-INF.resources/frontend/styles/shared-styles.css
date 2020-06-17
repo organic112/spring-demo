@@ -1,0 +1,54 @@
+.side-menu-window {
+    --sys-side-menu-front-color: var(--sys-ui-dark);
+    --sys-side-menu-front-color-selected: var(--sys-ui-black);
+    --sys-side-menu-width-expanded: 200px;
+    --sys-side-menu-width-collapsed: 96px;
+
+    height: 100%;
+    overflow-y: auto;
+    min-width: var(--sys-side-menu-width-expanded) !important;
+    max-width: var(--sys-side-menu-width-expanded) !important;
+    transition: ls;
+    border-right: solid rgba(0, 0, 0, 0.10) 1px;
+}
+
+.sidebar-menu {
+    background-color: var(--sys-ui-white);
+    color: var(sys-side-menu-front-color);
+    width: 100%;
+    padding: 24px 0;
+}
+
+.sidebar-menu .menu-item:hover {
+    background-color: #0074D9;
+}
+
+@media (max-width: 1000px) {
+    .side-menu-window {
+        min-width: var(--sys-side-menu-width-collapsed) !important;
+        max-width: var(--sys-side-menu-width-collapsed) !important;
+    }
+
+    .sidebar-menu .menu-item {
+        height: 75px;
+        padding-top: 18px;
+        flex-direction: column;
+        font-size: var(--lumo-font-size-xs);
+    }
+
+    .sidebar-menu .menu-item div:first-child {
+        padding-left: 0;
+        margin-right: 0;
+    }
+
+    .sidebar-menu .menu-item div:nth-child(2) {
+        text-align: center;
+        width: 80px;
+    }
+
+    .sidebar-menu vaadin-tab {
+        margin-bottom: 0;
+    }
+}
+
+
