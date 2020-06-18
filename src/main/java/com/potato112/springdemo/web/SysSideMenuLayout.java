@@ -40,13 +40,13 @@ public class SysSideMenuLayout extends HorizontalLayout implements AfterNavigati
         this.setMargin(false);
         this.setPadding(false);
         this.setSpacing(false);
+        this.getStyle().set("overflow", "hidden");
 
         Component sideMenuBar = buildSideMenu(webSecurityService);
         add(sideMenuBar);
     }
 
     private Div buildSideMenu(WebSecurityService webSecurityService) {
-
         Div sideMenuWindow = new Div();
         sideMenuWindow.setClassName("sidebar-menu-window");
 

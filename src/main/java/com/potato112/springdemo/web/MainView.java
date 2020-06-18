@@ -13,11 +13,11 @@ import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PageConfigurator;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.Objects;
 
-
-
+@Secured({})
 @Slf4j
 @CssImport("./styles/shared-styles.css")
 public class MainView extends VerticalLayout implements RouterLayout, PageConfigurator {
@@ -35,6 +35,7 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
         this.expand(sideMenu);
 
         Div mainContentWindow = new Div();
+
         Div div = new Div();
         div.add(contentContainer);
 
@@ -43,6 +44,29 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
         sideMenu.expand(mainContentWindow);
 
         Label mainViewLayoutLabel = new Label("MAIN VIEW BOTTOM LABEL");
+        Button logoutButton = createLogoutButton(userAuthService);
+        add(mainViewLayoutLabel, logoutButton);
+    }
+
+    @Override
+    public void showRouterLayoutContent(HasElement hasElement) {
+
+        log.info("Echo02 show router content...");
+
+        Objects.requireNonNull(hasElement);
+        Objects.requireNonNull(hasElement.getElement());
+        contentContainer.removeAll();
+        contentContainer.getElement().appendChild(hasElement.getElement());
+    }
+
+    @Override
+    public void configurePage(InitialPageSettings initialPageSettings) {
+
+        //new CommonPageConfiguratio().
+        log.info("Echo05 configure page...");
+    }
+
+    Button createLogoutButton(UserAuthService userAuthService ){
         Button logoutButton = new Button("LOGOUT");
         logoutButton.addClickListener(buttonClickEvent -> {
             userAuthService.invalidateUserSession();
@@ -51,26 +75,6 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
             UI.getCurrent().navigate(LoginView.class);
             UI.getCurrent().getPage().reload();*/
         });
-        add(mainViewLayoutLabel, logoutButton);
-    }
-
-    @Override
-    public void showRouterLayoutContent(HasElement hasElement) {
-
-        log.info("Echo02 show router content...");
-        Objects.requireNonNull(hasElement);
-        Objects.requireNonNull(hasElement.getElement());
-
-        log.info("Echo03 has element: " + hasElement.toString());
-        contentContainer.removeAll();
-        contentContainer.getElement().appendChild(hasElement.getElement());
-        log.info("Echo04 added element to content container: " + hasElement.getElement().toString());
-    }
-
-    @Override
-    public void configurePage(InitialPageSettings initialPageSettings) {
-
-        //new CommonPageConfiguratio().
-        log.info("Echo05 configure page...");
+        return logoutButton;
     }
 }
