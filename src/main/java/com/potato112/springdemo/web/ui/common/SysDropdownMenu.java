@@ -7,9 +7,9 @@ import com.vaadin.flow.dom.Element;
 
 public class SysDropdownMenu extends Div {
 
-    private boolean opened = false;
-    private Div menu;
-    private SysDropdownOverlay overlay;
+    private boolean menuIsOpened = false;
+    private Div menuDiv;
+    private SysDropdownOverlay menuOverlay;
 
     public SysDropdownMenu(Icon icon) {
         this.setClassName("sys-dropdown");
@@ -27,38 +27,41 @@ public class SysDropdownMenu extends Div {
     }
 
     public void addItem(Component item) {
-        menu.add(item);
+        menuDiv.add(item);
     }
 
     private Element getMenuElement() {
-        return this.menu.getElement();
+        return this.menuDiv.getElement();
     }
 
     void close() {
-        this.opened = false;
-        overlay.close();
-        menu.setClassName("opened", false);
+        this.menuIsOpened = false;
+        menuOverlay.close();
+        menuDiv.setClassName("opened", false);
     }
 
     void open() {
-        this.opened = true;
-        overlay.open();
-        menu.setClassName("opened", true);
+        this.menuIsOpened = true;
+        menuOverlay.open();
+        menuDiv.setClassName("opened", true);
     }
 
     private void prepareMenu() {
 
         this.addClickListener(event -> this.toggle());
 
-        menu = new Div();
-        menu.setClassName("sys-dropdown-menu");
-        this.overlay = new SysDropdownOverlay(this);
-        this.overlay.add(menu);
+        menuDiv = new Div();
+        menuDiv.setClassName("sys-dropdown-menu");
+
+        this.menuOverlay = new SysDropdownOverlay(this);
+        this.menuOverlay.add(menuDiv);
     }
 
     private void toggle() {
 
-        this.opened = !this.opened;
+        this.menuIsOpened = !this.menuIsOpened;
+
+        // not necessary to open/close on UI
         String expression =
                 "var rectAnchor = $0.getBoundingClientRect();" +
                 "var rectMenu = $1.getBoundingClientRect();" +
@@ -71,7 +74,8 @@ public class SysDropdownMenu extends Div {
                 "$1.style.left = (rectAnchor.right - rectMenu.width) + 'px';" +
                 "";
         this.getElement().executeJs(expression, this.getElement(), getMenuElement());
-        if (this.opened) {
+
+        if (this.menuIsOpened) {
             open();
         } else {
             close();
