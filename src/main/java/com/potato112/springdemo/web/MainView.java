@@ -2,6 +2,7 @@ package com.potato112.springdemo.web;
 
 import com.potato112.springdemo.web.service.security.UserAuthService;
 import com.potato112.springdemo.web.service.security.WebSecurityService;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -27,6 +28,10 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
     public MainView(UserAuthService userAuthService, WebSecurityService webSecurityService) {
 
         this.setSpacing(false);
+
+        Component header = new SysHeader(userAuthService, webSecurityService);
+        add(header);
+
         Label topLabel = new Label("MAIN VIEW LAYOUT, below routed content:");
         add(topLabel);
 
@@ -66,7 +71,7 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
         log.info("Echo05 configure page...");
     }
 
-    Button createLogoutButton(UserAuthService userAuthService ){
+    Button createLogoutButton(UserAuthService userAuthService) {
         Button logoutButton = new Button("LOGOUT");
         logoutButton.addClickListener(buttonClickEvent -> {
             userAuthService.invalidateUserSession();

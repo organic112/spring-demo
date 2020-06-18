@@ -14,6 +14,10 @@ public class SysDropdownOverlay extends Div {
     void open(){
         UI.getCurrent().add(this);
     }
+
+/*    void open(){
+        //this.add(this);
+    }*/
     void close(){
         this.getElement().removeFromParent();
     }
