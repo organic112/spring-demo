@@ -1,13 +1,21 @@
 package com.potato112.springdemo.web.ui.landing;
 
 import com.potato112.springdemo.web.MainView;
+import com.potato112.springdemo.web.service.security.UserAuthService;
+import com.potato112.springdemo.web.service.security.WebSecurityService;
+import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
+import com.potato112.springdemo.web.service.user.model.UserDetailsDto;
+import com.potato112.springdemo.web.ui.common.SysDropdownMenu;
 import com.potato112.springdemo.web.ui.common.SysPage;
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
+import com.potato112.springdemo.web.ui.user.UserOverview;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.PWA;
@@ -27,6 +35,9 @@ public class LandingPageExampleView extends SysPage implements BeforeEnterObserv
     public static final String ROUTE = "";
     public static final String VIEW_NAME = "DEFAULT_AUTHORIZED_VIEW";  //"OTHER"; // not registered view_name - no access
 
+    private UserAuthService userAuthService;
+    private WebSecurityService webSecurityService;
+
     @PostConstruct
     public void init() {
         Div pageContent = new Div();
@@ -36,6 +47,7 @@ public class LandingPageExampleView extends SysPage implements BeforeEnterObserv
         verticalLayout.add(getLinksButton());
         verticalLayout.add(landingPage);
         pageContent.add(verticalLayout);
+        pageContent.add(createDropDownMenu());
         this.setContent(pageContent);
     }
 
@@ -66,5 +78,59 @@ public class LandingPageExampleView extends SysPage implements BeforeEnterObserv
             getUI().ifPresent(ui -> ui.getPage().setLocation("not_existing_page"));
         });
         return button;
+    }
+
+    private Component createDropDownMenu() {
+
+        UserDetailsAuthority userDetailsAuthority = webSecurityService.getUser();
+        UserDetailsDto userDetailsDto = userDetailsAuthority.getUserDetailsDto();
+        VaadinIcon arrowIcon = VaadinIcon.CHEVRON_DOWN_SMALL;
+        VaadinIcon userIcon = VaadinIcon.USER;
+        HorizontalLayout horizontalLayout = new HorizontalLayout(userIcon.create(), new Text(userDetailsDto.getEmail()));
+        Div labelContainer = new Div(horizontalLayout);
+        SysDropdownMenu dropdownMenu = new SysDropdownMenu(arrowIcon.create(), labelContainer, this);
+        Component userProfileButton = createAccountDropdownMenItem("User profile", this::navigateToUserProfile);
+        dropdownMenu.addItem(userProfileButton);
+        Component logoutButton = createLogoutButton(userAuthService);
+        dropdownMenu.addItem(logoutButton);
+        return dropdownMenu;
+    }
+
+    Button createLogoutButton(UserAuthService userAuthService) {
+        Button logoutButton = new Button("LOGOUT");
+        logoutButton.addClickListener(buttonClickEvent -> {
+            userAuthService.invalidateUserSession();
+/*
+            UI.getCurrent().getSession().getSession().invalidate();
+            UI.getCurrent().navigate(LoginView.class);
+            UI.getCurrent().getPage().reload();*/
+        });
+        return logoutButton;
+    }
+
+    private Component initOrganizationSelect(WebSecurityService webSecurityService) {
+        Label label = new Label("Company label");
+        return label;
+    }
+
+    private Component createAccountDropdownMenItem(String text, Runnable action) {
+        Div item = new Div(new Text(text));
+        item.addClickListener(event -> action.run());
+        return item;
+    }
+
+    private void navigateToUserProfile() {
+        UI.getCurrent().navigate(UserOverview.class);
+    }
+
+    private Component initImage() {
+
+        // FIXME add image
+
+        Image image = new Image();
+
+        Div leftImageWrapper = new Div();
+        leftImageWrapper.add(new Span());
+        return leftImageWrapper;
     }
 }

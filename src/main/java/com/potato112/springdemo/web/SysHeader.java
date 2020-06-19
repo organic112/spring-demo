@@ -4,19 +4,17 @@ import com.potato112.springdemo.web.service.security.UserAuthService;
 import com.potato112.springdemo.web.service.security.WebSecurityService;
 import com.potato112.springdemo.web.service.security.model.UserDetailsAuthority;
 import com.potato112.springdemo.web.service.user.model.UserDetailsDto;
-import com.potato112.springdemo.web.ui.common.SysDropdownMenu;
-import com.potato112.springdemo.web.ui.user.UserOverview;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
+@CssImport("./styles/shared-styles.css")
+//@CssImport("./frontend/styles/shared-styles.css")
 public class SysHeader extends Div {
 
 
@@ -24,78 +22,41 @@ public class SysHeader extends Div {
         this.setWidthFull();
         this.setId("sys-header");
 
-/*        HorizontalLayout leftPartWrap = new HorizontalLayout();
-        leftPartWrap.add(initImage());
-        leftPartWrap.add(initOrganizationSelect(webSecurityService));*/
-        //add(leftPartWrap);
-
-        HorizontalLayout rightPartWrap = new HorizontalLayout();
-        rightPartWrap.add(initAccDropdownMenu(userAuthService, webSecurityService));
-        add(rightPartWrap);
-    }
-
-    private Component initAccDropdownMenu(UserAuthService userAuthService, WebSecurityService webSecurityService) {
+        Label systemName = new Label("DIOGLE SYS");
 
         UserDetailsAuthority userDetailsAuthority = webSecurityService.getUser();
         UserDetailsDto userDetailsDto = userDetailsAuthority.getUserDetailsDto();
-
-        VaadinIcon arrowIcon = VaadinIcon.CHEVRON_DOWN_SMALL;
         VaadinIcon userIcon = VaadinIcon.USER;
+        VaadinIcon cog = VaadinIcon.COG;
+        VaadinIcon enter = VaadinIcon.ENTER;
+        VaadinIcon alarm = VaadinIcon.ALARM;
+        VaadinIcon chart = VaadinIcon.CHART_LINE;
 
-        Div userIconContainer = new Div(userIcon.create());
-        Div label = new Div( new Text(userDetailsDto.getEmail()));
-        Div labelContainer = new Div(userIconContainer, label);
+        VaadinIcon envelope = VaadinIcon.ENVELOPE;
+        VaadinIcon download = VaadinIcon.DOWNLOAD;
+        VaadinIcon calendar = VaadinIcon.CALENDAR;
 
-        SysDropdownMenu dropdownMenu = new SysDropdownMenu(arrowIcon.create(), labelContainer);
+        Component logoutButton = createLogoutButton(userAuthService, userDetailsDto.getEmail());
+        HorizontalLayout icons = new HorizontalLayout(userIcon.create(), cog.create(),enter.create(), alarm.create(), chart.create(), envelope.create(), download.create(), calendar.create());
 
-        Component userProfileButton = createAccountDropdownMenItem("User profile", this::navigateToUserProfile);
-        dropdownMenu.addItem(userProfileButton);
-
-        Component logoutButton = createLogoutButton(userAuthService);
-        dropdownMenu.addItem(logoutButton);
-
-        return dropdownMenu;
+        HorizontalLayout horizontalLayout = new HorizontalLayout(systemName, userIcon.create(), new Text(userDetailsDto.getEmail()),icons ,logoutButton);
+        add(horizontalLayout);
     }
 
-    Button createLogoutButton(UserAuthService userAuthService ){
-        Button logoutButton = new Button("LOGOUT");
+    Button createLogoutButton(UserAuthService userAuthService, String labelText) {
+
+        VaadinIcon userIcon = VaadinIcon.USER;
+        Component component = VaadinIcon.USER.create();
+        Button logoutButton = new Button(userIcon.create());
+        logoutButton.setClassName("sys-button");
+
+        logoutButton.setText(labelText);
+
         logoutButton.addClickListener(buttonClickEvent -> {
             userAuthService.invalidateUserSession();
-/*
-            UI.getCurrent().getSession().getSession().invalidate();
-            UI.getCurrent().navigate(LoginView.class);
-            UI.getCurrent().getPage().reload();*/
         });
         return logoutButton;
     }
-
-    private Component initOrganizationSelect(WebSecurityService webSecurityService) {
-        Label label = new Label("Company label");
-        return label;
-    }
-
-    private Component createAccountDropdownMenItem(String text, Runnable action){
-        Div item = new Div(new Text(text));
-        item.addClickListener(event-> action.run());
-        return item;
-    }
-
-    private void navigateToUserProfile(){
-        UI.getCurrent().navigate(UserOverview.class);
-    }
-
-    private Component initImage() {
-
-        // FIXME add image
-
-        Image image = new Image();
-
-        Div leftImageWrapper = new Div();
-        leftImageWrapper.add(new Span());
-        return leftImageWrapper;
-    }
-
-
 
 
 }

@@ -9,13 +9,11 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 public class SysDropdownFactory {
 
 
-    public SysDropdownMenu createDropdown(String label) {
+    public SysDropdownMenu createDropdown(String label, Div parentDiv) {
 
         SysButtonFactory buttonFactory = new SysButtonFactory();
-
         Button labelButton = buttonFactory.createPlainButton(label, VaadinIcon.CARET_DOWN.create());
-
-        return new SysDropdownMenu(VaadinIcon.CARET_DOWN.create(), labelButton);
+        return new SysDropdownMenu(VaadinIcon.CARET_DOWN.create(), labelButton, parentDiv);
     }
 
     public Div createButtonsFroDropdownMenuItem(String label) {

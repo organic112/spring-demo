@@ -7,6 +7,7 @@ import com.vaadin.flow.dom.Element;
 
 public class SysDropdownMenu extends Div {
 
+    private Div parentDiv;
     private boolean menuIsOpened = false;
     private Div menuDiv;
     private SysDropdownOverlay menuOverlay;
@@ -17,8 +18,11 @@ public class SysDropdownMenu extends Div {
         prepareMenu();
     }
 
-    public SysDropdownMenu(Icon icon, Component label) {
+    public SysDropdownMenu(Icon icon, Component label, Div parentDiv) {
+
+        this.parentDiv = parentDiv;
         this.setClassName("sys-dropdown");
+
         if (label != null) {
             this.add(new Div(label));
         }
@@ -53,7 +57,7 @@ public class SysDropdownMenu extends Div {
         menuDiv = new Div();
         menuDiv.setClassName("sys-dropdown-menu");
 
-        this.menuOverlay = new SysDropdownOverlay(this);
+        this.menuOverlay = new SysDropdownOverlay(this, parentDiv);
         this.menuOverlay.add(menuDiv);
     }
 

@@ -21,6 +21,7 @@ import java.util.Objects;
 @Secured({})
 @Slf4j
 @CssImport("./styles/shared-styles.css")
+//@CssImport("./frontend/styles/shared-styles.css")
 public class MainView extends VerticalLayout implements RouterLayout, PageConfigurator {
 
     private Div contentContainer = new Div();
@@ -73,6 +74,8 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
 
     Button createLogoutButton(UserAuthService userAuthService) {
         Button logoutButton = new Button("LOGOUT");
+        logoutButton.setClassName("sys-button");
+
         logoutButton.addClickListener(buttonClickEvent -> {
             userAuthService.invalidateUserSession();
 /*
