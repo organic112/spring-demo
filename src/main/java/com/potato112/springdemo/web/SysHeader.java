@@ -11,6 +11,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 @CssImport("./styles/shared-styles.css")
@@ -22,13 +23,13 @@ public class SysHeader extends Div {
         this.setWidthFull();
         this.setId("sys-header");
 
-        Label systemName = new Label("DIOGLE SYS");
+
 
         UserDetailsAuthority userDetailsAuthority = webSecurityService.getUser();
         UserDetailsDto userDetailsDto = userDetailsAuthority.getUserDetailsDto();
         VaadinIcon userIcon = VaadinIcon.USER;
         VaadinIcon cog = VaadinIcon.COG;
-        VaadinIcon enter = VaadinIcon.ENTER;
+        VaadinIcon signal = VaadinIcon.SIGNAL;
         VaadinIcon alarm = VaadinIcon.ALARM;
         VaadinIcon chart = VaadinIcon.CHART_LINE;
 
@@ -36,22 +37,56 @@ public class SysHeader extends Div {
         VaadinIcon download = VaadinIcon.DOWNLOAD;
         VaadinIcon calendar = VaadinIcon.CALENDAR;
 
-        Component logoutButton = createLogoutButton(userAuthService, userDetailsDto.getEmail());
-        HorizontalLayout icons = new HorizontalLayout(userIcon.create(), cog.create(),enter.create(), alarm.create(), chart.create(), envelope.create(), download.create(), calendar.create());
+        Button configBtn = new Button("Settings", cog.create());
+        configBtn.setClassName("sys-button");
+        Button alarmBtn = new Button("Alerts", alarm.create());
+        alarmBtn.setClassName("sys-button");
+        Button chartBtn = new Button("Trends", chart.create());
+        chartBtn.setClassName("sys-button");
+        Button envelopeBtn = new Button("Notification", envelope.create());
+        envelopeBtn.setClassName("sys-button");
+        Button downloadBtn = new Button("Download", download.create());
+        downloadBtn.setClassName("sys-button");
+        Button calendarBtn = new Button("Events", calendar.create());
+        calendarBtn.setClassName("sys-button");
 
-        HorizontalLayout horizontalLayout = new HorizontalLayout(systemName, userIcon.create(), new Text(userDetailsDto.getEmail()),icons ,logoutButton);
-        add(horizontalLayout);
+        Button signalBtn = new Button("Signals", signal.create());
+        signalBtn.setClassName("sys-button");
+
+        Button userBtn = new Button(userDetailsDto.getEmail(), userIcon.create());
+        userBtn.setClassName("sys-button");
+        Label systemName = new Label("DIOGLE SYS");
+
+        Component logoutButton = createLogoutButton(userAuthService);
+
+        // CREATE MENU BAR
+        HorizontalLayout leftSide = new HorizontalLayout(systemName);
+        leftSide.setClassName("user-menu-logo");
+        //leftSide.setSpacing(false);
+        HorizontalLayout rightSide = new HorizontalLayout(downloadBtn, envelopeBtn, configBtn, userBtn, logoutButton);
+        rightSide.setClassName("user-menu-bar");
+        //rightSide.setSpacing(false);
+        HorizontalLayout userMenuBarHorizontalLayout = new HorizontalLayout(leftSide, rightSide);
+        userMenuBarHorizontalLayout.setClassName("menu-container");
+
+        // CREATE MAIN MENU
+
+        HorizontalLayout horizontalMenuBar = new HorizontalLayout(chartBtn, calendarBtn, signalBtn, alarmBtn);
+        horizontalMenuBar.setClassName("sys-menu-bar");
+
+        HorizontalLayout horizontalMenuBarContainer = new HorizontalLayout();
+        horizontalMenuBarContainer.add(horizontalMenuBar);
+        horizontalMenuBarContainer.setClassName("menu-container");
+
+        add(userMenuBarHorizontalLayout);
+        add(horizontalMenuBarContainer);
     }
 
-    Button createLogoutButton(UserAuthService userAuthService, String labelText) {
+    Button createLogoutButton(UserAuthService userAuthService) {
 
-        VaadinIcon userIcon = VaadinIcon.USER;
-        Component component = VaadinIcon.USER.create();
-        Button logoutButton = new Button(userIcon.create());
-        logoutButton.setClassName("sys-button");
-
-        logoutButton.setText(labelText);
-
+        Button logoutButton = new Button();
+        logoutButton.setClassName("sys-logout-button");
+        logoutButton.setText("Logout");
         logoutButton.addClickListener(buttonClickEvent -> {
             userAuthService.invalidateUserSession();
         });

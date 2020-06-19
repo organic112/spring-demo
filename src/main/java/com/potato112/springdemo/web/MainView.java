@@ -29,6 +29,7 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
     public MainView(UserAuthService userAuthService, WebSecurityService webSecurityService) {
 
         this.setSpacing(false);
+        this.setSizeFull();
 
         Component header = new SysHeader(userAuthService, webSecurityService);
         add(header);

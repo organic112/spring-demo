@@ -2,11 +2,61 @@ html {
     --lumo-font-family: "Roboto", sans-serif;
 }
 
+.menu-user-container {
+    background-color: #bbbbbb;
+    width: 100%;
+    flex-wrap: nowrap;
+    float: right;
+}
+
+.menu-sys-container {
+    background-color: #bbbbbb;
+    width: 100%;
+    flex-wrap: nowrap;
+    float: left;
+}
+
+.user-menu-logo {
+    margin-left: auto;
+    float: left;
+    width: 45%;
+    align-content: center;
+    align-items: center;
+    background-color: #b3ff39;
+}
+
+.user-menu-bar {
+    float: right;
+    align-content: center;
+    align-items: center;
+    background-color: #ffff00;
+}
+
+.sys-menu-bar {
+    margin-left: 20px;
+    margin-right: auto;
+    float: left;
+    width: 45%;
+    align-content: center;
+    align-items: center;
+    background-color: #8fffd9;
+}
+
 .sys-button {
-    height: 32px;
-    margin: 0 16px 0 0;
-    cursor: grab;
-    background-color: #C21F39;
+    height: 22px;
+    margin: 0 8px 0 0;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    text-decoration: underline;
+}
+
+.sys-logout-button {
+    height: 22px;
+    margin: 0 8px 0 0;
+    cursor: pointer;
+    border: none;
+    text-decoration: underline;
 }
 
 .sys-dropdown-overlay {
@@ -62,7 +112,7 @@ html {
     z-index: 3;
 }
 
-/*.side-menu-window {
+.side-menu-window {
     --sys-side-menu-front-color: var(--sys-ui-dark);
     --sys-side-menu-front-color-selected: var(--sys-ui-black);
     --sys-side-menu-width-expanded: 200px;
@@ -113,6 +163,6 @@ html {
     .sidebar-menu vaadin-tab {
         margin-bottom: 0;
     }
-}*/
+}
 
 
