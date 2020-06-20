@@ -33,7 +33,9 @@ public abstract class SysPage extends Div {
     // default constructor without injections should be provided
     protected SysPage() {
 
+        this.setClassName("sys-page-wrapper");
         this.blankPage = new Div();
+        this.blankPage.setClassName("sys-page");
 
         Div topBar = new Div();
         this.add(topBar);
@@ -105,5 +107,4 @@ public abstract class SysPage extends Div {
         UI.getCurrent().navigate(navigationTarget);
         //this.configureBackButton(() -> );
     }
-
 }

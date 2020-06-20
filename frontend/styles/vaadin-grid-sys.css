@@ -1,0 +1,17 @@
+th {
+    background-color: #aaffaa;
+}
+
+td {
+    white-space: normal !important;
+}
+
+
+:host(:not([theme~="no-border"])) {
+    border-radius: 4px !important;
+}
+
+:host([class~="sys-grid-fix"]) #table {
+    overflow: hidden;
+}
+

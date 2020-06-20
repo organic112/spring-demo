@@ -21,6 +21,7 @@ import java.util.Objects;
 @Secured({})
 @Slf4j
 @CssImport("./styles/shared-styles.css")
+//@CssImport(value = "./styles/vaadin-grid-sys.css", themeFor = "vaadin-grid")
 //@CssImport("./frontend/styles/shared-styles.css")
 public class MainView extends VerticalLayout implements RouterLayout, PageConfigurator {
 
@@ -28,6 +29,7 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
 
     public MainView(UserAuthService userAuthService, WebSecurityService webSecurityService) {
 
+        this.addClassName("main-layout");
         this.setSpacing(false);
         this.setSizeFull();
 
@@ -42,17 +44,22 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
         this.expand(sideMenu);
 
         Div mainContentWindow = new Div();
+        mainContentWindow.setClassName("main-content-window");
 
-        Div div = new Div();
-        div.add(contentContainer);
+        Div mainContentWrapper = new Div();
+        mainContentWrapper.setClassName("main-content-container-wrapper");
+        mainContentWrapper.add(contentContainer);
 
-        mainContentWindow.add(div);
+        mainContentWindow.add(mainContentWrapper);
         sideMenu.add(mainContentWindow);
         sideMenu.expand(mainContentWindow);
 
-        Label mainViewLayoutLabel = new Label("MAIN VIEW BOTTOM LABEL");
-        Button logoutButton = createLogoutButton(userAuthService);
-        add(mainViewLayoutLabel, logoutButton);
+
+        Div footer = new Div();
+        footer.setClassName("sys-main-footer");
+        Label mainViewLayoutLabel = new Label("Copyright: open source");
+        footer.add(mainViewLayoutLabel);
+        //add(footer);
     }
 
     @Override
@@ -71,19 +78,5 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
 
         //new CommonPageConfiguratio().
         log.info("Echo05 configure page...");
-    }
-
-    Button createLogoutButton(UserAuthService userAuthService) {
-        Button logoutButton = new Button("LOGOUT");
-        logoutButton.setClassName("sys-button");
-
-        logoutButton.addClickListener(buttonClickEvent -> {
-            userAuthService.invalidateUserSession();
-/*
-            UI.getCurrent().getSession().getSession().invalidate();
-            UI.getCurrent().navigate(LoginView.class);
-            UI.getCurrent().getPage().reload();*/
-        });
-        return logoutButton;
     }
 }

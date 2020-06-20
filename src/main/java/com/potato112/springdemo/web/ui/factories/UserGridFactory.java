@@ -62,7 +62,7 @@ public class UserGridFactory implements GridFactory<UserOverviewResponseDto> {
         userGroupsColumn.setSortable(false);
         userGroupsColumn.setHeader(headerFactory.createHeader("Group permissions"));*/
 
-        userGrid.setPageSize(10);
+        userGrid.setPageSize(50);
         userGrid.setDataProvider(provider);
         userGrid.addSortListener(event -> sortingHelper.setSortingInSession(event, SortingKey.USER_SORTING));
         return userGrid;

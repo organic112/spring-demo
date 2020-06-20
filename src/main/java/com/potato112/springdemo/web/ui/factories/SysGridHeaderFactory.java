@@ -9,6 +9,7 @@ public class SysGridHeaderFactory {
     public Component createHeader(String label) {
 
         Span headerLabel = new Span(label.toUpperCase());
+        headerLabel.setClassName("sys-grid-header");
         return headerLabel;
     }
 
