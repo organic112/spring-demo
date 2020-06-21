@@ -3,6 +3,8 @@ html {
 }
 
 body {
+
+    --page-min-height: calc(100vh - (100px + 50px));
 }
 
 /* Main View content Part*/
@@ -20,10 +22,10 @@ body {
 
 .main-content-container-wrapper {
     /* background-color: #ffc520;*/
-    min-height: 100%;
     margin: 0;
     padding: 24px;
     box-sizing: border-box;
+    height: 100%
 }
 
 .sys-main-footer {
@@ -36,22 +38,30 @@ body {
 .sys-page-wrapper {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     background-color: #d6d6d6;
+    height: var(--page-min-height);
 }
 
 .sys-page {
+    box-sizing: border-box;
     background-color: #f8f8f8;
     padding: 24px 24px 32px;
     border-radius: 4px;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.35);
 
     /*fixme size of page*/
-    min-height: 77vh;
+    /*    min-height: 77vh;*/
+    min-height: var(--page-min-height);
 }
 
 /*COMMON GRID*/
 .sys-grid {
-    height: 72vh;
+    /*    height: 72vh;*/
+    /*asumption grid cover no more than 70% of page min-height   */
+    height: calc(var(--page-min-height) - 150px);
+
+    float:bottom;
 }
 
 .sys-grid-header {

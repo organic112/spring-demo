@@ -16,6 +16,7 @@ public class SysGridHelper {
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
         grid.setClassName("sys-grid");
         grid.setPageSize(50);
+        grid.setWidthFull();
 
         grid.setVerticalScrollingEnabled(true);
 

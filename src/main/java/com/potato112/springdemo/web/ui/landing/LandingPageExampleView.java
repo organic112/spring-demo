@@ -41,13 +41,14 @@ public class LandingPageExampleView extends SysPage implements BeforeEnterObserv
     @PostConstruct
     public void init() {
         Div pageContent = new Div();
+        pageContent.setHeightFull();
         Label landingPage = new Label("Default Landing Page for authorized users");
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(getExampleButton());
         verticalLayout.add(getLinksButton());
         verticalLayout.add(landingPage);
         pageContent.add(verticalLayout);
-        pageContent.add(createDropDownMenu());
+        //pageContent.add(createDropDownMenu());
         this.setContent(pageContent);
     }
 
@@ -80,7 +81,7 @@ public class LandingPageExampleView extends SysPage implements BeforeEnterObserv
         return button;
     }
 
-    private Component createDropDownMenu() {
+/*    private Component createDropDownMenu() {
 
         UserDetailsAuthority userDetailsAuthority = webSecurityService.getUser();
         UserDetailsDto userDetailsDto = userDetailsAuthority.getUserDetailsDto();
@@ -94,7 +95,7 @@ public class LandingPageExampleView extends SysPage implements BeforeEnterObserv
         Component logoutButton = createLogoutButton(userAuthService);
         dropdownMenu.addItem(logoutButton);
         return dropdownMenu;
-    }
+    }*/
 
     Button createLogoutButton(UserAuthService userAuthService) {
         Button logoutButton = new Button("LOGOUT");
