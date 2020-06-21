@@ -20,8 +20,8 @@ public class SysHeader extends Div {
 
 
     public SysHeader(UserAuthService userAuthService, WebSecurityService webSecurityService) {
-        this.setWidthFull();
-        this.setId("sys-header");
+       // this.setWidthFull();
+        this.setClassName("sys-main-header");
 
 
 
@@ -61,13 +61,17 @@ public class SysHeader extends Div {
 
         // CREATE MENU BAR
         HorizontalLayout leftSide = new HorizontalLayout(systemName);
-        leftSide.setClassName("user-menu-logo");
+        leftSide.setClassName("sys-logo");
         //leftSide.setSpacing(false);
-        HorizontalLayout rightSide = new HorizontalLayout(downloadBtn, envelopeBtn, configBtn, userBtn, logoutButton);
-        rightSide.setClassName("user-menu-bar");
+
+        HorizontalLayout userMenuBar = new HorizontalLayout(downloadBtn, envelopeBtn, configBtn, userBtn, logoutButton);
+        userMenuBar.setClassName("user-menu-bar");
+
+        HorizontalLayout rightSide = new HorizontalLayout(userMenuBar);
+        rightSide.setClassName("user-menu-right-side");
         //rightSide.setSpacing(false);
         HorizontalLayout userMenuBarHorizontalLayout = new HorizontalLayout(leftSide, rightSide);
-        userMenuBarHorizontalLayout.setClassName("menu-container");
+        userMenuBarHorizontalLayout.setClassName("menu-top-container");
 
         // CREATE MAIN MENU
 
@@ -76,7 +80,7 @@ public class SysHeader extends Div {
 
         HorizontalLayout horizontalMenuBarContainer = new HorizontalLayout();
         horizontalMenuBarContainer.add(horizontalMenuBar);
-        horizontalMenuBarContainer.setClassName("menu-container");
+        horizontalMenuBarContainer.setClassName("menu-bottom-container");
 
         add(userMenuBarHorizontalLayout);
         add(horizontalMenuBarContainer);
