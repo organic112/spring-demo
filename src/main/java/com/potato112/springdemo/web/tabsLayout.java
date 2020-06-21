@@ -18,7 +18,7 @@ import com.vaadin.flow.router.AfterNavigationObserver;
 
 import java.util.*;
 
-public class SysSideMenuLayout extends HorizontalLayout implements AfterNavigationObserver {
+public class tabsLayout extends VerticalLayout implements AfterNavigationObserver {
 
     private static final List<SideMenuNavigationLink> SIDE_MENU_LINKS = Arrays.asList(
             new SideMenuNavigationLink("Landing page", VaadinIcon.HAND, LandingPageExampleView.class, MainView.class, "landingPageMenuLink"),
@@ -29,11 +29,11 @@ public class SysSideMenuLayout extends HorizontalLayout implements AfterNavigati
     private final Tabs navigationTabs;
     private Map<Class<? extends Component>, Tab> navigationElementWithCorrespondingTabs = new HashMap<>();
 
-    public SysSideMenuLayout(WebSecurityService webSecurityService) {
+    public tabsLayout(WebSecurityService webSecurityService) {
 
         this.navigationTabs = new Tabs();
         navigationTabs.setClassName("sidebar-menu-items-container");
-        navigationTabs.setOrientation(Tabs.Orientation.VERTICAL);
+        navigationTabs.setOrientation(Tabs.Orientation.HORIZONTAL);
         navigationTabs.setAutoselect(false);
 
         this.setWidthFull();
@@ -47,6 +47,9 @@ public class SysSideMenuLayout extends HorizontalLayout implements AfterNavigati
     }
 
     private Div buildSideMenu(WebSecurityService webSecurityService) {
+
+
+
         Div sideMenuWindow = new Div();
         sideMenuWindow.setClassName("sidebar-menu-window");
 

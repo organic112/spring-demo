@@ -4,11 +4,9 @@ import com.potato112.springdemo.web.service.security.UserAuthService;
 import com.potato112.springdemo.web.service.security.WebSecurityService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasElement;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.InitialPageSettings;
@@ -39,9 +37,12 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
         Label topLabel = new Label("MAIN VIEW LAYOUT, below routed content:");
         add(topLabel);
 
-        HorizontalLayout sideMenu = new SysSideMenuLayout(webSecurityService);
-        add(sideMenu);
-        this.expand(sideMenu);
+        // move as content to MainBar
+        VerticalLayout tabsMenu = new tabsLayout(webSecurityService);
+        add(tabsMenu);
+
+
+        this.expand(tabsMenu);
 
         Div mainContentWindow = new Div();
         mainContentWindow.setClassName("main-content-window");
@@ -51,8 +52,8 @@ public class MainView extends VerticalLayout implements RouterLayout, PageConfig
         mainContentWrapper.add(contentContainer);
 
         mainContentWindow.add(mainContentWrapper);
-        sideMenu.add(mainContentWindow);
-        sideMenu.expand(mainContentWindow);
+        tabsMenu.add(mainContentWindow);
+        tabsMenu.expand(mainContentWindow);
 
 
         Div footer = new Div();

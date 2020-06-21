@@ -3,7 +3,6 @@ html {
 }
 
 body {
-
     --page-min-height: calc(100vh - (100px + 50px));
 }
 
@@ -18,14 +17,15 @@ body {
 
 .main-content-window {
     overflow-y: auto;
+    width: 100%;
 }
 
 .main-content-container-wrapper {
     /* background-color: #ffc520;*/
     margin: 0;
-    padding: 24px;
+    padding: 14px;
     box-sizing: border-box;
-    height: 100%
+    height: 100%;
 }
 
 .sys-main-footer {
@@ -46,7 +46,7 @@ body {
 .sys-page {
     box-sizing: border-box;
     background-color: #f8f8f8;
-    padding: 24px 24px 32px;
+    padding: 8px 8px 4px;
     border-radius: 4px;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.35);
 
@@ -60,7 +60,6 @@ body {
     /*    height: 72vh;*/
     /*asumption grid cover no more than 70% of page min-height   */
     height: calc(var(--page-min-height) - 150px);
-
     float:bottom;
 }
 
@@ -89,7 +88,7 @@ vaadin-grid-cell-component {
     border: solid 1px violet;
     margin-right: 8px;
     border-radius: 4px 4px 0 0;
-    padding: 12px 16px;
+    padding: 8px 4px;
 }
 
 .sys-tab::after, .sys-tab::before {
@@ -228,7 +227,7 @@ vaadin-grid-cell-component {
     background-color: var(--sys-ui-white);
     color: var(sys-side-menu-front-color);
     width: 100%;
-    padding: 24px 0;
+    padding: 2px 0;
 }
 
 .sidebar-menu .menu-item:hover {
@@ -242,8 +241,8 @@ vaadin-grid-cell-component {
     }
 
     .sidebar-menu .menu-item {
-        height: 75px;
-        padding-top: 18px;
+        height: 15px;
+        padding-top: 2px;
         flex-direction: column;
         font-size: var(--lumo-font-size-xs);
     }
@@ -255,7 +254,7 @@ vaadin-grid-cell-component {
 
     .sidebar-menu .menu-item div:nth-child(2) {
         text-align: center;
-        width: 80px;
+ /*       width: 150px;*/
     }
 
     .sidebar-menu vaadin-tab {
